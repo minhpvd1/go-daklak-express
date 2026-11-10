@@ -1,0 +1,24 @@
+{
+  "name": "go-daklak-express",
+  "version": "1.0.0",
+  "description": "Siêu ứng dụng Điều phối Vận tải & Sàn Nông sản Tiện chuyến Krông Pắk - Krông Ana - Buôn Ma Thuột (GO DXP)",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 03-web-app/server.py",
+    "dev": "python3 03-web-app/server.py",
+    "test": "python3 04-cong-kiem/cong_kiem.py"
+  },
+  "keywords": [
+    "go",
+    "ride-hailing",
+    "logistics",
+    "daklak",
+    "krong-pak",
+    "krong-ana",
+    "driver-app",
+    "fosta-llm",
+    "pwa"
+  ],
+  "author": "Hoang Minh (minhpvd1)",
+  "license": "MIT"
+}

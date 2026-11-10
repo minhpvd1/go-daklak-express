@@ -1,0 +1,109 @@
+{
+  "screen_code": "DXP-UI-02",
+  "screen_slug": "quan-an-va-mon-ngon-dia-phuong",
+  "version": "2.4.0-PROD",
+  "block_1_meta_context": {
+    "screen_id": "SCREEN_02_FOOD_RESTAURANT_MENU",
+    "name_vi": "Màn Hình Quán Ăn & Món Ngon Địa Phương (ShopeeFood / GrabFood)",
+    "name_en": "Local Restaurant Storefront & Hot Dishes Catalog",
+    "role": "customer",
+    "domain": "Thương mại ẩm thực & Giao món ăn quán xá hỏa tốc",
+    "territory": "Chợ Phước An, Ngã 3 Buôn Trấp, Phố ẩm thực Krông Pắk & Krông Ana",
+    "design_objective": "Tạo giao diện đặt đồ ăn nóng hổi từ các quán nổi tiếng tại địa phương, kích thích vị giác với hình ảnh sắc nét, hiển thị rõ giá tiền và cam kết giao trong 20-30 phút.",
+    "simplicity_principle": "Bỏ qua các bước đăng ký rườm rà, chọn món 1-chạm, giỏ hàng tự tính cước ship đồng giá 15.000đ."
+  },
+  "block_2_design_tokens": {
+    "color_palette": {
+      "primary": "#EE4D2D",
+      "primary_hover": "#EA580C",
+      "surface_base": "#090D16",
+      "surface_card": "#0F172A",
+      "border_card": "#1E293B",
+      "text_primary": "#F8FAFC",
+      "text_muted": "#94A3B8",
+      "badge_delivery": "#F97316",
+      "star_rating": "#FBBF24"
+    },
+    "typography": {
+      "font_family": "Plus Jakarta Sans, sans-serif",
+      "dish_title": "12px / Bold 700 / Line-clamp 2",
+      "price_tag": "13px / ExtraBold 800",
+      "unit_tag": "9px / Regular 400"
+    },
+    "border_radius": {
+      "food_card": "16px",
+      "add_btn": "8px",
+      "filter_pill": "12px"
+    },
+    "elevation": "0 8px 20px rgba(238, 77, 45, 0.15)"
+  },
+  "block_3_layout_wireframe": {
+    "viewport": "Mobile portrait (390x844px)",
+    "hero_banner": "Banner cam gradient hiển thị cam kết: 'Giao Món Hỏa Tốc: Nóng hổi trong 20-30 phút'",
+    "filter_bar": "Thanh cuộn ngang các thẻ danh mục ẩm thực (Pills bar)",
+    "food_grid": "Lưới 2 cột (2-column CSS Grid gap-3), mỗi thẻ gồm ảnh món (h-28), tên món, đánh giá sao, tên quán, giá bán và nút '+'",
+    "floating_cart_dock": "Thanh tóm tắt giỏ hàng nổi góc dưới hoặc huy hiệu đếm số món ở thanh trên"
+  },
+  "block_4_components_breakdown": {
+    "components": [
+      {
+        "id": "hero_delivery_banner",
+        "type": "Gradient Feature Banner with Food Emoji",
+        "text": "Quán Ăn & Món Ngon Địa Phương — Giao nóng hổi trong 20-30 phút"
+      },
+      {
+        "id": "category_pills",
+        "type": "Horizontal Scroll Filter",
+        "items": [
+          {"id": "all", "label": "Tất cả quán", "active": true},
+          {"id": "food", "label": "Bún, Phở & Cơm Tấm"},
+          {"id": "drink", "label": "Trà Sữa & Cà Phê"},
+          {"id": "snack", "label": "Ăn Vặt & Món Nhậu"}
+        ]
+      },
+      {
+        "id": "dish_card_template",
+        "type": "Product Card",
+        "fields": ["image_url", "district_badge", "dish_name", "rating", "sold_count", "restaurant_name", "price_vnd", "add_to_cart_btn"]
+      },
+      {
+        "id": "cart_counter_badge",
+        "type": "Floating badge on top navigation",
+        "display": "Hiển thị tổng số món trong giỏ hàng (màu cam ShopeeFood)"
+      }
+    ]
+  },
+  "block_5_state_machine_interactions": {
+    "states": [
+      {"state": "GRID_BROWSING", "display": "Duyệt danh sách món ăn theo danh mục mượt mà, ảnh tải tối ưu lazy-load"},
+      {"state": "FILTERING", "display": "Chuyển tab danh mục tức thì, cập nhật lưới món ăn trong < 0.05s"},
+      {"state": "ITEM_ADDED", "display": "Bấm '+' phát âm thanh chuông ngân Web Audio API, huy hiệu giỏ hàng nảy hiệu ứng rung nhẹ, toast thông báo xanh lá"}
+    ],
+    "micro_interactions": "Nút '+' có hiệu ứng active:scale-95 khi chạm, hình ảnh món ăn có hiệu ứng hover zoom nhẹ."
+  },
+  "block_6_midjourney_v6_prompt": {
+    "prompt_raw": "An ultra-modern mobile app UI screen displaying local Vietnamese restaurant menu and food delivery, inspired by ShopeeFood and GrabFood, shown on an iPhone 16 Pro mockup. Top header shows restaurant profile: 'Quán Ăn Cô Ba - Cổng Chợ Phước An', verified blue badge, 4.9 star rating (680 reviews), and an orange tag 'Giao nóng hổi trong 20 phút'. Below is a horizontal scrolling pill filter bar: 'Tất cả quán', 'Bún Đỏ & Phở Khô', 'Cơm Tấm Sườn Nướng', 'Trà Sữa & Cà Phê', 'Món Ăn Vặt'. The main catalog is a 2-column food grid with delicious high-end photography: 1. Steaming hot Đắk Lắk Red Noodle Soup (Bún Đỏ) with quail eggs, crab roe, and crispy pork crackling (35.000đ). 2. Charcoal-grilled pork chop broken rice (Cơm Tấm Sườn) with fried egg (35.000đ). 3. Gia Lai Dry Pho (Phở Khô Hai Tô) with beef broth (45.000đ). 4. Steamed rice sheets with grilled pork (Bánh Ướt Chồng Đĩa - 40.000đ). 5. Brown sugar boba milk tea with cream cheese (28.000đ). Bright ShopeeFood orange #EE4D2D price tags, rounded orange '+' add to cart buttons, bottom floating cart summary pill with 2 items (85.000đ). Clean Vietnamese typography, Figma presentation style, hyperrealistic 8k render --ar 9:16 --v 6.0",
+    "aspect_ratio": "--ar 9:16",
+    "version_param": "--v 6.0",
+    "style_param": "--style raw"
+  },
+  "block_7_dalle3_flux_sdxl_prompts": {
+    "dalle_3": "Mobile app UI screen for local Vietnamese restaurant delivery in Đắk Lắk. Top banner features a restaurant header with 'Quán Ăn Cô Ba'. Food category pills for noodles, broken rice, milk tea. 2-column food grid featuring authentic Vietnamese dishes: Bún Đỏ red noodles, Cơm Tấm pork chop rice, Phở Khô, and boba milk tea. Vibrant food photography, orange prices in VNĐ, '+' buttons, and floating bottom cart bar. Clean dark slate background, modern UI.",
+    "flux_sdxl": "professional UI design, food delivery mobile application, ShopeeFood style, appetizing photography of Vietnamese dishes, Bún Đỏ Đắk Lắk, Cơm Tấm, Phở Khô, dark mode #090D16, orange accents #EE4D2D, crisp typography, 2-column card grid, high contrast, clean interface, Figma Dribbble trending",
+    "negative_prompt": "raw durian, agricultural harvest, tractors, fruit trees, cartoonish food, messy layout, text cut off, unappetizing food, blurry images"
+  },
+  "block_8_code_tailwind_figma_specs": {
+    "grid_classes": "grid grid-cols-2 gap-3",
+    "card_classes": "bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-700 transition-all",
+    "price_classes": "text-xs font-extrabold text-orange-500",
+    "btn_add_classes": "p-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white shadow active:scale-95",
+    "figma_layer_hierarchy": "Frame > HeroBanner > CategoryPillsGroup > FoodGrid2Col > DishCard [ImageThumbnail + LocationBadge + DishDetails + PriceActionRow]"
+  },
+  "block_9_verification_checklist": {
+    "contrast_ratio": "Màu cam #EE4D2D trên nền tối đạt chuẩn đọc rõ, nhãn giá tương phản cao",
+    "tap_target_min_size": "Nút '+' thêm món đạt 36x36px đệm cảm ứng an toàn",
+    "content_integrity": "100% hình ảnh và mô tả là món ăn và quán xá thực tế tại Đắk Lắk, không lẫn nông sản thô",
+    "performance": "Tải lưới 20 món ăn dưới 0.3s trên mạng di động 4G"
+  }
+}
+

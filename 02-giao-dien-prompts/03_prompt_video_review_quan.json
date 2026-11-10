@@ -1,0 +1,107 @@
+{
+  "screen_code": "DXP-UI-03",
+  "screen_slug": "video-review-quan-va-noi-chon",
+  "version": "2.4.0-PROD",
+  "block_1_meta_context": {
+    "screen_id": "SCREEN_03_TIKTOK_FOOD_PLACES_REELS",
+    "name_vi": "Màn Hình Video Ngắn Review Quán & Nơi Chốn (TikTok Feed)",
+    "name_en": "Short-Form Video Feed with Dual Interactive Anchor Tag",
+    "role": "customer",
+    "domain": "Truyền thông mạng xã hội ẩm thực & Khám phá địa điểm địa phương",
+    "territory": "Krông Pắk, Krông Ana, Buôn Ma Thuột",
+    "design_objective": "Tạo trải nghiệm lướt video ngắn sống động theo định dạng TikTok, tích hợp thẻ vàng tương tác kép: Đặt món ăn giao về nhà HOẶC Đặt xe tới tận quán.",
+    "simplicity_principle": "Chuyển hóa người xem video review thành khách đặt món hoặc khách gọi xe chỉ với 1 cú chạm trực tiếp trên video."
+  },
+  "block_2_design_tokens": {
+    "color_palette": {
+      "anchor_yellow": "#FACC15",
+      "anchor_yellow_dark": "#CA8A04",
+      "cta_grab_green": "#00B14F",
+      "tiktok_red": "#FE2C55",
+      "overlay_dark": "rgba(0, 0, 0, 0.75)",
+      "text_white": "#FFFFFF",
+      "text_sub": "#E2E8F0"
+    },
+    "typography": {
+      "font_family": "Plus Jakarta Sans, sans-serif",
+      "caption_text": "12px / Medium 500 / Shadow 0 1px 3px rgba(0,0,0,0.8)",
+      "anchor_title": "11px / Bold 700",
+      "anchor_price": "10px / ExtraBold 800"
+    },
+    "border_radius": {
+      "anchor_card": "14px",
+      "anchor_btn": "8px",
+      "avatar": "9999px"
+    },
+    "elevation": "0 10px 30px rgba(0, 0, 0, 0.8)"
+  },
+  "block_3_layout_wireframe": {
+    "viewport": "Full-screen vertical video 9:16 (390x844px)",
+    "video_layer": "Lớp nền video toàn màn hình hiển thị quy trình nấu nướng món ăn nóng hổi",
+    "right_rail": "Thanh tương tác dọc bên phải: Avatar tác giả + Thả tim (14.2K) + Bình luận (420) + Chia sẻ + Đĩa than âm nhạc quay tròn",
+    "bottom_left_overlay": "Tiêu đề kênh (@quancoba) + Caption mô tả món ăn + Tag địa điểm (📍 Chợ Phước An)",
+    "anchor_card_dock": "Thẻ vàng TikTok Shop nổi bật đặt ngay trên vùng caption, chứa thông tin món và 2 nút hành động"
+  },
+  "block_4_components_breakdown": {
+    "components": [
+      {
+        "id": "video_player_container",
+        "type": "Vertical Video Frame with Aspect 9:16",
+        "content": "Video cận cảnh tô bún đỏ bốc khói hoặc dĩa cơm sườn nướng than hoa"
+      },
+      {
+        "id": "author_badge",
+        "type": "Avatar + Channel name",
+        "fields": ["@quancoba (Quán Ăn Cô Ba)", "📍 Cổng Chợ Phước An, Krông Pắk"]
+      },
+      {
+        "id": "tiktok_engagement_rail",
+        "type": "Vertical Icon Group",
+        "items": ["heart_like", "message_comment", "share_forward", "music_disc"]
+      },
+      {
+        "id": "yellow_anchor_basket",
+        "type": "Interactive Dual-Action Floating Card",
+        "fields": {
+          "dish_icon": "🍲",
+          "dish_name": "Bún Đỏ Đặc Biệt",
+          "price_tag": "35.000đ / tô",
+          "btn_order_food": "ĐẶT MÓN (Màu vàng #FACC15)",
+          "btn_book_ride": "ĐẶT XE TỚI QUÁN (Màu xanh #00B14F)"
+        }
+      }
+    ]
+  },
+  "block_5_state_machine_interactions": {
+    "states": [
+      {"state": "VIDEO_PLAYING", "display": "Video chạy lặp vô tận (loop), đĩa than quay 360 độ"},
+      {"state": "LIKE_TAPPED", "display": "Trái tim đổi sang đỏ neon #FE2C55 kèm hiệu ứng bung cánh hoa tim trên màn hình"},
+      {"state": "ORDER_CLICKED", "display": "Tự động thêm món vào giỏ hàng và mở Modal VietQR thanh toán mà không làm ngắt video"},
+      {"state": "RIDE_CLICKED", "display": "Chuyển mượt sang Tab Đi Lại, tự động ghim vị trí quán ăn làm điểm đến"}
+    ],
+    "micro_interactions": "Vuốt dọc ngón tay để chuyển nhanh sang video review quán ăn tiếp theo."
+  },
+  "block_6_midjourney_v6_prompt": {
+    "prompt_raw": "A full-screen vertical short-form video interface inspired by TikTok, displayed on an iPhone 16 Pro mockup. The video background shows a steaming hot, vibrant bowl of authentic Vietnamese Bún Đỏ noodle soup being scooped with fragrant red broth, quail eggs, and golden crackling at a lively street food restaurant stall in Phước An, Đắk Lắk. On the right vertical action bar: profile avatar with plus icon, heart like icon with count '14.2K', comment icon '420', share icon, and spinning vinyl music record at bottom right. On the bottom left, clean overlaid white text: '@quancoba: Tô bún đỏ nóng hổi chiều tan tầm tại Chợ Phước An, tóp mỡ giòn rụm giao tận nhà 20 phút! 📍 Chợ TT. Phước An, Krông Pắk'. Directly above the caption is an eye-catching floating golden-yellow interactive card (TikTok yellow basket style): on the left, a food icon with text 'Bún Đỏ Đặc Biệt - 35.000đ', on the right two pill buttons: 'ĐẶT MÓN' in yellow, and 'ĐẶT XE TỚI QUÁN' in Grab green. Immersive high-contrast mobile UI, vivid cinematic lighting, 8k resolution, award-winning social media UI design --ar 9:16 --v 6.0",
+    "aspect_ratio": "--ar 9:16",
+    "version_param": "--v 6.0",
+    "style_param": "--style raw"
+  },
+  "block_7_dalle3_flux_sdxl_prompts": {
+    "dalle_3": "TikTok style full screen video interface for an iPhone showing a steaming bowl of Vietnamese street food noodles being prepared. Right side has TikTok interaction icons for likes, comments, and sharing. Bottom left has Vietnamese caption and a floating yellow product card with dish name 'Bún Đỏ Đặc Biệt 35.000đ' and two buttons: 'Đặt Món' and 'Đặt Xe Tới Quán'. Clean UI overlay, photorealistic.",
+    "flux_sdxl": "TikTok UI overlay, mobile app video player, vertical video background, authentic Vietnamese street food restaurant, steaming hot noodles, yellow anchor product badge, green call-to-action button, social media engagement icons, high resolution, photorealistic, professional interface design",
+    "negative_prompt": "orchards, durian trees, harvesting, raw crops, low quality video, distorted buttons, illegible text, fake icons, ugly blur"
+  },
+  "block_8_code_tailwind_figma_specs": {
+    "anchor_card_classes": "p-2.5 rounded-xl bg-slate-950/95 border border-amber-500/40 backdrop-blur-md flex items-center justify-between shadow-2xl",
+    "btn_order_classes": "px-2.5 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 text-[10px] font-bold active:scale-95 transition-all",
+    "btn_ride_classes": "px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold active:scale-95 transition-all",
+    "figma_layer_hierarchy": "FrameVideo > VideoBackground > RightEngagementRail > OverlayGradientBottom > YellowAnchorCard [FoodInfoGroup + DualButtonsRow] > CaptionBlock"
+  },
+  "block_9_verification_checklist": {
+    "contrast_ratio": "Thẻ vàng chữ đen #020617 trên nền vàng #FACC15 đạt tỷ lệ tương phản 13.8:1 (cực kỳ dễ nhìn khi ngoài trời nắng)",
+    "tap_target_min_size": "Hai nút bấm 'Đặt món' và 'Đặt xe' cách nhau tối thiểu 8px, tránh bấm nhầm",
+    "conversion_funnel": "Bảo đảm quy trình 1-chạm chốt đơn hoặc 1-chạm đặt xe, không làm mất ngữ cảnh video"
+  }
+}
+

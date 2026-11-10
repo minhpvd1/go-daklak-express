@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-[#F3F4F6] text-neutral-900 select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GO — Hệ Thống 16 Màn Hình Siêu Ứng Dụng (Ultra HD 2K · Nền Trắng)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+  </style>
+</head>
+<body class="h-full bg-[#F3F4F6] text-neutral-900 flex flex-col overflow-hidden">
+
+  <!-- TOP WORKSPACE HEADER & SCREEN SELECTOR TABS -->
+  <header class="bg-white border-b border-neutral-200 px-4 py-2 flex flex-col shrink-0 z-30 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <!-- Brand Info -->
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-xl bg-[#F9372D] flex items-center justify-center font-black text-white text-base tracking-tighter italic shadow-md shadow-red-500/20">
+          GO
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-sm font-extrabold text-neutral-900 tracking-tight">GO — HỆ THỐNG FULL 16 MÀN HÌNH SIÊU ỨNG DỤNG</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-300 font-black uppercase tracking-wider">
+              Ultra HD 2K Retina · Nền Trắng Sáng
+            </span>
+          </div>
+          <p class="text-[11px] text-neutral-500 font-normal">Huyện Krông Pắk & Krông Ana — Đắk Lắk · Hình Ảnh Siêu Nét 2.5x Lanczos · Zero AI Bloat</p>
+        </div>
+      </div>
+
+      <!-- Quick External Links & Zoom Controls -->
+      <div class="flex items-center space-x-2">
+        <!-- Zoom Controls -->
+        <div class="flex items-center space-x-1 bg-neutral-100 p-0.5 rounded-xl border border-neutral-200 text-xs">
+          <button onclick="setZoom(1)" id="btn-zoom-1" class="px-2 py-1 rounded-lg font-bold bg-white text-neutral-900 shadow-sm">100%</button>
+          <button onclick="setZoom(1.15)" id="btn-zoom-2" class="px-2 py-1 rounded-lg font-medium text-neutral-600 hover:text-neutral-900">115%</button>
+          <button onclick="setZoom(1.3)" id="btn-zoom-3" class="px-2 py-1 rounded-lg font-medium text-neutral-600 hover:text-neutral-900">130%</button>
+        </div>
+
+        <a id="btn-open-direct" href="01_screen_home_discovery.html" target="_blank" class="px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-bold text-neutral-800 flex items-center space-x-1.5 border border-neutral-200 transition-all">
+          <svg class="w-3.5 h-3.5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          <span>Mở Tab Riêng</span>
+        </a>
+
+        <a href="https://stitch.withgoogle.com/projects/14105640386465204964" target="_blank" class="px-3 py-1.5 rounded-xl bg-white hover:bg-neutral-50 text-xs font-bold text-neutral-800 flex items-center space-x-1.5 border border-neutral-300 transition-all shadow-sm">
+          <svg class="w-3.5 h-3.5 text-[#F9372D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span>Google Stitch Cloud</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 16 Screen Switcher Pills (Grouped by User Flow) -->
+    <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs font-medium">
+      <!-- NHÓM 1: KHÁCH HÀNG -->
+      <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-1">Khách:</span>
+      <button onclick="switchScreen(1)" id="btn-scr-1" class="px-2.5 py-1 rounded-lg font-bold bg-[#F9372D] text-white shadow-sm shrink-0">1. Trang Chủ</button>
+      <button onclick="switchScreen(2)" id="btn-scr-2" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">2. Đặt Xe</button>
+      <button onclick="switchScreen(3)" id="btn-scr-3" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">3. Giao Hàng</button>
+      <button onclick="switchScreen(4)" id="btn-scr-4" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">4. Đồ Ăn</button>
+      <button onclick="switchScreen(5)" id="btn-scr-5" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">5. Quán KFC</button>
+      <button onclick="switchScreen(6)" id="btn-scr-6" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">6. Món KFC</button>
+      <button onclick="switchScreen(8)" id="btn-scr-8" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">8. Giỏ Hàng</button>
+      <button onclick="switchScreen(9)" id="btn-scr-9" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">9. Theo Dõi Đơn</button>
+      <button onclick="switchScreen(10)" id="btn-scr-10" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">10. Lịch Sử</button>
+      <button onclick="switchScreen(11)" id="btn-scr-11" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">11. Voucher</button>
+      <button onclick="switchScreen(12)" id="btn-scr-12" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">12. Cá Nhân & Ví</button>
+
+      <!-- NHÓM 2: TÀI XẾ ĐỐI TÁC -->
+      <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-1 border-l border-neutral-300 ml-1 pl-2">Tài xế:</span>
+      <button onclick="switchScreen(7)" id="btn-scr-7" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">7. App Tài Xế</button>
+      <button onclick="switchScreen(13)" id="btn-scr-13" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">13. Dẫn Đường QL26</button>
+      <button onclick="switchScreen(14)" id="btn-scr-14" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">14. Ví Rút Napas</button>
+      <button onclick="switchScreen(15)" id="btn-scr-15" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">15. Đăng Ký Tài Xế</button>
+
+      <!-- NHÓM 3: ĐIỀU PHỐI -->
+      <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-1 border-l border-neutral-300 ml-1 pl-2">Quản trị:</span>
+      <button onclick="switchScreen(16)" id="btn-scr-16" class="px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0">16. Trung Tâm Điều Phối 2 Huyện</button>
+    </div>
+  </header>
+
+  <!-- MAIN COMPARISON VIEWPORT -->
+  <main class="flex-1 flex overflow-hidden p-4 gap-6 items-center justify-center bg-[#E5E7EB]/50">
+
+    <!-- CỘT 1: ẢNH CHỤP GỐC ULTRA HD SIÊU NÉT (1180x2560) -->
+    <div class="h-full flex flex-col items-center max-w-[430px] w-full" id="col-source">
+      <div class="w-full flex items-center justify-between text-xs font-bold text-neutral-600 mb-2 px-1">
+        <span class="flex items-center space-x-1.5 text-amber-700">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span id="lbl-source-type">ẢNH GỐC ULTRA HD SIÊU NÉT (1180 x 2560)</span>
+        </span>
+        <span class="text-[10px] text-emerald-700 font-mono font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200" id="lbl-img-dim">Ultra HD 2K</span>
+      </div>
+
+      <!-- Khung chứa ảnh gốc Ultra HD -->
+      <div class="flex-1 w-full bg-white rounded-[36px] p-2 border-2 border-neutral-300 shadow-xl flex items-center justify-center overflow-hidden">
+        <img id="img-source" src="images/01_go_home_discovery_hd.jpg" alt="Ảnh thực chứng Ultra HD" class="h-full w-auto max-w-full object-contain rounded-[28px]">
+      </div>
+    </div>
+
+    <!-- CỘT 2: GIAO DIỆN TÁI HIỆN NỀN TRẮNG SÁNG THỰC TẾ (PIXEL-PERFECT HTML) -->
+    <div class="h-full flex flex-col items-center max-w-[430px] w-full" id="col-mockup">
+      <div class="w-full flex items-center justify-between text-xs font-bold text-neutral-600 mb-2 px-1">
+        <span class="flex items-center space-x-1.5 text-[#F9372D]">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="3" stroke-width="2"/><circle cx="12" cy="18" r="1"/></svg>
+          <span id="lbl-screen-title">1. Trang Chủ Khám Phá (Masonry Feed)</span>
+        </span>
+        <span class="text-[10px] text-emerald-700 font-mono font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Interactive Live HTML</span>
+      </div>
+
+      <!-- IPHONE MOCKUP FRAME (PREMIUM WHITE / LIGHT SILVER BEZEL) -->
+      <div id="mockup-frame" class="flex-1 w-full bg-white rounded-[42px] border-[5px] border-neutral-300 shadow-2xl overflow-hidden relative flex flex-col transition-transform duration-200">
+        <!-- Dynamic Island simulation bar -->
+        <div class="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-40 pointer-events-none"></div>
+
+        <!-- Live Screen Iframe -->
+        <iframe id="frame-screen" src="01_screen_home_discovery.html" class="w-full h-full border-0 bg-white"></iframe>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- JAVASCRIPT ĐIỀU PHỐI 16 MÀN HÌNH VÀ ZOOM CHẾ ĐỘ NÉT -->
+  <script>
+    const screens = {
+      1: {
+        title: "1. Trang Chủ Khám Phá (Ultra HD · Masonry Feed & 4 Dịch Vụ)",
+        sourceType: "ẢNH GỐC ULTRA HD SIÊU NÉT (1180 x 2560)",
+        img: "images/01_go_home_discovery_hd.jpg",
+        html: "01_screen_home_discovery.html"
+      },
+      2: {
+        title: "2. Đặt Xe (Ultra HD · Tuyến ĐH Tây Nguyên - Chợ BMT)",
+        sourceType: "ẢNH GỐC ULTRA HD SIÊU NÉT (1180 x 2560)",
+        img: "images/02_go_ride_hailing_map_hd.jpg",
+        html: "02_screen_ride_hailing.html"
+      },
+      3: {
+        title: "3. Giao Hàng Siêu Tốc (Ultra HD · Người Gửi - Người Nhận)",
+        sourceType: "ẢNH GỐC ULTRA HD SIÊU NÉT (1180 x 2560)",
+        img: "images/03_go_delivery_logistics_hd.jpg",
+        html: "03_screen_delivery.html"
+      },
+      4: {
+        title: "4. GO | Đồ Ăn (Ultra HD · Banner 50% & 6 Món Thật)",
+        sourceType: "ẢNH GỐC ULTRA HD SIÊU NÉT (1180 x 2560)",
+        img: "images/04_go_food_discovery_dark_hd.jpg",
+        html: "04_screen_food_discovery.html"
+      },
+      5: {
+        title: "5. Quán KFC Vietnam (Ultra HD · Hồ Sơ Cửa Hàng & 5 Highlight)",
+        sourceType: "ẢNH GỐC ULTRA HD SIÊU NÉT (1180 x 2560)",
+        img: "images/05_go_kfc_restaurant_store_hd.jpg",
+        html: "05_screen_kfc_store.html"
+      },
+      6: {
+        title: "6. Chi Tiết Món Ăn (Ultra HD · Gà Rán KFC 45.000đ - Topping)",
+        sourceType: "ẢNH GỐC ULTRA HD SIÊU NÉT (1180 x 2560)",
+        img: "images/06_go_kfc_food_item_detail_hd.jpg",
+        html: "06_screen_kfc_food_detail.html"
+      },
+      7: {
+        title: "7. App Tài Xế Console (Ba Cường · Điều Phối 2 Huyện)",
+        sourceType: "BẢN THỰC THI ĐIỀU PHỐI ĐỘI XE ULTRA HD",
+        img: "assets/s2_map_full.jpg",
+        html: "07_screen_driver_console.html"
+      },
+      8: {
+        title: "8. Giỏ Hàng & Thanh Toán (KFC Vietnam 68.000đ)",
+        sourceType: "THIẾT KẾ GIỎ HÀNG THỰC TẾ ULTRA HD",
+        img: "images/06_go_kfc_food_item_detail_hd.jpg",
+        html: "08_screen_cart_checkout.html"
+      },
+      9: {
+        title: "9. Theo Dõi Trực Tiếp (Live GPS Shipper 14 Phút)",
+        sourceType: "LỘ TRÌNH ĐIỀU PHỐI THỜI GIAN THỰC ULTRA HD",
+        img: "assets/s3_map_delivery.jpg",
+        html: "09_screen_live_tracking.html"
+      },
+      10: {
+        title: "10. Lịch Sử Hoạt Động (Chuyến Đi & Đồ Ăn)",
+        sourceType: "QUẢN LÝ LỊCH SỬ CUỐC XE ULTRA HD",
+        img: "assets/s1_feed_go_banner.jpg",
+        html: "10_screen_order_history.html"
+      },
+      11: {
+        title: "11. Kho Voucher & Ưu Đãi (Krông Pắk & Krông Ana)",
+        sourceType: "HỆ THỐNG MÃ GIẢM GIÁ 2 HUYỆN",
+        img: "assets/kfc_banner_50pct.jpg",
+        html: "11_screen_voucher_promotions.html"
+      },
+      12: {
+        title: "12. Ví Điện Tử & Cá Nhân (Hoàng Minh · VietQR)",
+        sourceType: "HỒ SƠ KHÁCH HÀNG & VÍ GO ULTRA HD",
+        img: "assets/s1_logo_header.png",
+        html: "12_screen_user_wallet_profile.html"
+      },
+      13: {
+        title: "13. Dẫn Đường Tài Xế Trong Cuốc (Quốc Lộ 26 QL26)",
+        sourceType: "HUD ĐIỀU HƯỚNG TÀI XẾ 3D ULTRA HD",
+        img: "assets/s2_map_full.jpg",
+        html: "13_screen_driver_trip_navigation.html"
+      },
+      14: {
+        title: "14. Ví Thu Nhập Tài Xế (Rút Napas 24/7 Tức Thì)",
+        sourceType: "PHÂN PHỐI DOANH THU 84% - 16%",
+        img: "assets/s3_shipper_bike.png",
+        html: "14_screen_driver_wallet_withdrawal.html"
+      },
+      15: {
+        title: "15. Đăng Ký Tài Xế Đối Tác (Xe 4-7 Chỗ 2 Huyện)",
+        sourceType: "ONBOARDING TÀI XẾ MỚI BIỂN 47",
+        img: "assets/s2_vehicle_suv.png",
+        html: "15_screen_driver_registration.html"
+      },
+      16: {
+        title: "16. Trung Tâm Điều Phối & Giám Sát Bản Đồ 2 Huyện",
+        sourceType: "CONTROL ROOM ĐIỀU HÀNH 2 HUYỆN ULTRA HD",
+        img: "assets/s2_map_full.jpg",
+        html: "16_screen_dispatch_admin_dashboard.html"
+      }
+    };
+
+    function switchScreen(idx) {
+      const scr = screens[idx];
+      if (!scr) return;
+
+      document.getElementById('img-source').src = scr.img;
+      document.getElementById('lbl-source-type').textContent = scr.sourceType;
+      document.getElementById('frame-screen').src = scr.html;
+      document.getElementById('lbl-screen-title').textContent = scr.title;
+      document.getElementById('btn-open-direct').href = scr.html;
+
+      const allBtns = document.querySelectorAll('[id^="btn-scr-"]');
+      allBtns.forEach(btn => {
+        btn.className = "px-2.5 py-1 rounded-lg text-neutral-600 hover:text-neutral-900 bg-neutral-100 shrink-0";
+      });
+      const activeBtn = document.getElementById(`btn-scr-${idx}`);
+      if (activeBtn) {
+        activeBtn.className = "px-2.5 py-1 rounded-lg font-bold bg-[#F9372D] text-white shadow-sm shrink-0";
+      }
+    }
+
+    function setZoom(scale) {
+      const frame = document.getElementById('mockup-frame');
+      frame.style.transform = `scale(${scale})`;
+      frame.style.transformOrigin = 'center top';
+      
+      [1, 2, 3].forEach(i => {
+        const btn = document.getElementById(`btn-zoom-${i}`);
+        btn.className = "px-2 py-1 rounded-lg font-medium text-neutral-600 hover:text-neutral-900";
+      });
+      if (scale === 1) document.getElementById('btn-zoom-1').className = "px-2 py-1 rounded-lg font-bold bg-white text-neutral-900 shadow-sm";
+      if (scale === 1.15) document.getElementById('btn-zoom-2').className = "px-2 py-1 rounded-lg font-bold bg-white text-neutral-900 shadow-sm";
+      if (scale === 1.3) document.getElementById('btn-zoom-3').className = "px-2 py-1 rounded-lg font-bold bg-white text-neutral-900 shadow-sm";
+    }
+  </script>
+
+</body>
+</html>

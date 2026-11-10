@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-[#F3F4F6] text-neutral-900 select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Trung Tâm Điều Phối & Giám Sát GO — Krông Pắk & Krông Ana</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #F3F4F6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col justify-between overflow-x-hidden no-scrollbar bg-[#F3F4F6] text-neutral-900">
+
+  <!-- TOP DISPATCH COMMAND BAR -->
+  <header class="bg-white border-b border-neutral-200 px-4 py-2.5 flex items-center justify-between shrink-0 shadow-sm z-30">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded-xl bg-[#F9372D] flex items-center justify-center font-black text-white text-base tracking-tighter italic shadow">
+        GO
+      </div>
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="text-sm font-extrabold text-neutral-900 tracking-tight">TRUNG TÂM ĐIỀU PHỐI ĐỘI XE</span>
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-300 font-bold">
+            2 Huyện Trực Tuyến
+          </span>
+        </div>
+        <p class="text-[11px] text-neutral-500 font-medium">Huyện Krông Pắk (QL26) & Huyện Krông Ana (TT. Buôn Trấp)</p>
+      </div>
+    </div>
+
+    <!-- Live Telematics Clock -->
+    <div class="text-right">
+      <div class="text-xs font-mono font-bold text-neutral-900" id="live-dispatch-clock">09:41:20</div>
+      <span class="text-[10px] text-emerald-600 font-semibold flex items-center justify-end space-x-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Hệ thống bình thường</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- SCROLLABLE DASHBOARD CONTENT -->
+  <div class="flex-1 overflow-y-auto no-scrollbar p-3 space-y-3 pb-8">
+
+    <!-- DISTRICT FILTER BUTTONS -->
+    <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar">
+      <button id="dtab-all" onclick="filterDistrict('all')" class="d-tab px-3 py-1.5 rounded-xl bg-[#F9372D] text-white font-bold text-xs shadow-sm shrink-0">Tất cả 2 Huyện</button>
+      <button id="dtab-kp" onclick="filterDistrict('kp')" class="d-tab px-3 py-1.5 rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold text-xs hover:bg-neutral-50 shrink-0">Huyện Krông Pắk (QL26)</button>
+      <button id="dtab-ka" onclick="filterDistrict('ka')" class="d-tab px-3 py-1.5 rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold text-xs hover:bg-neutral-50 shrink-0">Huyện Krông Ana (Buôn Trấp)</button>
+    </div>
+
+    <!-- KPI STATS TILES -->
+    <div class="grid grid-cols-2 gap-2 text-neutral-900">
+      <!-- KPI 1 -->
+      <div class="p-3 rounded-2xl bg-white border border-neutral-200 shadow-sm">
+        <span class="text-[11px] text-neutral-500 font-semibold block">Xe sẵn sàng nhận cuốc</span>
+        <div class="flex items-baseline space-x-1 mt-0.5">
+          <span id="kpi-available-cars" class="text-[22px] font-black text-emerald-700">38</span>
+          <span class="text-xs text-neutral-400 font-bold">xe</span>
+        </div>
+        <span id="kpi-available-sub" class="text-[10px] text-neutral-500 block mt-0.5">Krông Pắk: 22 · Krông Ana: 16</span>
+      </div>
+
+      <!-- KPI 2 -->
+      <div class="p-3 rounded-2xl bg-white border border-neutral-200 shadow-sm">
+        <span class="text-[11px] text-neutral-500 font-semibold block">Cuốc đang di chuyển</span>
+        <div class="flex items-baseline space-x-1 mt-0.5">
+          <span id="kpi-active-trips" class="text-[22px] font-black text-[#F9372D]">14</span>
+          <span class="text-xs text-neutral-400 font-bold">chuyến</span>
+        </div>
+        <span id="kpi-active-sub" class="text-[10px] text-neutral-500 block mt-0.5">3 cuốc chờ ghép xe khứ hồi</span>
+      </div>
+
+      <!-- KPI 3 -->
+      <div class="p-3 rounded-2xl bg-white border border-neutral-200 shadow-sm">
+        <span class="text-[11px] text-neutral-500 font-semibold block">Tỷ lệ ghép chuyến khứ hồi</span>
+        <div class="flex items-baseline space-x-1 mt-0.5">
+          <span id="kpi-match-rate" class="text-[22px] font-black text-blue-600">78.4%</span>
+        </div>
+        <span class="text-[10px] text-emerald-700 font-bold block mt-0.5">Tiết kiệm 42% tiền xăng</span>
+      </div>
+
+      <!-- KPI 4 -->
+      <div class="p-3 rounded-2xl bg-white border border-neutral-200 shadow-sm">
+        <span class="text-[11px] text-neutral-500 font-semibold block">Doanh thu toàn hệ thống</span>
+        <div class="flex items-baseline space-x-1 mt-0.5">
+          <span id="kpi-revenue" class="text-[22px] font-black text-neutral-900">18.45M</span>
+        </div>
+        <span class="text-[10px] text-neutral-500 block mt-0.5">GO giữ 16%: 2.95M · Tài xế: 15.5M</span>
+      </div>
+    </div>
+
+    <!-- FLEET HEATMAP PREVIEW TILE -->
+    <div class="p-3.5 rounded-2xl bg-white border border-neutral-200 shadow-sm space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-bold text-neutral-700 uppercase tracking-wider">Bản đồ điều phối thời gian thực</span>
+        <span class="text-[11px] text-[#F9372D] font-bold">Cập nhật GPS 3s</span>
+      </div>
+      <div class="relative w-full h-44 rounded-xl overflow-hidden border border-neutral-200">
+        <img src="assets/s2_map_full.jpg" alt="Bản đồ điều phối" class="w-full h-full object-cover">
+        <!-- Floating simulated telematics tags -->
+        <div id="tag-phuoc-an" class="absolute top-3 left-3 bg-white/95 px-2.5 py-1 rounded-lg shadow text-[10px] font-bold text-neutral-900 border border-neutral-200">
+          📍 Phước An: 12 xe chờ
+        </div>
+        <div id="tag-buon-trap" class="absolute bottom-3 right-3 bg-white/95 px-2.5 py-1 rounded-lg shadow text-[10px] font-bold text-neutral-900 border border-neutral-200">
+          📍 Buôn Trấp: 8 xe chờ
+        </div>
+      </div>
+    </div>
+
+    <!-- DISPATCH QUEUE: CUỐC CHỜ ĐIỀU PHỐI -->
+    <div class="p-3.5 rounded-2xl bg-white border border-neutral-200 shadow-sm space-y-2.5">
+      <div class="flex items-center justify-between pb-1 border-b border-neutral-100">
+        <span class="text-xs font-bold text-neutral-700 uppercase tracking-wider">Hàng đợi điều phối cuốc mới</span>
+        <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">3 Đang Chờ</span>
+      </div>
+
+      <!-- Queue Item 1 -->
+      <div class="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200 space-y-1.5 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-neutral-900">#GO-8849 · Ô tô 7 chỗ (Khám bệnh)</span>
+          <span class="font-bold text-[#F9372D]">340.000đ</span>
+        </div>
+        <div class="text-[11px] text-neutral-600">
+          Đón: TT. Phước An, Krông Pắk → Bệnh viện Thiện Hạnh, TP. Buôn Ma Thuột
+        </div>
+        <div class="flex items-center justify-between pt-1">
+          <span class="text-[10px] text-emerald-700 font-semibold">Tài xế nhận: Ba Cường (47A-528.39)</span>
+          <span class="text-[10px] text-neutral-400">Cách 1.4km</span>
+        </div>
+      </div>
+
+      <!-- Queue Item 2 -->
+      <div class="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200 space-y-1.5 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-neutral-900">#GO-8850 · Ô tô 4 chỗ (Đi bến xe)</span>
+          <span class="font-bold text-[#F9372D]">180.000đ</span>
+        </div>
+        <div class="text-[11px] text-neutral-600">
+          Đón: TT. Buôn Trấp, Krông Ana → Bến xe liên tỉnh phía Bắc BMT
+        </div>
+        <div class="flex items-center justify-between pt-1">
+          <span id="queue-status-2" class="text-[10px] text-amber-700 font-semibold">Hệ thống đang quét tài xế gần nhất...</span>
+          <button id="btn-manual-assign" onclick="openDriverSelectModal()" class="px-2 py-0.5 rounded bg-neutral-900 hover:bg-neutral-800 text-white font-bold text-[10px] active:scale-95 transition-all">Gán thủ công</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+      <button onclick="location.href='07_screen_driver_console.html'" class="py-3 rounded-xl bg-white border border-neutral-200 text-neutral-800 hover:bg-neutral-50 shadow-sm active:scale-95 transition-all text-center">
+        Xem App Tài Xế
+      </button>
+      <button onclick="location.href='01_screen_home_discovery.html'" class="py-3 rounded-xl bg-[#F9372D] text-white hover:bg-[#D32F2F] shadow-sm active:scale-95 transition-all text-center">
+        Xem App Khách Hàng
+      </button>
+    </div>
+
+  </div>
+
+  <!-- DRIVER SELECT MODAL -->
+  <div id="driver-select-modal" class="fixed inset-0 bg-black/50 z-50 flex items-end justify-center hidden">
+    <div class="w-full max-w-md bg-white rounded-t-3xl p-5 space-y-3 max-h-[85%] overflow-y-auto">
+      <div class="flex items-center justify-between pb-2 border-b border-neutral-200">
+        <div>
+          <h3 class="text-base font-bold text-neutral-900">Chọn Tài Xế Gán Cuốc #GO-8850</h3>
+          <p class="text-xs text-neutral-500">Khu vực: TT. Buôn Trấp, Krông Ana</p>
+        </div>
+        <button onclick="closeDriverSelectModal()" class="text-neutral-400 text-lg font-bold">✕</button>
+      </div>
+
+      <!-- Driver 1 -->
+      <div onclick="confirmAssign('Y Khem', '47A-381.92', '800m', 'VinFast VF5')" class="p-3 rounded-2xl bg-neutral-50 border border-neutral-200 hover:border-[#F9372D] cursor-pointer transition-all flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
+            YK
+          </div>
+          <div>
+            <div class="flex items-center space-x-1.5">
+              <span class="text-xs font-bold text-neutral-900">Y Khem</span>
+              <span class="text-[10px] bg-amber-50 text-amber-700 px-1 py-0.2 rounded font-bold">★ 4.95</span>
+            </div>
+            <span class="text-[11px] text-neutral-500 block font-mono">47A-381.92 · VinFast VF5 (4 chỗ)</span>
+            <span class="text-[10px] text-emerald-700 font-semibold">Cách điểm đón: 800m (2 phút)</span>
+          </div>
+        </div>
+        <span class="text-xs font-bold text-[#F9372D]">Chọn</span>
+      </div>
+
+      <!-- Driver 2 -->
+      <div onclick="confirmAssign('Nguyễn Văn Hải', '47B-129.44', '2.1km', 'Toyota Vios')" class="p-3 rounded-2xl bg-neutral-50 border border-neutral-200 hover:border-[#F9372D] cursor-pointer transition-all flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center font-bold text-xs">
+            NH
+          </div>
+          <div>
+            <div class="flex items-center space-x-1.5">
+              <span class="text-xs font-bold text-neutral-900">Nguyễn Văn Hải</span>
+              <span class="text-[10px] bg-amber-50 text-amber-700 px-1 py-0.2 rounded font-bold">★ 4.90</span>
+            </div>
+            <span class="text-[11px] text-neutral-500 block font-mono">47B-129.44 · Toyota Vios (4 chỗ)</span>
+            <span class="text-[10px] text-neutral-500">Cách điểm đón: 2.1km (5 phút)</span>
+          </div>
+        </div>
+        <span class="text-xs font-bold text-[#F9372D]">Chọn</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Live ticking clock
+    setInterval(() => {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      const el = document.getElementById('live-dispatch-clock');
+      if (el) el.textContent = `${h}:${m}:${s}`;
+    }, 1000);
+
+    function filterDistrict(d) {
+      const tabs = document.querySelectorAll('.d-tab');
+      tabs.forEach(t => t.className = "d-tab px-3 py-1.5 rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold text-xs hover:bg-neutral-50 shrink-0");
+      document.getElementById(`dtab-${d}`).className = "d-tab px-3 py-1.5 rounded-xl bg-[#F9372D] text-white font-bold text-xs shadow-sm shrink-0";
+
+      if (d === 'kp') {
+        document.getElementById('kpi-available-cars').textContent = '22';
+        document.getElementById('kpi-available-sub').textContent = 'TT. Phước An: 12 · Km19: 6 · Ea Yông: 4';
+        document.getElementById('kpi-active-trips').textContent = '9';
+        document.getElementById('kpi-revenue').textContent = '11.80M';
+      } else if (d === 'ka') {
+        document.getElementById('kpi-available-cars').textContent = '16';
+        document.getElementById('kpi-available-sub').textContent = 'TT. Buôn Trấp: 8 · Dray Sáp: 5 · Ea Bông: 3';
+        document.getElementById('kpi-active-trips').textContent = '5';
+        document.getElementById('kpi-revenue').textContent = '6.65M';
+      } else {
+        document.getElementById('kpi-available-cars').textContent = '38';
+        document.getElementById('kpi-available-sub').textContent = 'Krông Pắk: 22 · Krông Ana: 16';
+        document.getElementById('kpi-active-trips').textContent = '14';
+        document.getElementById('kpi-revenue').textContent = '18.45M';
+      }
+    }
+
+    function openDriverSelectModal() {
+      document.getElementById('driver-select-modal').classList.remove('hidden');
+    }
+    function closeDriverSelectModal() {
+      document.getElementById('driver-select-modal').classList.add('hidden');
+    }
+
+    function confirmAssign(name, plate, dist, model) {
+      closeDriverSelectModal();
+      document.getElementById('queue-status-2').textContent = `Đã gán: Tài xế ${name} (${plate} · Cách ${dist}) ✓`;
+      document.getElementById('queue-status-2').className = 'text-[10px] text-emerald-700 font-bold';
+      document.getElementById('btn-manual-assign').textContent = 'Đã gán ✓';
+      document.getElementById('btn-manual-assign').className = 'px-2 py-0.5 rounded bg-emerald-600 text-white font-bold text-[10px]';
+      alert(`Đã gán cuốc #GO-8850 (TT. Buôn Trấp ↔ BMT) thành công cho Tài xế ${name} (${plate} - ${model})!`);
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-[#F8F9FA] text-neutral-900 select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Ví Tài Xế & Rút Tiền Napas 24/7 — GO Driver</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #F8F9FA;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col justify-between overflow-x-hidden no-scrollbar bg-[#F8F9FA] text-neutral-900">
+
+  <!-- SCROLLABLE WALLET CONTAINER -->
+  <div class="flex-1 overflow-y-auto no-scrollbar pb-24">
+
+    <!-- TOP STATUS BAR SIMULATION -->
+    <div class="sticky top-0 bg-white/95 backdrop-blur-md z-30 pt-1 pb-1 border-b border-neutral-100">
+      <div class="h-9 px-6 flex items-center justify-between text-xs font-semibold text-neutral-900">
+        <span>9:41</span>
+        <div class="flex items-center space-x-1.5 text-xs">
+          <svg class="w-4 h-3 fill-current" viewBox="0 0 17 11"><path d="M1 9h2V2H1v7zm4 0h2V0H5v9zm4 0h2V4H9v5zm4 0h2V6h-2v3z"/></svg>
+          <svg class="w-3.5 h-3 fill-current" viewBox="0 0 14 10"><path d="M7 10a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm-4.2-4a5.9 5.9 0 018.4 0l1.4-1.4a7.9 7.9 0 00-11.2 0L2.8 6zm-2.8-2.8a9.9 9.9 0 0114 0l1.4-1.4a11.9 11.9 0 00-16.8 0L0 3.2z"/></svg>
+          <div class="w-5 h-2.5 border border-neutral-900 rounded-sm p-0.5 flex items-center">
+            <div class="w-full h-full bg-neutral-900 rounded-[1px]"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HEADER TITLE -->
+      <div class="px-4 py-2.5 flex items-center justify-between bg-white">
+        <button onclick="location.href='07_screen_driver_console.html'" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-neutral-100 active:scale-95 transition-all text-neutral-800">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="text-center">
+          <h1 class="text-[17px] font-extrabold text-neutral-900 tracking-tight">Ví Thu Nhập Tài Xế</h1>
+          <span class="text-[11px] text-emerald-700 font-semibold">Tự động cộng tiền ngay khi xong cuốc</span>
+        </div>
+        <div class="w-8"></div>
+      </div>
+    </div>
+
+    <!-- WALLET BALANCE HERO CARD -->
+    <div class="p-4">
+      <div class="p-5 rounded-3xl bg-neutral-900 text-white shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs text-neutral-400 font-medium block">Số dư ví khả dụng rút về tài khoản</span>
+            <div class="text-[30px] font-black tracking-tight text-white mt-0.5">
+              <span id="current-wallet-balance">3.735.600</span><span class="text-base font-semibold text-neutral-400 ml-0.5">đ</span>
+            </div>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-2xl">
+            💳
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-neutral-800 flex items-center justify-between text-xs text-neutral-300">
+          <div>
+            <span class="text-neutral-500 block">Doanh thu tuần này</span>
+            <span class="font-bold text-white text-[13px]">6.840.000đ (24 cuốc)</span>
+          </div>
+          <div class="text-right">
+            <span class="text-neutral-500 block">Tỷ lệ hưởng cước</span>
+            <span class="font-bold text-emerald-400 text-[13px]">84% (Chiết khấu GO 16%)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSTANT NAPAS WITHDRAWAL FORM -->
+    <div class="px-4">
+      <div class="p-4 rounded-2xl bg-white border border-neutral-200 shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Rút tiền về ngân hàng 24/7</span>
+          <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Miễn phí 100%</span>
+        </div>
+
+        <!-- Bank Account Selector Card -->
+        <div onclick="openBankSelectorModal()" class="p-3 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-between cursor-pointer hover:bg-neutral-100 transition-all">
+          <div class="flex items-center space-x-3">
+            <div id="bank-badge-icon" class="w-9 h-9 rounded-lg bg-emerald-800 text-white flex items-center justify-center font-black text-xs">
+              VCB
+            </div>
+            <div>
+              <span id="selected-bank-name" class="text-[13px] font-bold text-neutral-900 block leading-tight">Vietcombank — CN Đắk Lắk</span>
+              <span id="selected-bank-acc" class="text-[11px] text-neutral-500 font-mono">0231000528939 · NGUYEN VAN CUONG</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-1 text-xs text-[#F9372D] font-bold">
+            <span>Đổi</span>
+            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+
+        <!-- Amount selector pills -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between text-xs font-semibold text-neutral-700">
+            <span>Chọn số tiền rút:</span>
+            <span class="text-neutral-400 font-normal">Tối thiểu: 50.000đ</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-xs font-bold">
+            <button id="chip-1m" onclick="selectWithdrawAmount(1000000)" class="amt-chip py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border border-neutral-200 transition-all">1.000.000đ</button>
+            <button id="chip-2m" onclick="selectWithdrawAmount(2000000)" class="amt-chip py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border border-neutral-200 transition-all">2.000.000đ</button>
+            <button id="chip-all" onclick="selectWithdrawAmount(3735600)" class="amt-chip py-2.5 rounded-xl bg-red-50 text-[#F9372D] border-2 border-[#F9372D] transition-all">Tất cả (3.73M)</button>
+          </div>
+        </div>
+
+        <!-- Custom Amount Input -->
+        <div class="h-11 px-3 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-between">
+          <span class="text-xs font-semibold text-neutral-500">Số tiền:</span>
+          <input type="text" id="withdraw-custom-input" value="3.735.600" oninput="onCustomAmountInput(this.value)" class="bg-transparent text-right font-black text-neutral-900 text-base focus:outline-none w-full pr-1">
+          <span class="text-sm font-bold text-neutral-600">đ</span>
+        </div>
+
+        <!-- Withdrawal Submit Button -->
+        <button onclick="openWithdrawModal()" class="w-full py-3.5 rounded-xl bg-[#F9372D] hover:bg-[#D32F2F] text-white font-extrabold text-[14px] shadow-lg shadow-red-500/25 active:scale-95 transition-all text-center">
+          XÁC NHẬN RÚT TIỀN TỨC THÌ (10 GIÂY)
+        </button>
+      </div>
+    </div>
+
+    <!-- RECENT TRANSACTIONS LOG -->
+    <div class="p-4">
+      <div class="p-4 rounded-2xl bg-white border border-neutral-200 shadow-sm space-y-3">
+        <span class="text-xs font-bold text-neutral-500 uppercase tracking-wider block">Lịch sử thu nhập gần đây</span>
+
+        <!-- Tx 1: Cuốc vừa nhận -->
+        <div class="flex items-center justify-between pb-2.5 border-b border-neutral-100">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xs">
+              +
+            </div>
+            <div>
+              <span class="text-[13px] font-bold text-neutral-900 block leading-tight">Cuốc xe Phước An ↔ BMT</span>
+              <span class="text-[11px] text-neutral-500">Cước: 340.000đ · GO trừ phí: 54.400đ</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[14px] font-black text-emerald-700">+285.600đ</span>
+            <span class="text-[10px] text-neutral-400 block">09/11 10:05</span>
+          </div>
+        </div>
+
+        <!-- Tx 2: Cuốc Buôn Trấp -->
+        <div class="flex items-center justify-between pb-2.5 border-b border-neutral-100">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xs">
+              +
+            </div>
+            <div>
+              <span class="text-[13px] font-bold text-neutral-900 block leading-tight">Cuốc xe TT. Buôn Trấp ↔ Phước An</span>
+              <span class="text-[11px] text-neutral-500">Cước: 150.000đ · GO trừ phí: 24.000đ</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[14px] font-black text-emerald-700">+126.000đ</span>
+            <span class="text-[10px] text-neutral-400 block">09/11 08:20</span>
+          </div>
+        </div>
+
+        <!-- Tx 3: Rút tiền -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-full bg-neutral-100 text-neutral-600 flex items-center justify-center font-bold text-xs">
+              ↗
+            </div>
+            <div>
+              <span class="text-[13px] font-bold text-neutral-900 block leading-tight">Rút tiền về Vietcombank</span>
+              <span class="text-[11px] text-neutral-500">Mã GD: #WD-994820 · Thành công</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[14px] font-black text-neutral-900">-2.000.000đ</span>
+            <span class="text-[10px] text-neutral-400 block">08/11 19:30</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- WITHDRAWAL CONFIRMATION MODAL -->
+  <div id="withdraw-confirm-modal" class="fixed inset-0 bg-black/50 z-50 flex items-end justify-center hidden">
+    <div class="w-full max-w-md bg-white rounded-t-3xl p-5 space-y-4">
+      <div class="text-center">
+        <div class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-2xl mx-auto border-2 border-emerald-300">
+          ✓
+        </div>
+        <h3 class="text-lg font-bold text-neutral-900 mt-2">Xác Nhận Rút Tiền Napas 24/7</h3>
+        <p class="text-xs text-neutral-500">Tiền chuyển tức thì không mất phí giao dịch</p>
+      </div>
+
+      <div class="p-3 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 text-xs">
+        <div class="flex justify-between text-neutral-600">
+          <span>Ngân hàng thụ hưởng:</span>
+          <span class="font-bold text-neutral-900">Vietcombank</span>
+        </div>
+        <div class="flex justify-between text-neutral-600">
+          <span>Số tài khoản:</span>
+          <span class="font-mono font-bold text-neutral-900">0231000528939</span>
+        </div>
+        <div class="flex justify-between text-neutral-600">
+          <span>Chủ tài khoản:</span>
+          <span class="font-bold text-neutral-900">NGUYEN VAN CUONG</span>
+        </div>
+        <div class="pt-1 border-t border-neutral-200 flex justify-between items-baseline">
+          <span class="font-bold text-neutral-900">Số tiền chuyển:</span>
+          <span id="modal-withdraw-amount" class="text-base font-black text-[#F9372D]">3.735.600đ</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="closeWithdrawModal()" class="py-3 rounded-xl bg-neutral-100 text-neutral-700 font-bold text-xs hover:bg-neutral-200">
+          Hủy
+        </button>
+        <button onclick="executeWithdrawal()" class="py-3 rounded-xl bg-[#F9372D] hover:bg-[#D32F2F] text-white font-bold text-xs shadow-md shadow-red-500/25">
+          CHUYỂN TIỀN NGAY
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIXED BOTTOM DRIVER NAVIGATION BAR -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 px-6 py-2 flex items-center justify-between z-30 max-w-[480px] mx-auto shadow-md">
+    <!-- Tab 1: Điều phối -->
+    <button onclick="location.href='07_screen_driver_console.html'" class="flex flex-col items-center text-neutral-500 hover:text-neutral-900 active:scale-95 transition-all">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+      <span class="text-[11px] font-medium mt-0.5">Điều phối</span>
+    </button>
+
+    <!-- Tab 2: Lịch sử -->
+    <button onclick="location.href='10_screen_order_history.html'" class="flex flex-col items-center text-neutral-500 hover:text-neutral-900 active:scale-95 transition-all">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <span class="text-[11px] font-medium mt-0.5">Lịch sử</span>
+    </button>
+
+    <!-- Tab 3: Ví tài xế (Active Red) -->
+    <button class="flex flex-col items-center text-[#F9372D] active:scale-95 transition-all">
+      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+      <span class="text-[11px] font-bold mt-0.5">Ví tài xế</span>
+      <div class="w-3 h-0.5 bg-[#F9372D] rounded-full mt-0.5"></div>
+    </button>
+
+    <!-- Tab 4: Hồ sơ xe -->
+    <button onclick="location.href='15_screen_driver_registration.html'" class="flex flex-col items-center text-neutral-500 hover:text-neutral-900 active:scale-95 transition-all">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      <span class="text-[11px] font-medium mt-0.5">Hồ sơ xe</span>
+    </button>
+  </div>
+
+  <!-- Home Indicator -->
+  <div class="fixed bottom-1 left-0 right-0 flex justify-center pointer-events-none z-40">
+    <div class="w-32 h-1 bg-black/25 rounded-full"></div>
+  </div>
+
+  <script>
+    let withdrawAmount = 3735600;
+
+    function selectWithdrawAmount(amt) {
+      withdrawAmount = amt;
+      document.getElementById('withdraw-custom-input').value = amt.toLocaleString('vi-VN');
+      
+      const chips = document.querySelectorAll('.amt-chip');
+      chips.forEach(c => c.className = "amt-chip py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border border-neutral-200 transition-all");
+      
+      if (amt === 1000000) document.getElementById('chip-1m').className = "amt-chip py-2.5 rounded-xl bg-red-50 text-[#F9372D] border-2 border-[#F9372D] transition-all";
+      if (amt === 2000000) document.getElementById('chip-2m').className = "amt-chip py-2.5 rounded-xl bg-red-50 text-[#F9372D] border-2 border-[#F9372D] transition-all";
+      if (amt === 3735600) document.getElementById('chip-all').className = "amt-chip py-2.5 rounded-xl bg-red-50 text-[#F9372D] border-2 border-[#F9372D] transition-all";
+    }
+
+    function onCustomAmountInput(val) {
+      const clean = parseInt(val.replace(/\D/g, ''), 10) || 0;
+      withdrawAmount = clean;
+    }
+
+    function openWithdrawModal() {
+      document.getElementById('modal-withdraw-amount').textContent = `${withdrawAmount.toLocaleString('vi-VN')}đ`;
+      document.getElementById('withdraw-confirm-modal').classList.remove('hidden');
+    }
+    function closeWithdrawModal() {
+      document.getElementById('withdraw-confirm-modal').classList.add('hidden');
+    }
+
+    function executeWithdrawal() {
+      closeWithdrawModal();
+      alert(`Đã gửi lệnh rút ${withdrawAmount.toLocaleString('vi-VN')}đ về Vietcombank 0231000528939 thành công!\nTiền sẽ về tài khoản trong 10 giây.`);
+      location.href = '07_screen_driver_console.html';
+    }
+  </script>
+
+</body>
+</html>

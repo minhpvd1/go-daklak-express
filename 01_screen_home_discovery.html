@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-[#FFFFFF] text-neutral-900 select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>GO — Đi đâu cũng GO | Khám Phá Trang Chủ Hoàn Hảo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #FFFFFF;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+    
+    /* Rosy Warm Gradient matching genuine screenshot */
+    .header-glow {
+      background: linear-gradient(180deg, #FDEEF0 0%, #FFF8F8 50%, #FFFFFF 100%);
+    }
+
+    /* Heart Bounce Micro-interaction */
+    @keyframes heart-bounce {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.4); }
+      65% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+    .bounce-heart {
+      animation: heart-bounce 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Double Tap Pop-up Burst Heart */
+    @keyframes burst-heart {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+      40% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.25); }
+      70% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.0); }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(1.4); }
+    }
+    .burst-animation {
+      animation: burst-heart 0.75s ease-out forwards;
+    }
+
+    /* Slide Up Sheet Transition */
+    @keyframes slide-up {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-slide-up {
+      animation: slide-up 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Minimum touch target for a11y & Apple HIG */
+    .touch-target {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col justify-between overflow-x-hidden no-scrollbar bg-white text-neutral-900">
+
+  <!-- SCROLLABLE CONTAINER -->
+  <div class="flex-1 overflow-y-auto no-scrollbar pb-24" id="scroll-feed-container">
+
+    <!-- TOP HEADER WITH ROSY WARM GLOW & APP BAR -->
+    <header class="header-glow pt-1 pb-1 border-b border-neutral-100/70 sticky top-0 z-30 backdrop-blur-md">
+      
+      <!-- TOP STATUS BAR SIMULATION -->
+      <div class="h-9 px-6 flex items-center justify-between text-xs font-semibold text-neutral-900">
+        <span class="font-bold text-[14px] tracking-tight" id="live-clock">9:41</span>
+        
+        <!-- Signal / Wifi / Battery -->
+        <div class="flex items-center space-x-1.5 text-xs">
+          <!-- Signal bars -->
+          <svg class="w-4 h-3 fill-current text-neutral-900" viewBox="0 0 17 11"><path d="M1 9h2V2H1v7zm4 0h2V0H5v9zm4 0h2V4H9v5zm4 0h2V6h-2v3z"/></svg>
+          <!-- Wifi -->
+          <svg class="w-3.5 h-3 fill-current text-neutral-900" viewBox="0 0 14 10"><path d="M7 10a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm-4.2-4a5.9 5.9 0 018.4 0l1.4-1.4a7.9 7.9 0 00-11.2 0L2.8 6zm-2.8-2.8a9.9 9.9 0 0114 0l1.4-1.4a11.9 11.9 0 00-16.8 0L0 3.2z"/></svg>
+          <!-- Battery pill -->
+          <div class="w-5 h-2.5 border border-neutral-900 rounded-sm p-0.5 flex items-center">
+            <div class="w-full h-full bg-neutral-900 rounded-[1px]"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN APP BRAND BAR -->
+      <div class="px-4 pt-1 pb-2 flex items-center justify-between">
+        <!-- Logo & Brand Slogan (Ultra HD 2.5x Crop) -->
+        <div onclick="resetFilter()" class="flex items-center cursor-pointer active:opacity-85 transition-opacity" title="Về trang chủ GO">
+          <img src="assets/s1_logo_header.png" alt="GO — Đi đâu cũng GO" class="h-14 w-auto object-contain -ml-2 drop-shadow-sm" fetchpriority="high">
+        </div>
+
+        <!-- Header Action Icons -->
+        <div class="flex items-center space-x-1.5 text-neutral-800">
+          <!-- Search Toggle Button -->
+          <button onclick="toggleSearchBar()" aria-label="Tìm kiếm dịch vụ" class="touch-target w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/5 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500">
+            <svg class="w-5 h-5 text-neutral-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </button>
+          
+          <!-- Notification Bell with Red Badge -->
+          <button onclick="location.href='10_screen_order_history.html'" aria-label="Thông báo đơn hàng" class="touch-target relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/5 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500">
+            <svg class="w-5 h-5 text-neutral-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <span class="absolute top-2 right-2 w-2.5 h-2.5 bg-[#F9372D] rounded-full border-2 border-white shadow-sm"></span>
+          </button>
+          
+          <!-- Profile Avatar -->
+          <button onclick="location.href='12_screen_user_wallet_profile.html'" aria-label="Hồ sơ tài khoản Hoàng Minh" class="touch-target w-10 h-10 rounded-full flex items-center justify-center active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500">
+            <div class="w-8 h-8 rounded-full bg-neutral-200 border border-neutral-300 flex items-center justify-center text-neutral-600 overflow-hidden shadow-sm">
+              <svg class="w-5 h-5 translate-y-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- SMART SEARCH BAR & TRENDING CHIPS DRAWER -->
+      <div id="quick-search-box" class="px-4 pb-2.5 hidden">
+        <div class="relative h-11 px-3.5 rounded-2xl bg-white border border-neutral-200 shadow-sm flex items-center space-x-2 text-neutral-500 focus-within:border-[#F9372D] focus-within:ring-1 focus-within:ring-[#F9372D] transition-all">
+          <svg class="w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input type="text" id="feed-search-input" oninput="handleSearch(this.value)" placeholder="Tìm chuyến xe Krông Pắk, quán ăn, bưu kiện..." class="bg-transparent text-[13px] text-neutral-900 placeholder-neutral-400 focus:outline-none w-full font-medium">
+          <button onclick="clearSearch()" id="clear-search-btn" class="hidden text-neutral-400 hover:text-neutral-700 text-xs px-1">✕</button>
+        </div>
+        
+        <!-- Gợi ý từ khóa nóng (Trending chips) -->
+        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pt-2">
+          <span class="text-[11px] font-bold text-neutral-400 shrink-0">Gợi ý:</span>
+          <button onclick="applySearchTag('Xe')" class="px-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-[11px] font-medium shrink-0 active:scale-95 transition-all">🛵 Đặt xe</button>
+          <button onclick="applySearchTag('Phở')" class="px-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-[11px] font-medium shrink-0 active:scale-95 transition-all">🍜 Món ngon</button>
+          <button onclick="applySearchTag('Đắk Lắk')" class="px-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-[11px] font-medium shrink-0 active:scale-95 transition-all">📍 Đắk Lắk</button>
+          <button onclick="applySearchTag('Hà Nội')" class="px-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-[11px] font-medium shrink-0 active:scale-95 transition-all">📍 Hà Nội</button>
+        </div>
+      </div>
+
+      <!-- SERVICE FILTER PILLS ROW -->
+      <nav aria-label="Bộ lọc dịch vụ" class="px-4 py-1.5 flex items-center space-x-2 overflow-x-auto no-scrollbar">
+        <!-- Tất cả -->
+        <button id="pill-all" onclick="filterCategory('all')" class="category-pill px-4 py-2 rounded-full bg-[#F9372D] text-white font-extrabold text-[13px] shadow-sm shadow-red-500/25 active:scale-95 transition-all shrink-0">
+          Tất cả
+        </button>
+        <!-- Đặt xe -->
+        <button id="pill-ride" onclick="filterCategory('ride')" class="category-pill px-4 py-2 rounded-full bg-[#F5EFEB] hover:bg-[#EFE7E2] text-neutral-800 font-bold text-[13px] active:scale-95 transition-all shrink-0">
+          Đặt xe
+        </button>
+        <!-- Giao hàng -->
+        <button id="pill-delivery" onclick="filterCategory('delivery')" class="category-pill px-4 py-2 rounded-full bg-[#F5EFEB] hover:bg-[#EFE7E2] text-neutral-800 font-bold text-[13px] active:scale-95 transition-all shrink-0">
+          Giao hàng
+        </button>
+        <!-- Đặt đồ ăn -->
+        <button id="pill-food" onclick="filterCategory('food')" class="category-pill px-4 py-2 rounded-full bg-[#F5EFEB] hover:bg-[#EFE7E2] text-neutral-800 font-bold text-[13px] active:scale-95 transition-all shrink-0">
+          Đặt đồ ăn
+        </button>
+        <!-- 4-Grid Icon (Tất cả 8 danh mục) -->
+        <button onclick="toggleServiceDrawer()" aria-label="Mở tất cả 8 danh mục dịch vụ" class="w-9 h-9 rounded-xl bg-[#F5EFEB] hover:bg-[#EFE7E2] text-neutral-700 flex items-center justify-center active:scale-95 transition-all shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        </button>
+      </nav>
+
+    </header>
+
+    <!-- ACTIVE FILTER NOTICE BANNER (Chỉ hiện khi lọc danh mục) -->
+    <div id="filter-banner" class="hidden px-4 pt-2.5">
+      <div class="px-3.5 py-2 bg-red-50 border border-red-200/80 rounded-xl flex items-center justify-between text-xs text-red-900 font-semibold">
+        <div class="flex items-center space-x-1.5">
+          <span id="filter-banner-icon">🛵</span>
+          <span id="filter-banner-text">Đang xem: Dịch vụ Đặt xe</span>
+        </div>
+        <button onclick="resetFilter()" class="text-xs text-[#F9372D] font-bold hover:underline">Xóa lọc ✕</button>
+      </div>
+    </div>
+
+    <!-- MAIN DISCOVERY MASONRY FEED -->
+    <main class="px-3.5 pt-2.5 grid grid-cols-2 gap-2.5" id="feed-masonry-grid">
+      
+      <!-- CỘT TRÁI -->
+      <div class="flex flex-col space-y-2.5" id="feed-col-left">
+        
+        <!-- CARD 1: BANNER XE & SHIPPER (Khám phá ngay) -->
+        <article data-card-id="1" data-tags="xe ride delivery giao hang kham pha banner" class="feed-card relative rounded-2xl overflow-hidden bg-white shadow-sm border border-neutral-100/90 cursor-pointer group active:scale-[0.99] transition-all">
+          <div class="relative overflow-hidden" ondblclick="triggerBurstLike(this, 'card-1-like')">
+            <img src="assets/s1_feed_go_banner.jpg" alt="GO Đi đâu cũng GO — Đặt xe và Giao hàng" class="w-full h-auto object-cover group-hover:scale-[1.01] transition-transform duration-300" fetchpriority="high">
+            <!-- CTA Button Target -->
+            <button onclick="location.href='02_screen_ride_hailing.html'" aria-label="Khám phá đặt xe ngay" class="absolute bottom-4 left-4 right-4 h-9 rounded-full bg-transparent hover:bg-white/10 active:bg-white/20 transition-all flex items-center justify-center focus:outline-none">
+            </button>
+          </div>
+        </article>
+
+        <!-- CARD 3: CUTE SLEEPING CAT (Có Tim Yêu Thích & Menu 3 Chấm) -->
+        <article data-card-id="3" data-tags="meo cat cute thu cung" class="feed-card relative rounded-2xl overflow-hidden bg-white shadow-sm border border-neutral-100/90 group">
+          <div class="relative overflow-hidden cursor-pointer" ondblclick="triggerBurstLike(this, 'card-3-like')">
+            <img src="assets/s1_feed_cat.jpg" alt="Mèo cưng thư giãn ngủ ngoan" class="w-full h-auto object-cover" onclick="openCardDetail(3, 'Mèo cưng ngủ trưa thư thái', 'assets/s1_feed_cat.jpg', 'Buôn Ma Thuột, Đắk Lắk', '128K', '@catlover_bmt')">
+            
+            <!-- More Options Icon (Top right) -->
+            <button onclick="openCardOptions(3, event)" aria-label="Tùy chọn bài viết" class="touch-target absolute top-2 right-2 w-7 h-7 rounded-full bg-black/35 backdrop-blur-sm text-white flex items-center justify-center hover:bg-black/55 active:scale-95 transition-all">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/></svg>
+            </button>
+
+            <!-- Interactive Heart Counter (Bottom Left) -->
+            <button id="card-3-like" onclick="toggleLike(this, 128, event)" aria-label="Thích bài viết mèo cưng" class="touch-target absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm text-white text-[11px] font-bold flex items-center space-x-1 hover:bg-black/55 active:scale-95 transition-all">
+              <span class="heart-icon text-xs">🤍</span>
+              <span class="like-count">128K</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- CARD 5: TRAIN ĐẮK LẮK (Có Định Vị & Nút Tim) -->
+        <article data-card-id="5" data-tags="dak lak tau hoa train du lich xe di chuyen" class="feed-card relative rounded-2xl overflow-hidden bg-white shadow-sm border border-neutral-100/90 group">
+          <div class="relative overflow-hidden cursor-pointer" ondblclick="triggerBurstLike(this, 'card-5-like')">
+            <img src="assets/s1_feed_train.jpg" alt="Tàu hỏa qua miền Đắk Lắk thanh bình" class="w-full h-auto object-cover" onclick="openCardDetail(5, 'Chuyến tàu sớm qua thung lũng Đắk Lắk', 'assets/s1_feed_train.jpg', 'Krông Pắk, Đắk Lắk', '49K', '@travel_taynguyen')">
+            
+            <!-- Location Pin: Đắk Lắk -->
+            <div onclick="location.href='02_screen_ride_hailing.html'" class="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm text-white text-[10px] font-bold flex items-center space-x-1 hover:bg-black/60 transition-all cursor-pointer">
+              <svg class="w-3 h-3 fill-current text-white" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+              <span>Đắk Lắk</span>
+            </div>
+
+            <!-- Like Heart Icon -->
+            <button id="card-5-like" onclick="toggleHeartOnly(this, event)" aria-label="Thích danh thắng Đắk Lắk" class="touch-target absolute bottom-2 right-2 w-7 h-7 rounded-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center hover:bg-black/55 active:scale-95 transition-all text-xs">
+              <span class="heart-icon">🤍</span>
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- CỘT PHẢI -->
+      <div class="flex flex-col space-y-2.5" id="feed-col-right">
+        
+        <!-- CARD 2: HÀ NỘI SUNSET THÁP RÙA -->
+        <article data-card-id="2" data-tags="ha noi thap rua ho guom du lich sunset" class="feed-card relative rounded-2xl overflow-hidden bg-white shadow-sm border border-neutral-100/90 group">
+          <div class="relative overflow-hidden cursor-pointer" ondblclick="triggerBurstLike(this, 'card-2-like')">
+            <img src="assets/s1_feed_hanoi.jpg" alt="Hoàng hôn Tháp Rùa Hồ Gươm Hà Nội" class="w-full h-auto object-cover" onclick="openCardDetail(2, 'Hoàng hôn Tháp Rùa — Trái tim Thủ Đô', 'assets/s1_feed_hanoi.jpg', 'Hoàn Kiếm, Hà Nội', '95K', '@hanoi_photography')">
+            
+            <!-- Location Pin: Hà Nội -->
+            <div class="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm text-white text-[10px] font-bold flex items-center space-x-1">
+              <svg class="w-3 h-3 fill-current text-white" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+              <span>Hà Nội</span>
+            </div>
+
+            <!-- Like Heart Icon -->
+            <button id="card-2-like" onclick="toggleHeartOnly(this, event)" aria-label="Thích cảnh đẹp Hà Nội" class="touch-target absolute bottom-2 right-2 w-7 h-7 rounded-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center hover:bg-black/55 active:scale-95 transition-all text-xs">
+              <span class="heart-icon">🤍</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- CARD 4: MÓN NGON GIAO TẬN NƠI (Đặt ngay) -->
+        <article data-card-id="4" data-tags="pho mon ngon am thuc do an food giao hang kfc" class="feed-card relative rounded-2xl overflow-hidden bg-white shadow-sm border border-neutral-100/90 cursor-pointer group active:scale-[0.99] transition-all">
+          <div class="relative overflow-hidden" ondblclick="triggerBurstLike(this, 'card-4-like')">
+            <img src="assets/s1_feed_pho.jpg" alt="Món ngon Giao tận nơi — Phở truyền thống" class="w-full h-auto object-cover group-hover:scale-[1.01] transition-transform duration-300">
+            <!-- CTA Button Target -->
+            <button onclick="location.href='04_screen_food_discovery.html'" aria-label="Đặt món ngon giao tận nơi ngay" class="absolute bottom-3 left-3 h-8 w-28 rounded-full bg-transparent hover:bg-white/10 active:bg-white/20 transition-all flex items-center justify-center focus:outline-none">
+            </button>
+          </div>
+        </article>
+
+        <!-- CARD 6: COOL PIG MASCOT (Kính râm & nón) -->
+        <article data-card-id="6" data-tags="heo pig mascot vui nhon hai huoc linh vat" class="feed-card relative rounded-2xl overflow-hidden bg-white shadow-sm border border-neutral-100/90 group">
+          <div class="relative overflow-hidden cursor-pointer" ondblclick="triggerBurstLike(this, 'card-6-like')">
+            <img src="assets/s1_feed_pig.jpg" alt="Linh vật heo sành điệu kính râm" class="w-full h-auto object-cover" onclick="openCardDetail(6, 'Chào ngày mới phong cách cùng Heo GO', 'assets/s1_feed_pig.jpg', 'Tây Nguyên', '76K', '@gomedia_official')">
+            
+            <!-- Interactive Heart Counter (Bottom Left) -->
+            <button id="card-6-like" onclick="toggleLike(this, 76, event)" aria-label="Thích chú heo mascot" class="touch-target absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm text-white text-[11px] font-bold flex items-center space-x-1 hover:bg-black/55 active:scale-95 transition-all">
+              <span class="heart-icon text-xs">🤍</span>
+              <span class="like-count">76K</span>
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+    </main>
+
+    <!-- EMPTY STATE KHI TÌM KIẾM KHÔNG CÓ KẾT QUẢ -->
+    <div id="feed-empty-state" class="hidden px-6 py-16 text-center">
+      <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-neutral-100 flex items-center justify-center text-3xl">🔍</div>
+      <h3 class="text-[15px] font-bold text-neutral-800">Không tìm thấy nội dung phù hợp</h3>
+      <p class="text-xs text-neutral-500 mt-1 max-w-xs mx-auto">Thử tìm kiếm với từ khóa khác như "xe", "phở", "Đắk Lắk", hoặc nhấn Tất cả để xem lại toàn bộ.</p>
+      <button onclick="resetFilter()" class="mt-4 px-4 py-2 bg-[#F9372D] text-white text-xs font-bold rounded-full shadow-sm active:scale-95 transition-all">Xem tất cả</button>
+    </div>
+
+  </div>
+
+  <!-- FIXED BOTTOM NAVIGATION BAR -->
+  <nav role="tablist" aria-label="Thanh điều hướng chính" class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200/90 px-6 py-2 flex items-center justify-between z-30 max-w-[480px] mx-auto shadow-md backdrop-blur-md">
+    
+    <!-- Tab 1: Trang chủ (Active Red) -->
+    <button role="tab" aria-selected="true" onclick="resetFilter()" class="touch-target flex flex-col items-center text-[#F9372D] active:scale-95 transition-all focus:outline-none">
+      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span class="text-[11px] font-extrabold mt-0.5">Trang chủ</span>
+      <div class="w-3.5 h-0.5 bg-[#F9372D] rounded-full mt-0.5"></div>
+    </button>
+
+    <!-- Tab 2: Đơn hàng -->
+    <button role="tab" aria-selected="false" onclick="location.href='10_screen_order_history.html'" class="touch-target flex flex-col items-center text-neutral-500 hover:text-neutral-900 active:scale-95 transition-all focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      <span class="text-[11px] font-medium mt-0.5">Đơn hàng</span>
+    </button>
+
+    <!-- Tab 3: Hoạt động -->
+    <button role="tab" aria-selected="false" onclick="location.href='16_screen_dispatch_admin_dashboard.html'" class="touch-target relative flex flex-col items-center text-neutral-500 hover:text-neutral-900 active:scale-95 transition-all focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      <span class="absolute 1 right-2.5 w-2 h-2 bg-[#F9372D] rounded-full"></span>
+      <span class="text-[11px] font-medium mt-0.5">Hoạt động</span>
+    </button>
+
+    <!-- Tab 4: Tin nhắn / Cá nhân -->
+    <button role="tab" aria-selected="false" onclick="location.href='12_screen_user_wallet_profile.html'" class="touch-target relative flex flex-col items-center text-neutral-500 hover:text-neutral-900 active:scale-95 transition-all focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      <span class="absolute 0.5 right-2 w-4 h-4 bg-[#F9372D] text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span>
+      <span class="text-[11px] font-medium mt-0.5">Tin nhắn</span>
+    </button>
+
+  </nav>
+
+  <!-- QUICK CARD DETAIL BOTTOM SHEET MODAL (Xem chi tiết ảnh & Đặt xe/đồ ăn ngay) -->
+  <div id="card-detail-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex-col justify-end" onclick="closeCardDetail(event)">
+    <div class="bg-white rounded-t-3xl max-w-[480px] mx-auto w-full max-h-[85vh] overflow-y-auto no-scrollbar shadow-2xl animate-slide-up" onclick="event.stopPropagation()">
+      
+      <!-- Drag handle -->
+      <div class="w-12 h-1 bg-neutral-300 rounded-full mx-auto my-3"></div>
+
+      <!-- Detail Content -->
+      <div class="p-5 pt-0 space-y-4">
+        <!-- Image Preview -->
+        <div class="relative rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200">
+          <img id="detail-image" src="" alt="Chi tiết hình ảnh" class="w-full max-h-72 object-cover">
+          <div class="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-sm text-white text-xs font-semibold flex items-center space-x-1">
+            <span id="detail-location-icon">📍</span>
+            <span id="detail-location">Vị trí</span>
+          </div>
+        </div>
+
+        <!-- Meta info -->
+        <div>
+          <div class="flex items-center justify-between text-xs text-neutral-500 mb-1">
+            <span id="detail-author" class="font-bold text-neutral-800">@tacgia</span>
+            <span class="flex items-center space-x-1 text-[#F9372D] font-bold">
+              <span>❤️</span>
+              <span id="detail-likes">100K</span>
+            </span>
+          </div>
+          <h2 id="detail-title" class="text-base font-extrabold text-neutral-900 leading-snug">Tiêu đề bài viết</h2>
+        </div>
+
+        <!-- Direct Action Bar -->
+        <div class="grid grid-cols-2 gap-2.5 pt-2">
+          <button onclick="bookRideToLocation()" class="h-11 rounded-xl bg-[#F9372D] text-white text-xs font-bold flex items-center justify-center space-x-1.5 shadow-md shadow-red-500/20 active:scale-95 transition-all">
+            <span>🛵</span>
+            <span>Đặt xe đến đây</span>
+          </button>
+          <button onclick="shareCard()" class="h-11 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-bold flex items-center justify-center space-x-1.5 active:scale-95 transition-all">
+            <span>↗️</span>
+            <span>Chia sẻ bài viết</span>
+          </button>
+        </div>
+
+        <!-- Close button -->
+        <button onclick="closeCardDetail()" class="w-full py-2.5 text-center text-xs font-semibold text-neutral-400 hover:text-neutral-700">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL 8 SERVICES BOTTOM DRAWER MODAL -->
+  <div id="service-drawer" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden flex-col justify-end" onclick="toggleServiceDrawer()">
+    <div class="bg-white rounded-t-3xl p-5 space-y-4 shadow-2xl max-w-[480px] mx-auto w-full animate-slide-up" onclick="event.stopPropagation()">
+      <div class="w-12 h-1 bg-neutral-300 rounded-full mx-auto"></div>
+      <div class="flex items-center justify-between">
+        <h3 class="text-[16px] font-extrabold text-neutral-900">Tất Cả 8 Dịch Vụ GO</h3>
+        <button onclick="toggleServiceDrawer()" class="touch-target text-neutral-400 hover:text-neutral-800 text-lg flex items-center justify-center">✕</button>
+      </div>
+      <div class="grid grid-cols-4 gap-3 text-center text-xs font-bold text-neutral-800 pt-1">
+        <div onclick="location.href='02_screen_ride_hailing.html'" class="p-2.5 rounded-2xl bg-red-50 hover:bg-red-100 flex flex-col items-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">🛵</span>
+          <span>Đặt xe</span>
+        </div>
+        <div onclick="location.href='03_screen_delivery.html'" class="p-2.5 rounded-2xl bg-amber-50 hover:bg-amber-100 flex flex-col items-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">📦</span>
+          <span>Giao hàng</span>
+        </div>
+        <div onclick="location.href='04_screen_food_discovery.html'" class="p-2.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 flex flex-col items-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">🍔</span>
+          <span>Đồ ăn</span>
+        </div>
+        <div onclick="location.href='11_screen_voucher_promotions.html'" class="p-2.5 rounded-2xl bg-blue-50 hover:bg-blue-100 flex flex-col items-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">🎟️</span>
+          <span>Ưu đãi</span>
+        </div>
+        <div onclick="location.href='07_screen_driver_console.html'" class="p-2.5 rounded-2xl bg-purple-50 hover:bg-purple-100 flex flex-col items-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">🚖</span>
+          <span>Tài xế</span>
+        </div>
+        <div onclick="location.href='12_screen_user_wallet_profile.html'" class="p-2.5 rounded-2xl bg-rose-50 hover:bg-rose-100 flex flex-col items-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">💳</span>
+          <span>Ví GO</span>
+        </div>
+        <div onclick="location.href='16_screen_dispatch_admin_dashboard.html'" class="p-2.5 rounded-2xl bg-neutral-100 hover:bg-neutral-200 flex flex-col items-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">🗺️</span>
+          <span>Điều phối</span>
+        </div>
+        <div onclick="location.href='15_screen_driver_registration.html'" class="p-2.5 rounded-2xl bg-green-50 hover:bg-green-100 flex flex-col items-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">📝</span>
+          <span>Đăng ký</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Home Indicator (iPhone Bottom Bar) -->
+  <div class="fixed bottom-1 left-0 right-0 flex justify-center pointer-events-none z-40">
+    <div class="w-32 h-1 bg-black/25 rounded-full"></div>
+  </div>
+
+  <!-- JAVASCRIPT STATE CONTROLLER (ZERO BLOAT PURE NATIVE JS) -->
+  <script>
+    // Live Clock Simulation
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const el = document.getElementById('live-clock');
+      if (el) el.textContent = `${h}:${m}`;
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    // Search Toggle
+    function toggleSearchBar() {
+      const box = document.getElementById('quick-search-box');
+      box.classList.toggle('hidden');
+      if (!box.classList.contains('hidden')) {
+        const inp = document.getElementById('feed-search-input');
+        inp.focus();
+      }
+    }
+
+    function clearSearch() {
+      const inp = document.getElementById('feed-search-input');
+      inp.value = '';
+      document.getElementById('clear-search-btn').classList.add('hidden');
+      handleSearch('');
+    }
+
+    function applySearchTag(tag) {
+      const inp = document.getElementById('feed-search-input');
+      inp.value = tag;
+      document.getElementById('clear-search-btn').classList.remove('hidden');
+      handleSearch(tag);
+    }
+
+    function handleSearch(query) {
+      const q = query.trim().toLowerCase();
+      const clearBtn = document.getElementById('clear-search-btn');
+      if (q.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+
+      const cards = document.querySelectorAll('.feed-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+        if (!q || tags.includes(q)) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      const empty = document.getElementById('feed-empty-state');
+      if (visibleCount === 0) {
+        empty.classList.remove('hidden');
+      } else {
+        empty.classList.add('hidden');
+      }
+    }
+
+    // Category Filtering Controller
+    let currentFilter = 'all';
+    function filterCategory(cat) {
+      currentFilter = cat;
+      const pills = document.querySelectorAll('.category-pill');
+      pills.forEach(p => {
+        p.className = 'category-pill px-4 py-2 rounded-full bg-[#F5EFEB] hover:bg-[#EFE7E2] text-neutral-800 font-bold text-[13px] active:scale-95 transition-all shrink-0';
+      });
+
+      const activePill = document.getElementById(`pill-${cat}`);
+      if (activePill) {
+        activePill.className = 'category-pill px-4 py-2 rounded-full bg-[#F9372D] text-white font-extrabold text-[13px] shadow-sm shadow-red-500/25 active:scale-95 transition-all shrink-0';
+      }
+
+      const banner = document.getElementById('filter-banner');
+      const bannerIcon = document.getElementById('filter-banner-icon');
+      const bannerText = document.getElementById('filter-banner-text');
+
+      if (cat === 'all') {
+        banner.classList.add('hidden');
+        handleSearch('');
+      } else {
+        banner.classList.remove('hidden');
+        if (cat === 'ride') {
+          bannerIcon.textContent = '🛵';
+          bannerText.textContent = 'Đang xem: Đặt xe Krông Pắk & Tuyến Đắk Lắk';
+          filterCardsByTag(['ride', 'xe', 'banner']);
+        } else if (cat === 'delivery') {
+          bannerIcon.textContent = '📦';
+          bannerText.textContent = 'Đang xem: Dịch vụ Giao hàng & Bưu kiện COD';
+          filterCardsByTag(['delivery', 'giao hang', 'banner']);
+        } else if (cat === 'food') {
+          bannerIcon.textContent = '🍗';
+          bannerText.textContent = 'Đang xem: Món ngon, Đồ ăn & Ưu đãi KFC';
+          filterCardsByTag(['food', 'am thuc', 'pho', 'mon ngon']);
+        }
+      }
+    }
+
+    function filterCardsByTag(keywords) {
+      const cards = document.querySelectorAll('.feed-card');
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+        const matches = keywords.some(k => tags.includes(k));
+        if (matches) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      const empty = document.getElementById('feed-empty-state');
+      if (visibleCount === 0) empty.classList.remove('hidden');
+      else empty.classList.add('hidden');
+    }
+
+    function resetFilter() {
+      filterCategory('all');
+      clearSearch();
+      const box = document.getElementById('quick-search-box');
+      box.classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Service Drawer
+    function toggleServiceDrawer() {
+      const drawer = document.getElementById('service-drawer');
+      drawer.classList.toggle('hidden');
+      drawer.classList.toggle('flex');
+    }
+
+    // Like Toggle Functions
+    function toggleLike(btn, baseCount, event) {
+      if (event) event.stopPropagation();
+      const heart = btn.querySelector('.heart-icon');
+      const count = btn.querySelector('.like-count');
+      const isLiked = heart.textContent === '❤️';
+      
+      heart.classList.add('bounce-heart');
+      setTimeout(() => heart.classList.remove('bounce-heart'), 350);
+
+      if (isLiked) {
+        heart.textContent = '🤍';
+        count.textContent = baseCount + 'K';
+      } else {
+        heart.textContent = '❤️';
+        count.textContent = (baseCount + 1) + 'K';
+      }
+    }
+
+    function toggleHeartOnly(btn, event) {
+      if (event) event.stopPropagation();
+      const span = btn.querySelector('.heart-icon') || btn.querySelector('span');
+      span.classList.add('bounce-heart');
+      setTimeout(() => span.classList.remove('bounce-heart'), 350);
+
+      if (span.textContent === '❤️') {
+        span.textContent = '🤍';
+      } else {
+        span.textContent = '❤️';
+      }
+    }
+
+    // Double Tap Burst Like
+    function triggerBurstLike(container, likeBtnId) {
+      // Create floating heart element
+      const burst = document.createElement('div');
+      burst.className = 'absolute top-1/2 left-1/2 text-5xl pointer-events-none burst-animation z-20';
+      burst.textContent = '❤️';
+      container.appendChild(burst);
+      setTimeout(() => burst.remove(), 750);
+
+      // Trigger button like
+      if (likeBtnId) {
+        const btn = document.getElementById(likeBtnId);
+        if (btn) {
+          const heart = btn.querySelector('.heart-icon');
+          if (heart && heart.textContent !== '❤️') {
+            btn.click();
+          }
+        }
+      }
+    }
+
+    // Card Detail Bottom Sheet
+    let activeCardLocation = '';
+    function openCardDetail(id, title, imgSrc, locationText, likes, author) {
+      const modal = document.getElementById('card-detail-modal');
+      document.getElementById('detail-image').src = imgSrc;
+      document.getElementById('detail-title').textContent = title;
+      document.getElementById('detail-location').textContent = locationText;
+      document.getElementById('detail-likes').textContent = likes;
+      document.getElementById('detail-author').textContent = author;
+      activeCardLocation = locationText;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCardDetail() {
+      const modal = document.getElementById('card-detail-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function bookRideToLocation() {
+      closeCardDetail();
+      location.href = '02_screen_ride_hailing.html';
+    }
+
+    function shareCard() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Khám phá trên GO App',
+          text: document.getElementById('detail-title').textContent,
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        alert('Đã sao chép liên kết bài viết vào bộ nhớ tạm!');
+      }
+    }
+
+    function openCardOptions(id, event) {
+      if (event) event.stopPropagation();
+      alert('Tùy chọn: Đã lưu vào mục Yêu Thích của bạn trên GO!');
+    }
+  </script>
+
+</body>
+</html>

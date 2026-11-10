@@ -1,0 +1,112 @@
+{
+  "screen_code": "DXP-UI-04",
+  "screen_slug": "ban-tai-xe-doi-tac",
+  "version": "2.4.0-PROD",
+  "block_1_meta_context": {
+    "screen_id": "SCREEN_04_DRIVER_PARTNER_CONSOLE",
+    "name_vi": "Màn Hình Tài Xế Đối Tác Chở Khách & Giao Đồ Ăn",
+    "name_en": "Driver Partner Dispatch Console & Telematics Radar",
+    "role": "driver",
+    "domain": "Điều phối đội xe, viễn thông di động & Quản lý thu nhập tài xế",
+    "territory": "Toàn tuyến huyện Krông Pắk, Krông Ana và các cung đường về Buôn Ma Thuột",
+    "design_objective": "Cung cấp bảng điều khiển chuyên dụng cho tài xế xe tiện chuyến và xe ôm, nhận cuốc chở khách hoặc nhận đơn ship đồ ăn bằng âm thanh còi hú, xem rõ tiền thu khách và tiền thực nhận.",
+    "simplicity_principle": "Giao diện độ tương phản cực cao (High Contrast Dark Slate) giúp tài xế quan sát an toàn ngay cả khi đang lái xe ngoài trời nắng."
+  },
+  "block_2_design_tokens": {
+    "color_palette": {
+      "online_green": "#10B981",
+      "alert_border": "#00B14F",
+      "surface_base": "#090D16",
+      "surface_card": "#0F172A",
+      "surface_inner": "#020617",
+      "text_primary": "#FFFFFF",
+      "text_highlight": "#34D399",
+      "fare_orange": "#F97316"
+    },
+    "typography": {
+      "font_family": "Plus Jakarta Sans, sans-serif",
+      "driver_title": "13px / Bold 700",
+      "fare_display": "18px / ExtraBold 800",
+      "net_payout": "11px / Bold 700"
+    },
+    "border_radius": {
+      "alert_box": "20px",
+      "action_btn": "14px",
+      "switch_pill": "9999px"
+    },
+    "elevation": "0 15px 35px rgba(0, 177, 79, 0.25)"
+  },
+  "block_3_layout_wireframe": {
+    "viewport": "Mobile portrait mounted on car dash / phone holder (390x844px)",
+    "header_telematics": "Thanh trạng thái gồm: Tên tài xế (Ba Cường), biển số 47A, nút gạt 'Đang Bật Nhận Cuốc' màu xanh lá",
+    "radar_map_zone": "Bản đồ radar mini (chiều cao 180px) hiển thị vị trí GPS trực tiếp và bán kính quét 3km",
+    "incoming_order_zone": "Hộp cảnh báo nổ cuốc viền xanh emerald phát xung radar, hiển thị điểm đón, điểm trả, giá thu và tiền ròng",
+    "wallet_ledger_zone": "Khối tài chính ví thu nhập hiển thị số dư khả dụng và nút 'Rút Về Napas 247'",
+    "active_schedule_zone": "Danh sách lịch trình các chuyến hoặc đơn đồ ăn đang chở"
+  },
+  "block_4_components_breakdown": {
+    "components": [
+      {
+        "id": "driver_profile_bar",
+        "type": "Driver Telematics Status",
+        "fields": ["Tài xế Ba Cường (Xpander 7 Chỗ)", "Biển số: 47A-528.39", "Đánh giá: 4.95 ⭐"]
+      },
+      {
+        "id": "online_toggle_switch",
+        "type": "Pill State Toggle",
+        "states": ["Đang Bật Nhận Cuốc (Xanh lá)", "Tạm Nghỉ (Xám)"]
+      },
+      {
+        "id": "incoming_ride_alert_card",
+        "type": "High Priority Dispatch Modal/Card",
+        "fields": {
+          "badge": "CUỐC XE MỚI ĐẾN (Âm còi hú siren 750Hz-950Hz)",
+          "origin": "Chợ TT. Phước An, Krông Pắk",
+          "destination": "Bệnh Viện Đa Khoa Vùng Tây Nguyên",
+          "seats_desc": "Khách đi khám bệnh sáng (1 ghế)",
+          "gross_fare": "50.000đ",
+          "net_payout": "42.000đ (Đã trừ 16% phí sàn DXP)"
+        },
+        "actions": ["Bỏ qua", "Nhận Ngay"]
+      },
+      {
+        "id": "wallet_balance_card",
+        "type": "Financial Ledger Box",
+        "fields": ["Số dư ví: 1.250.000đ", "Hoàn thành: 11 cuốc hôm nay"],
+        "cta": "Rút Về Napas 247"
+      }
+    ]
+  },
+  "block_5_state_machine_interactions": {
+    "states": [
+      {"state": "ONLINE_SEARCHING", "display": "Bản đồ quét radar tròn đều đặn, tài xế chờ đơn"},
+      {"state": "DISPATCH_INCOMING", "display": "Phát còi hú cảnh báo liên tục, hộp đơn viền xanh phát sáng nhịp tim, đếm ngược 15 giây"},
+      {"state": "TRIP_ACCEPTED", "display": "Khóa cuốc độc quyền trên server, hiển thị lộ trình đón khách và nút liên hệ"},
+      {"state": "TRIP_COMPLETED", "display": "Tự động cộng 84% tiền cước vào ví, hiển thị số dư mới tức thì"}
+    ],
+    "micro_interactions": "Nút 'Nhận Ngay' to bản chiếm 60% chiều ngang, bảo đảm tài xế bấm chính xác ngay lần chạm đầu tiên."
+  },
+  "block_6_midjourney_v6_prompt": {
+    "prompt_raw": "A sleek mobile app UI design of a Driver Partner dispatch console for ride-hailing and food delivery. Top status bar shows: Driver name 'Ba Cường (Xpander 7 Chỗ - 47A-528.39)', active toggle switch 'Đang Bật Nhận Cuốc' in bright emerald green. Upper section has a compact GPS radar map around Krông Pắk. Below is an urgent glowing incoming order popup card: 'CUỐC XE MỚI - ĐÓN TẠI: Chợ TT. Phước An -> TRẢ: BV Vùng Tây Nguyên', passenger note 'Khách đi khám bệnh sáng', fare 50.000đ, driver net payout 42.000đ. Green button 'Nhận Ngay' and grey 'Bỏ qua'. Bottom shows wallet balance '1.250.000đ' with 'Rút Về Napas 247'. High-contrast dark mode slate #0F172A, professional driver telematics UI, crisp typography, 8k --ar 9:16 --v 6.0",
+    "aspect_ratio": "--ar 9:16",
+    "version_param": "--v 6.0",
+    "style_param": "--style raw"
+  },
+  "block_7_dalle3_flux_sdxl_prompts": {
+    "dalle_3": "Driver partner mobile application screen for ride-hailing and food delivery. Top status bar shows driver name, vehicle plate, and online green toggle. Middle features a map radar and an urgent incoming ride order card with origin, destination, fare of 50.000đ, and big green 'Nhận Ngay' button. Bottom shows driver digital wallet balance of 1.250.000đ with Napas withdrawal button. Dark slate theme, high visibility.",
+    "flux_sdxl": "driver telematics interface, mobile app UI, dark mode #090D16, neon green accents #00B14F, GPS radar map, incoming ride notification card, financial wallet widget, high contrast for outdoor visibility, professional software engineering, Figma presentation",
+    "negative_prompt": "blurry, low contrast, daytime glare, toy car, unreadable numbers, messy wiring, complex unusable UI"
+  },
+  "block_8_code_tailwind_figma_specs": {
+    "alert_card_classes": "p-3.5 rounded-2xl bg-slate-950 border-2 border-emerald-500 shadow-xl shadow-emerald-500/20 space-y-3 relative overflow-hidden",
+    "btn_accept_classes": "px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-xs font-bold text-white shadow-lg shadow-emerald-500/30 flex items-center gap-1 active:scale-95",
+    "wallet_box_classes": "p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3",
+    "figma_layer_hierarchy": "FrameDriver > TelematicsHeader > MiniRadarMap > IncomingAlertCard [SirenBadge + RouteDetails + PricingSplit + ActionButtons] > WalletDesk > ActiveTripsList"
+  },
+  "block_9_verification_checklist": {
+    "outdoor_readability": "Màu nền đen tuyền #020617 kết hợp chữ số trắng to bản 18px đọc rõ ở khoảng cách 1 mét",
+    "mutex_safety": "Được bảo vệ bằng thuật toán khóa cấp hàng (Row-level lock), triệt tiêu hoàn toàn khả năng 2 tài xế nhận trùng 1 cuốc",
+    "offline_resilience": "Tự động lưu bộ nhớ đệm khi đi qua cung đường lõm sóng 4G, tự đồng bộ khi có sóng"
+  }
+}
+

@@ -1,0 +1,385 @@
+Em {
+  "project": {
+    "name": "ĐẮK LẮK EXPRESS (DXP)",
+    "full_title": "Nền tảng Điều phối Đi Lại Nơi Chốn & Đặt Món Quán Xá Địa Phương",
+    "version": "2.4.0-PROD",
+    "territory": {
+      "province": "Đắk Lắk",
+      "districts": [
+        "Huyện Krông Pắk",
+        "Huyện Krông Ana",
+        "Thành phố Buôn Ma Thuột"
+      ],
+      "key_corridors": [
+        "QL26: TT. Phước An ⇄ Xã Ea Knuèc ⇄ TP. Buôn Ma Thuột (32km)",
+        "Tỉnh lộ 2: TT. Buôn Trấp ⇄ Xã Dray Sáp ⇄ TP. Buôn Ma Thuột (28km)",
+        "Tuyến liên huyện: TT. Phước An ⇄ TT. Buôn Trấp (35km)"
+      ]
+    },
+    "core_domains": [
+      "Đi lại nơi chốn & Gọi xe tiện chuyến liên huyện (Grab/Be model)",
+      "Đặt món ăn & nước uống nóng hổi từ các quán xá (ShopeeFood/GrabFood model)",
+      "Video ngắn review quán ngon & check-in nơi chốn (TikTok short feed model)",
+      "Bàn điều phối tổng đài & Tài xế telematics kết nối ví VietQR Napas 247"
+    ],
+    "last_updated": "2026-11-05"
+  },
+  "design_system": {
+    "color_palette": {
+      "transport_primary": {
+        "hex": "#00B14F",
+        "name": "Grab Emerald Green",
+        "usage": "Nút hành động chính, ghim điểm đón, trạng thái trực tuyến, giá cước xe"
+      },
+      "transport_dark": {
+        "hex": "#047857",
+        "name": "Deep Forest Green",
+        "usage": "Gradient nền, hover states, header thương hiệu"
+      },
+      "food_primary": {
+        "hex": "#EE4D2D",
+        "name": "ShopeeFood Vibrant Orange",
+        "usage": "Nút đặt món, giá tiền món ăn, giỏ hàng, thẻ giảm giá flash sale"
+      },
+      "food_warm": {
+        "hex": "#F97316",
+        "name": "Warm Food Amber",
+        "usage": "Tag danh mục món ăn, huy hiệu giao hỏa tốc 20 phút"
+      },
+      "tiktok_accent": {
+        "hex": "#FE2C55",
+        "name": "TikTok Neon Coral",
+        "usage": "Nút like, thả tim video, thẻ review quán ăn nổi bật"
+      },
+      "yellow_anchor": {
+        "hex": "#FACC15",
+        "name": "TikTok Yellow Anchor Basket",
+        "usage": "Thẻ vàng liên kết món ăn và địa điểm trên video ngắn"
+      },
+      "background_dark": {
+        "hex": "#090D16",
+        "name": "Night Obsidian Slate",
+        "usage": "Màu nền ứng dụng toàn màn hình, khung viền chống mỏi mắt"
+      },
+      "surface_elevated": {
+        "hex": "#0F172A",
+        "name": "Slate Navy 900",
+        "usage": "Card chứa nội dung, bottom sheet, modal backdrop, thanh điều hướng"
+      },
+      "surface_card": {
+        "hex": "#1E293B",
+        "name": "Slate 800",
+        "usage": "Khối nhập liệu, viền thẻ món ăn, nền nút bấm phụ"
+      },
+      "text_primary": {
+        "hex": "#F8FAFC",
+        "name": "Pure Crisp White",
+        "usage": "Tiêu đề chính, giá cước, thông tin quan trọng"
+      },
+      "text_muted": {
+        "hex": "#94A3B8",
+        "name": "Muted Slate Gray",
+        "usage": "Địa chỉ phụ, mô tả món ăn, thời gian chờ, số lượng đã bán"
+      }
+    },
+    "typography": {
+      "font_family_sans": "Plus Jakarta Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif",
+      "font_family_display": "Space Grotesk, sans-serif",
+      "scale": {
+        "h1": "20px / Bold 700",
+        "h2": "16px / SemiBold 600",
+        "h3": "14px / SemiBold 600",
+        "body": "12px / Medium 500",
+        "caption": "10px / Regular 400",
+        "micro": "9px / Bold 700"
+      }
+    },
+    "spacing_grid": "4px baseline grid (4, 8, 12, 16, 20, 24, 32px)",
+    "border_radius": {
+      "button": "12px",
+      "card": "16px",
+      "sheet": "28px rounded-t",
+      "pill": "9999px"
+    },
+    "shadows": {
+      "soft_elevation": "0 10px 25px -5px rgba(0, 0, 0, 0.4)",
+      "glow_green": "0 8px 20px rgba(0, 177, 79, 0.25)",
+      "glow_orange": "0 8px 20px rgba(238, 77, 45, 0.25)"
+    }
+  },
+  "screens": [
+    {
+      "screen_id": "SCREEN_01_RIDE_HAILING_MAP",
+      "name_vi": "Màn Hình Đi Lại Nơi Chốn & Ghép Chuyến Tiện Lợi",
+      "name_en": "Local Hub Ride-Hailing & Carpool Interface",
+      "role": "customer",
+      "target_platform": "Mobile PWA (iOS / Android)",
+      "aspect_ratio": "9:16",
+      "device_mockup": "iPhone 16 Pro, Deep Blue Titanium Frame",
+      "prompts": {
+        "midjourney_v6": "A hyper-detailed, award-winning mobile UI/UX design of a modern ride-hailing app for local districts in Vietnam, presented on an iPhone 16 Pro mockup. Top status bar shows: 'TT. Phước An, Krông Pắk, Đắk Lắk' with clear GPS location pin. The upper half features a clean interactive vector map with street networks, rivers, and accurate pins displaying nearby 7-seater cars and scooters. Route polyline drawn in emerald green connecting Phước An to Buôn Ma Thuột. The lower half features a dark obsidian bottom sheet with glassmorphism texture containing: 1. Location inputs: Origin 'Chợ TT. Phước An' with green dot, Destination 'Ngã 6 Buôn Ma Thuột' with red dot. 2. Three vehicle selector cards: Card 1 highlighted in bold green 'Xe Ghép Tiện Chuyến - 35.000đ/ghế', Card 2 'Bao Xe Gia Đình 4-7 Chỗ - 180.000đ', Card 3 'Xe Ôm / Ship Đón Nhanh - 30.000đ'. 3. A large pill button in vibrant Grab green #00B14F: 'ĐẶT XE NGAY'. Ultra high resolution 8k, Figma design showcase on Dribbble and Behance, soft studio lighting, crisp Vietnamese typography, zero artifacts --ar 9:16 --v 6.0",
+        "dalle_3": "Sleek mobile app interface for a Vietnamese rural-district ride hailing app called Đắk Lắk Express on an iPhone. The screen has a vector map on top with a route polyline between Phước An market and Buôn Ma Thuột city center with vehicle pins. Bottom half has dark mode cards with options for carpooling (Xe ghép 35.000đ), private car (Bao xe 180.000đ), and scooter (Xe ôm 30.000đ). Primary button is vivid emerald green with text 'Đặt Xe Ngay'. Clean typography, modern UI design, Behance trending.",
+        "flux_sdxl": "masterpiece, best quality, mobile UI design, ride-hailing app, dark obsidian background #090D16, emerald green accents #00B14F, Leaflet vector map with route polyline, local Vietnamese landmarks, transport pricing cards, iPhone 16 Pro mockup, sharp focus, clean UI elements, modern graphic design, 8k resolution"
+      },
+      "negative_prompt": "blurry, low resolution, pixelated, ugly fonts, broken map tiles, cropped buttons, messy layout, durian fruit, agriculture crops, 3d cartoon characters, unreadable text",
+      "ui_specifications": {
+        "header": "Current GPS Location Hub with District name & Weather indicator",
+        "map_viewport": "Leaflet / Mapbox CartoDB Voyager style with Đắk Lắk coordinates",
+        "hubs_selector": [
+          "TT. Phước An, Krông Pắk (Chợ & TT Y Tế)",
+          "Xã Ea Knuèc (Km 19 QL26 - Phố Cà phê)",
+          "TT. Buôn Trấp, Krông Ana (Bến xe & Phố Ẩm thực)",
+          "Khu Thác Dray Sáp (Điểm Du lịch)",
+          "Ngã 6 Buôn Ma Thuột (Trung tâm TP)",
+          "Bến Xe Liên Tỉnh Đắk Lắk (Km 4)",
+          "Bệnh Viện Đa Khoa Vùng Tây Nguyên"
+        ],
+        "fare_tiers": [
+          {
+            "type": "carpool",
+            "label": "Xe Ghép Tiện Chuyến",
+            "fare": "35.000đ - 50.000đ/ghế"
+          },
+          {
+            "type": "private_car",
+            "label": "Bao Xe 4-7 Chỗ",
+            "fare": "180.000đ - 250.000đ"
+          },
+          {
+            "type": "bike_express",
+            "label": "Xe Ôm / Giao Hàng",
+            "fare": "15.000đ - 30.000đ"
+          }
+        ],
+        "action_cta": "Đặt Xe Ngay (Bắn cuốc xuống mạng lưới tài xế trong bán kính 3km)"
+      }
+    },
+    {
+      "screen_id": "SCREEN_02_FOOD_RESTAURANT_MENU",
+      "name_vi": "Màn Hình Quán Ăn & Món Ngon Địa Phương (ShopeeFood / GrabFood)",
+      "name_en": "Local Restaurant Storefront & Hot Dishes Catalog",
+      "role": "customer",
+      "target_platform": "Mobile PWA (iOS / Android)",
+      "aspect_ratio": "9:16",
+      "device_mockup": "iPhone 16 Pro, Natural Titanium Bezel",
+      "prompts": {
+        "midjourney_v6": "An ultra-modern mobile app UI screen displaying local Vietnamese restaurant menu and food delivery, inspired by ShopeeFood and GrabFood, shown on an iPhone 16 Pro mockup. Top header shows restaurant profile: 'Quán Ăn Cô Ba - Cổng Chợ Phước An', verified blue badge, 4.9 star rating (680 reviews), and an orange tag 'Giao nóng hổi trong 20 phút'. Below is a horizontal scrolling pill filter bar: 'Tất cả quán', 'Bún Đỏ & Phở Khô', 'Cơm Tấm Sườn Nướng', 'Trà Sữa & Cà Phê', 'Món Ăn Vặt'. The main catalog is a 2-column food grid with delicious high-end photography: 1. Steaming hot Đắk Lắk Red Noodle Soup (Bún Đỏ) with quail eggs, crab roe, and crispy pork crackling (35.000đ). 2. Charcoal-grilled pork chop broken rice (Cơm Tấm Sườn) with fried egg (35.000đ). 3. Gia Lai Dry Pho (Phở Khô Hai Tô) with beef broth (45.000đ). 4. Steamed rice sheets with grilled pork (Bánh Ướt Chồng Đĩa - 40.000đ). 5. Brown sugar boba milk tea with cream cheese (28.000đ). Bright ShopeeFood orange #EE4D2D price tags, rounded orange '+' add to cart buttons, bottom floating cart summary pill with 2 items (85.000đ). Clean Vietnamese typography, Figma presentation style, hyperrealistic 8k render --ar 9:16 --v 6.0",
+        "dalle_3": "Mobile app UI screen for local Vietnamese restaurant delivery in Đắk Lắk. Top banner features a restaurant header with 'Quán Ăn Cô Ba'. Food category pills for noodles, broken rice, milk tea. 2-column food grid featuring authentic Vietnamese dishes: Bún Đỏ red noodles, Cơm Tấm pork chop rice, Phở Khô, and boba milk tea. Vibrant food photography, orange prices in VNĐ, '+' buttons, and floating bottom cart bar. Clean dark slate background, modern UI.",
+        "flux_sdxl": "professional UI design, food delivery mobile application, ShopeeFood style, appetizing photography of Vietnamese dishes, Bún Đỏ Đắk Lắk, Cơm Tấm, Phở Khô, dark mode #090D16, orange accents #EE4D2D, crisp typography, 2-column card grid, high contrast, clean interface, Figma Dribbble trending"
+      },
+      "negative_prompt": "raw durian, agricultural harvest, tractors, fruit trees, cartoonish food, messy layout, text cut off, unappetizing food, blurry images",
+      "ui_specifications": {
+        "hero_banner": "Giao Món Hỏa Tốc: Quán Ăn & Món Ngon Địa Phương giao nóng trong 20-30 phút",
+        "categories": [
+          {
+            "id": "all",
+            "label": "Tất cả quán"
+          },
+          {
+            "id": "food",
+            "label": "Bún, Phở & Cơm Tấm"
+          },
+          {
+            "id": "drink",
+            "label": "Trà Sữa & Cà Phê"
+          },
+          {
+            "id": "snack",
+            "label": "Ăn Vặt & Món Nhậu"
+          }
+        ],
+        "sample_dishes": [
+          {
+            "name": "Bún Đỏ Đắk Lắk Đặc Biệt",
+            "price": 35000,
+            "unit": "tô",
+            "restaurant": "Quán Ăn Cô Ba (Chợ Phước An)"
+          },
+          {
+            "name": "Cơm Tấm Sườn Nướng Bì Chả Trứng",
+            "price": 35000,
+            "unit": "dĩa",
+            "restaurant": "Tiệm Cơm Bảy Nam (Buôn Trấp)"
+          },
+          {
+            "name": "Phở Khô Hai Tô Gia Lai (Bò Tái Bắp)",
+            "price": 45000,
+            "unit": "phần",
+            "restaurant": "Phở Khô Buôn Trấp"
+          },
+          {
+            "name": "Bún Chìa Bắp Bò Nước Dùng Thanh",
+            "price": 55000,
+            "unit": "tô",
+            "restaurant": "Quán Ăn Cô Ba"
+          },
+          {
+            "name": "Trà Sữa Trân Châu Đường Đen Full Topping",
+            "price": 28000,
+            "unit": "ly",
+            "restaurant": "Trà Sữa GenZ Phước An"
+          },
+          {
+            "name": "Cà Phê Sữa Đá Pha Phin Đậm Vị",
+            "price": 18000,
+            "unit": "ly",
+            "restaurant": "Cà Phê Mộc Cao Nguyên"
+          },
+          {
+            "name": "Mẹt Nem Chua Rán & Cá Viên Chiên",
+            "price": 40000,
+            "unit": "mẹt",
+            "restaurant": "Ăn Vặt GenZ Phước An"
+          }
+        ],
+        "shipping_guarantee": "Đồng giá ship 15.000đ toàn khu vực thị trấn bằng xe máy hỏa tốc"
+      }
+    },
+    {
+      "screen_id": "SCREEN_03_TIKTOK_FOOD_PLACES_REELS",
+      "name_vi": "Màn Hình Video Ngắn Review Quán & Nơi Chốn (TikTok Feed)",
+      "name_en": "Short-Form Video Feed with Dual Interactive Anchor Tag",
+      "role": "customer",
+      "target_platform": "Mobile PWA (iOS / Android)",
+      "aspect_ratio": "9:16",
+      "device_mockup": "iPhone 16 Pro, Edge-to-Edge Bezel-less Display",
+      "prompts": {
+        "midjourney_v6": "A full-screen vertical short-form video interface inspired by TikTok, displayed on an iPhone 16 Pro mockup. The video background shows a steaming hot, vibrant bowl of authentic Vietnamese Bún Đỏ noodle soup being scooped with fragrant red broth, quail eggs, and golden crackling at a lively street food restaurant stall in Phước An, Đắk Lắk. On the right vertical action bar: profile avatar with plus icon, heart like icon with count '14.2K', comment icon '420', share icon, and spinning vinyl music record at bottom right. On the bottom left, clean overlaid white text: '@quancoba: Tô bún đỏ nóng hổi chiều tan tầm tại Chợ Phước An, tóp mỡ giòn rụm giao tận nhà 20 phút! 📍 Chợ TT. Phước An, Krông Pắk'. Directly above the caption is an eye-catching floating golden-yellow interactive card (TikTok yellow basket style): on the left, a food icon with text 'Bún Đỏ Đặc Biệt - 35.000đ', on the right two pill buttons: 'ĐẶT MÓN' in yellow, and 'ĐẶT XE TỚI QUÁN' in Grab green. Immersive high-contrast mobile UI, vivid cinematic lighting, 8k resolution, award-winning social media UI design --ar 9:16 --v 6.0",
+        "dalle_3": "TikTok style full screen video interface for an iPhone showing a steaming bowl of Vietnamese street food noodles being prepared. Right side has TikTok interaction icons for likes, comments, and sharing. Bottom left has Vietnamese caption and a floating yellow product card with dish name 'Bún Đỏ Đặc Biệt 35.000đ' and two buttons: 'Đặt Món' and 'Đặt Xe Tới Quán'. Clean UI overlay, photorealistic.",
+        "flux_sdxl": "TikTok UI overlay, mobile app video player, vertical video background, authentic Vietnamese street food restaurant, steaming hot noodles, yellow anchor product badge, green call-to-action button, social media engagement icons, high resolution, photorealistic, professional interface design"
+      },
+      "negative_prompt": "orchards, durian trees, harvesting, raw crops, low quality video, distorted buttons, illegible text, fake icons, ugly blur",
+      "ui_specifications": {
+        "video_content": "Short video clips showcasing steaming street food dishes, cafe ambiances, and local destination viewpoints",
+        "social_interaction_rail": [
+          "Avatar follow",
+          "Heart like",
+          "Comment bubble",
+          "Share button",
+          "Audio vinyl disc"
+        ],
+        "dual_anchor_tag": {
+          "anchor_type": "Yellow Basket Style Interactive Callout",
+          "action_1": "Đặt Món Quán Này (Thêm ngay món ăn vào giỏ hàng và mở modal thanh toán)",
+          "action_2": "Đặt Xe Tới Quán (Tự động ghim địa chỉ quán vào màn hình gọi xe)"
+        }
+      }
+    },
+    {
+      "screen_id": "SCREEN_04_DRIVER_PARTNER_CONSOLE",
+      "name_vi": "Màn Hình Tài Xế Đối Tác Chở Khách & Giao Đồ Ăn",
+      "name_en": "Driver Partner Dispatch Console & Telematics Radar",
+      "role": "driver",
+      "target_platform": "Mobile Android App / PWA",
+      "aspect_ratio": "9:16",
+      "device_mockup": "Samsung Galaxy S24 Ultra / Rugged Mount Display",
+      "prompts": {
+        "midjourney_v6": "A professional mobile app UI design of a Driver Partner telematics and dispatch console, shown on a smartphone mounted on a car dashboard. Top header shows driver profile: 'Ba Cường (Xpander 7 Chỗ - 47A-528.39)', rating ⭐ 4.95, and a large illuminated toggle switch 'ĐANG BẬT NHẬN CUỐC' in glowing emerald green. The upper middle section features a compact GPS radar map showing driver position at 'Cổng Chợ Phước An' with scanning radar pulse animation. The center screen displays a prominent glowing incoming dispatch alert card with green pulse border: 'CUỐC XE MỚI - Đón: Chợ TT. Phước An ➔ Trả: BV Đa Khoa Vùng Tây Nguyên', passenger note 'Khách đi khám bệnh sáng', fare '50.000đ (Tài xế thực nhận 42.000đ sau trừ 16% phí sàn)'. Two large action buttons: 'Bỏ qua' (slate gray) and 'NHẬN NGAY' (large pulsating emerald green #00B14F). Bottom section displays financial ledger: Wallet balance '1.250.000đ', completed trips '11 cuốc hôm nay', and a button 'Rút Về Napas 247'. High-contrast dark mode #090D16, professional driver cockpit UX, crisp typography, 8k --ar 9:16 --v 6.0",
+        "dalle_3": "Driver partner mobile application screen for ride-hailing and food delivery. Top status bar shows driver name, vehicle plate, and online green toggle. Middle features a map radar and an urgent incoming ride order card with origin, destination, fare of 50.000đ, and big green 'Nhận Ngay' button. Bottom shows driver digital wallet balance of 1.250.000đ with Napas withdrawal button. Dark slate theme, high visibility.",
+        "flux_sdxl": "driver telematics interface, mobile app UI, dark mode #090D16, neon green accents #00B14F, GPS radar map, incoming ride notification card, financial wallet widget, high contrast for outdoor visibility, professional software engineering, Figma presentation"
+      },
+      "negative_prompt": "blurry, low contrast, daytime glare, toy car, unreadable numbers, messy wiring, complex unusable UI",
+      "ui_specifications": {
+        "header_telematics": "Driver Name, Vehicle Type (Car 7, Car 4, Scooter), Plate Number, Live Online Toggle",
+        "radar_map": "Live Leaflet GPS map showing current position & 3km pickup radius",
+        "incoming_order_card": {
+          "trigger": "Phát còi báo động Web Audio API Siren (750Hz-950Hz dual-tone)",
+          "data_fields": [
+            "Điểm đón",
+            "Điểm trả",
+            "Số lượng khách / Món ăn giao",
+            "Cước thu khách",
+            "Doanh thu ròng thực nhận 84%"
+          ],
+          "actions": [
+            "Bỏ qua (15s timeout)",
+            "Nhận Ngay (Khóa mutex chống nhận đúp)"
+          ]
+        },
+        "wallet_card": {
+          "balance_display": "Số dư ví khả dụng",
+          "payout_action": "Rút Về Napas 247 tức thì về Vietcombank, Agribank, MBBank",
+          "daily_stats": "Số cuốc hoàn thành & điểm uy tín"
+        }
+      }
+    },
+    {
+      "screen_id": "SCREEN_05_RESTAURANT_MERCHANT_CENTER",
+      "name_vi": "Kênh Quản Trị Chủ Quán Ăn & Bếp (Restaurant Center)",
+      "name_en": "Restaurant Merchant Center & Kitchen POS Dashboard",
+      "role": "seller",
+      "target_platform": "Tablet / Mobile Responsive",
+      "aspect_ratio": "9:16",
+      "device_mockup": "iPad Mini / iPhone 16 Pro Horizontal or Vertical",
+      "prompts": {
+        "midjourney_v6": "A modern Merchant Center mobile UI dashboard for local Vietnamese restaurant owners, presented on an iPhone 16 Pro mockup. Top header: 'Quán Ăn Cô Ba (Chợ Phước An)' with active status badge 'Đang Mở Cửa' in green and a button '+ Thêm Món Mới'. Top metrics row shows 3 KPI cards: 1. 'Đơn Chờ Làm: 2 đơn' in vibrant orange #EE4D2D, 2. 'Doanh Thu Quán: 3.450.000đ' in emerald green, 3. 'Tô Đã Bán: 85 tô' in white. Below is the active kitchen order queue: Card 1 shows 'Đơn #DXP-8921 - 2x Bún Đỏ Đặc Biệt, 1x Trà Sữa Trân Châu' for delivery to '15 Giải Phóng, TT. Phước An', delivery driver assigned 'Tài xế Tuấn (47B1-892.44)', with a bright orange button 'Xác Nhận Nấu Xong & Giao'. Lower section shows Menu Management: list of dishes with toggle switches (Bật/Tắt món còn hay hết) and stock counters. Dark obsidian slate theme, clean restaurant POS design, high contrast, award winning UI on Behance --ar 9:16 --v 6.0",
+        "dalle_3": "Restaurant merchant mobile app dashboard for a Vietnamese eatery. Top has restaurant name, open badge, and 3 metric cards for pending orders, daily sales of 3.450.000đ, and dishes sold. Order queue shows incoming food tickets with order items and 'Xác Nhận Nấu Xong' button. Menu section allows toggling dish availability. Professional POS layout, dark theme with orange highlights.",
+        "flux_sdxl": "restaurant POS mobile application, kitchen dashboard, order management system, dark theme #090D16, ShopeeFood orange #EE4D2D accents, daily sales statistics, order tickets, food menu toggles, high resolution, clean typography"
+      },
+      "negative_prompt": "orchard inventory, agriculture warehouse, durian crates, farm equipment, messy text, unorganized layout",
+      "ui_specifications": {
+        "store_header": "Restaurant Name, Address, Category (Bún, Phở, Cơm, Nước), Store Status (Mở / Đóng cửa)",
+        "kpi_metrics": [
+          "Đơn chờ bếp làm",
+          "Doanh thu trong ngày",
+          "Số phần ăn đã bán"
+        ],
+        "kitchen_queue": "Live list of pending food orders with customer name, items list, delivery address, driver status",
+        "menu_management": "Danh mục món ăn của quán: Cho phép bật/tắt món còn/hết tức thì và thêm món mới kèm giá"
+      }
+    },
+    {
+      "screen_id": "SCREEN_06_CALL_CENTER_DISPATCHER_DESK",
+      "name_vi": "Bàn Tổng Đài Điều Phối Trung Tâm (Dispatcher Desk)",
+      "name_en": "Central Dispatcher & Call-Center Telephony Console",
+      "role": "dispatch",
+      "target_platform": "Desktop / Tablet Web Console",
+      "aspect_ratio": "16:9",
+      "device_mockup": "MacBook Pro 16-inch / 4K Ultrawide Desktop Monitor",
+      "prompts": {
+        "midjourney_v6": "A high-end enterprise desktop UI dashboard for a transportation and food delivery dispatch center in Vietnam, shown on a sleek 16-inch MacBook Pro display. Top navigation bar: 'BÀN TỔNG ĐÀI ĐIỀU PHỐI DXP - HOTLINE: 0905.123.456', corridor indicators for 'Krông Pắk ⇄ Krông Ana ⇄ Buôn Ma Thuột'. Split-screen layout: Left panel (35% width) has a rapid telephone booking form for phone operators taking calls from elderly residents: fields for Caller Name, Phone, Origin Hub, Destination Hub, Notes (đi bệnh viện, giao đồ ăn), and a blue action button 'BẮN LỆNH ĐIỀU XE'. Right panel (65% width) features a full interactive live radar map showing real-time GPS locations of all active 7-seater cars, taxis, and delivery scooters across QL26 and Tỉnh lộ 2. Bottom section displays an active corridor order table with live status badges: PENDING, DISPATCHED, COMPLETED. Professional dark blue slate #0B1120 theme, enterprise data visualization, crisp layout, 8k --ar 16:9 --v 6.0",
+        "dalle_3": "Enterprise web dashboard for a ride-hailing and food delivery dispatch call center in Đắk Lắk on a laptop screen. Left side has telephone call intake form with fields for customer details and pickup hubs. Right side has a large live fleet map tracking vehicles across Krông Pắk, Krông Ana, and Buôn Ma Thuột. Bottom table lists active trips and statuses. Professional dark UI, clear data hierarchy.",
+        "flux_sdxl": "enterprise dispatch software, call center dashboard, desktop web application, dark theme #0B1120, live GPS fleet map, telephony order input form, real-time data table, professional UX, high quality monitor mockup, 8k resolution"
+      },
+      "negative_prompt": "cluttered screen, toy graphics, broken tables, unreadable small text, blurry maps, cartoon art",
+      "ui_specifications": {
+        "header_telephony": "Hotline tiếp nhận 0905.123.456, trạng thái trực tổng đài viên",
+        "left_pane_entry": "Form gõ nhanh cho điện thoại viên: Tên khách, SĐT, Điểm đón, Điểm trả, Ghi chú",
+        "right_pane_geospatial": "Bản đồ vệ tinh Leaflet toàn tuyến liên huyện với điểm ghim xe trực tiếp",
+        "bottom_pane_queue": "Bảng danh sách toàn bộ cuốc xe và đơn giao đồ ăn đang chạy trên hệ thống"
+      }
+    },
+    {
+      "screen_id": "SCREEN_07_VIETQR_NAPAS_CHECKOUT_MODAL",
+      "name_vi": "Modal Thanh Toán & Sinh Mã VietQR Napas 247 Dynamic",
+      "name_en": "VietQR Napas 247 Dynamic Payment & Settlement Modal",
+      "role": "customer_and_driver",
+      "target_platform": "Modal Dialog / Sheet",
+      "aspect_ratio": "9:16",
+      "device_mockup": "iPhone 16 Pro Floating Modal with Glass Backdrop",
+      "prompts": {
+        "midjourney_v6": "A clean, trustworthy fintech payment modal UI on a modern mobile app, displayed on an iPhone 16 Pro with dark blurred glassmorphism backdrop. In the center, a floating dark slate modal card with rounded corners: header shows 'THANH TOÁN NAPAS 247' with a green shield verification icon. In the middle, a high-contrast white card container displays a sharp dynamic VietQR code with Vietcombank and Napas 247 logos. Below the QR code: Transfer Amount in huge bold emerald green '85.000đ', Transfer Memo in monospace font 'DXP-892104', and Account Name 'ĐẮK LẮK EXPRESS'. Below is a pulsing green status indicator: 'Đang chờ tín hiệu biến động số dư ngân hàng...'. Bottom has a secondary button: 'Xác nhận đã chuyển khoản'. Minimalist fintech aesthetic, pixel-perfect layout, crisp typography in Vietnamese, professional banking grade UI --ar 9:16 --v 6.0",
+        "dalle_3": "Mobile app payment popup screen showing a dynamic VietQR code for Napas 247 banking transfer in Vietnam. The popup has a dark slate background, centered white QR code box, total amount of 85.000đ in green text, payment code DXP-892104, and bank account name. Clean fintech design, modern and secure look.",
+        "flux_sdxl": "fintech payment modal, mobile UI design, dynamic VietQR code, Napas 247 banking standards, dark mode #090D16, glowing green text #00B14F, clean typography, secure payment interface, high resolution, Dribbble UI showcase"
+      },
+      "negative_prompt": "blurry QR code, unreadable bank memo, dirty background, cluttered icons, broken borders",
+      "ui_specifications": {
+        "dynamic_payload": "https://img.vietqr.io/image/970422-0905123456-compact2.png?amount={AMOUNT}&addInfo={ORDER_CODE}&accountName=DAK%20LAK%20EXPRESS",
+        "settlement_protocol": "HMAC-SHA256 Webhook tự động khớp lệnh số dư trong 3 giây",
+        "fallback": "Tiền mặt trực tiếp cho tài xế khi nhận món ăn hoặc xuống xe"
+      }
+    }
+  ],
+  "implementation_matrix": {
+    "recommended_generation_engine": "Midjourney v6 (--ar 9:16 for Mobile, --ar 16:9 for Desktop)",
+    "figma_design_tokens": {
+      "primary_transport": "#00B14F",
+      "primary_food": "#EE4D2D",
+      "surface_base": "#090D16",
+      "surface_card": "#0F172A",
+      "border_default": "#1E293B",
+      "text_main": "#F8FAFC"
+    },
+    "zero_ai_jargon_contract": "Toàn bộ tài liệu, giao diện và cấu hình dùng 100% thuật ngữ kỹ thuật phần mềm, logistics và ẩm thực quán xá địa phương thực tế."
+  }
+}

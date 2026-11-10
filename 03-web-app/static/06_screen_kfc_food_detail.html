@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-white text-neutral-900 select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Gà Rán Truyền Thống — KFC Vietnam | GO Food Ultra HD</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #FFFFFF;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+
+    /* Bounce Keyframe */
+    @keyframes bounce-cart {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.3); }
+      70% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+    .cart-bounce {
+      animation: bounce-cart 0.35s ease-out;
+    }
+
+    /* Minimum touch target for a11y & Apple HIG */
+    .touch-target {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col justify-between overflow-x-hidden no-scrollbar bg-white text-neutral-900">
+
+  <!-- SCROLLABLE CONTENT -->
+  <div class="flex-1 overflow-y-auto no-scrollbar pb-24">
+    
+    <!-- HERO FOOD IMAGE CONTAINER -->
+    <div class="relative w-full aspect-[4/3.2] bg-neutral-100 overflow-hidden">
+      <!-- Ảnh xô gà thật 100% trích xuất từ ảnh gốc (1.01 MB Ultra HD) -->
+      <img src="assets/s6_hero_detail.jpg" alt="Gà Rán Truyền Thống KFC" class="w-full h-full object-cover">
+      
+      <!-- Top Status Bar Simulation -->
+      <div class="absolute top-0 left-0 right-0 h-10 px-6 flex items-center justify-between text-xs font-semibold text-white z-20 pointer-events-none drop-shadow">
+        <span class="font-bold text-[14px] tracking-tight" id="live-clock">9:41</span>
+        <div class="flex items-center space-x-1.5 text-xs">
+          <svg class="w-4 h-3 fill-current" viewBox="0 0 17 11"><path d="M1 9h2V2H1v7zm4 0h2V0H5v9zm4 0h2V4H9v5zm4 0h2V6h-2v3z"/></svg>
+          <svg class="w-3.5 h-3 fill-current" viewBox="0 0 14 10"><path d="M7 10a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm-4.2-4a5.9 5.9 0 018.4 0l1.4-1.4a7.9 7.9 0 00-11.2 0L2.8 6zm-2.8-2.8a9.9 9.9 0 0114 0l1.4-1.4a11.9 11.9 0 00-16.8 0L0 3.2z"/></svg>
+          <div class="flex items-center border border-white/90 rounded px-1 py-0.2 text-[9px] font-bold">
+            <span>77</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Header Navigation Buttons (Light Style) -->
+      <div class="absolute top-9 left-0 right-0 px-4 flex items-center justify-between z-20">
+        <!-- Back Button -->
+        <button onclick="location.href='05_screen_kfc_store.html'" aria-label="Quay lại cửa hàng KFC" class="touch-target w-9 h-9 rounded-full bg-white/85 backdrop-blur-md shadow-md flex items-center justify-center text-neutral-800 active:scale-95 transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+
+        <!-- Right Action Icons: Share & Heart -->
+        <div class="flex items-center space-x-2">
+          <button onclick="shareItem()" aria-label="Chia sẻ món ăn" class="touch-target w-9 h-9 rounded-full bg-white/85 backdrop-blur-md shadow-md flex items-center justify-center text-neutral-800 active:scale-95 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+          </button>
+          <button onclick="toggleFavorite(this)" aria-label="Yêu thích món ăn" class="touch-target w-9 h-9 rounded-full bg-white/85 backdrop-blur-md shadow-md flex items-center justify-center text-neutral-800 active:scale-95 transition-all">
+            <span class="heart-icon text-sm">🤍</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Photo Index Counter 1/5 Badge -->
+      <div class="absolute bottom-3 left-4 px-2.5 py-1 rounded-md bg-white/90 backdrop-blur-sm shadow flex items-center space-x-1.5 text-[11px] font-semibold text-neutral-800">
+        <svg class="w-3.5 h-3.5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span>1 / 5</span>
+      </div>
+    </div>
+
+    <!-- MAIN PRODUCT INFO (LIGHT THEME) -->
+    <div class="px-4 pt-3.5 pb-2">
+      <!-- Title -->
+      <h1 class="text-[21px] font-extrabold tracking-tight text-neutral-900 leading-tight">Gà Rán Truyền Thống</h1>
+      
+      <!-- Subtitle Description -->
+      <p class="text-[13px] text-neutral-600 mt-1 leading-normal font-normal">Gà rán giòn rụm, thơm ngon khó cưỡng với công thức đặc biệt từ KFC.</p>
+
+      <!-- Rating & Sold Count -->
+      <div class="flex items-center space-x-3 mt-2.5 text-[12px]">
+        <div class="flex items-center space-x-1">
+          <span class="text-amber-500 text-sm">★</span>
+          <span class="font-bold text-neutral-900">4.8</span>
+          <span class="text-neutral-500">(12.5k đánh giá)</span>
+        </div>
+        <span class="text-neutral-300">|</span>
+        <div class="flex items-center space-x-1.5 text-neutral-700">
+          <span class="text-xs">🏪</span>
+          <span class="font-medium">Đã bán 100k+</span>
+        </div>
+      </div>
+
+      <!-- Price & Discount Tag -->
+      <div class="flex items-center space-x-2.5 mt-2">
+        <span id="base-price-display" class="text-[23px] font-black text-[#F9372D] tracking-tight">45.000đ</span>
+        <span id="strike-price-display" class="text-[13px] text-neutral-400 line-through font-medium">60.000đ</span>
+        <span class="text-[11px] font-bold text-white bg-[#F9372D] px-2 py-0.5 rounded-full shadow-sm">Giảm 25%</span>
+      </div>
+    </div>
+
+    <div class="h-2 bg-[#F5F5F7] w-full"></div>
+
+    <!-- CHỌN SIZE (SIZE SELECTOR ON WHITE) -->
+    <div class="px-4 py-3">
+      <span class="text-[14px] font-bold text-neutral-900 block mb-2.5">Chọn size</span>
+      <div class="grid grid-cols-3 gap-2.5" role="radiogroup">
+        <!-- Size 1: Thường (Selected viền đỏ) -->
+        <button id="size-btn-1" onclick="selectFoodSize('regular', 45000, 60000)" class="size-btn py-2.5 px-2 rounded-xl bg-[#FFF2F1] border-2 border-[#F9372D] text-center active:scale-95 transition-all shadow-sm">
+          <span class="text-[13px] font-bold text-neutral-900 block leading-tight">Thường</span>
+          <span class="text-[11px] text-neutral-500 block mt-0.5 font-medium">(2 miếng)</span>
+        </button>
+
+        <!-- Size 2: Lớn -->
+        <button id="size-btn-2" onclick="selectFoodSize('large', 65000, 85000)" class="size-btn py-2.5 px-2 rounded-xl bg-[#F8F9FA] border border-neutral-200 text-center text-neutral-700 active:scale-95 transition-all hover:bg-neutral-100">
+          <span class="text-[13px] font-bold block leading-tight">Lớn</span>
+          <span class="text-[11px] text-neutral-400 block mt-0.5 font-normal">(3 miếng)</span>
+        </button>
+
+        <!-- Size 3: Siêu lớn -->
+        <button id="size-btn-3" onclick="selectFoodSize('xlarge', 85000, 110000)" class="size-btn py-2.5 px-2 rounded-xl bg-[#F8F9FA] border border-neutral-200 text-center text-neutral-700 active:scale-95 transition-all hover:bg-neutral-100">
+          <span class="text-[13px] font-bold block leading-tight">Siêu lớn</span>
+          <span class="text-[11px] text-neutral-400 block mt-0.5 font-normal">(4 miếng)</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="h-2 bg-[#F5F5F7] w-full"></div>
+
+    <!-- TÙY CHỌN THÊM (ADD-ONS ON WHITE) -->
+    <div class="px-4 py-3 space-y-2.5">
+      <span class="text-[14px] font-bold text-neutral-900 block mb-1">Tùy chọn thêm</span>
+      
+      <!-- Option 1: Khoai tây chiên (Ảnh thật) -->
+      <div id="addon-fries-card" onclick="toggleAddon('fries', 15000)" class="flex items-center justify-between p-3 rounded-xl bg-[#F8F9FA] border border-neutral-200 cursor-pointer hover:bg-neutral-100 active:scale-98 transition-all shadow-sm">
+        <div class="flex items-center space-x-3">
+          <img src="assets/s6_addon_fries.png" alt="Khoai tây chiên" class="w-6 h-7 object-contain">
+          <span class="text-[13px] font-semibold text-neutral-900">Khoai tây chiên</span>
+        </div>
+        <div class="flex items-center space-x-2.5">
+          <span class="text-[12px] text-neutral-700 font-semibold">+ 15.000đ</span>
+          <div id="addon-fries-check" class="w-5 h-5 rounded-full border-2 border-neutral-300 flex items-center justify-center text-white text-xs"></div>
+        </div>
+      </div>
+
+      <!-- Option 2: Pepsi Lon (Ảnh thật) -->
+      <div id="addon-pepsi-card" onclick="toggleAddon('pepsi', 12000)" class="flex items-center justify-between p-3 rounded-xl bg-[#F8F9FA] border border-neutral-200 cursor-pointer hover:bg-neutral-100 active:scale-98 transition-all shadow-sm">
+        <div class="flex items-center space-x-3">
+          <img src="assets/s6_addon_pepsi.png" alt="Pepsi" class="w-5 h-7 object-contain">
+          <span class="text-[13px] font-semibold text-neutral-900">Pepsi (Lon)</span>
+        </div>
+        <div class="flex items-center space-x-2.5">
+          <span class="text-[12px] text-neutral-700 font-semibold">+ 12.000đ</span>
+          <div id="addon-pepsi-check" class="w-5 h-5 rounded-full border-2 border-neutral-300 flex items-center justify-center text-white text-xs"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GHI CHÚ THÊM (OPTIONAL NOTE) -->
+    <div class="px-4 py-2 mb-6">
+      <div class="p-3 rounded-xl bg-[#F8F9FA] border border-neutral-200 flex items-center space-x-2.5">
+        <svg class="w-4 h-4 text-neutral-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+        <div class="flex-1">
+          <span class="text-[11px] text-neutral-500 block font-medium leading-tight">Ghi chú thêm (tuỳ chọn)</span>
+          <input type="text" id="food-note-input" placeholder="Ví dụ: ít cay, không lấy tương ớt..." class="bg-transparent text-[12px] text-neutral-900 placeholder-neutral-400 focus:outline-none w-full mt-0.5 font-medium">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FLOATING TOAST FEEDBACK -->
+  <div id="cart-toast" class="fixed top-12 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-neutral-900/90 backdrop-blur-md text-white text-xs font-bold rounded-full shadow-xl hidden z-50 transition-all">
+    Đã thêm vào giỏ hàng thành công!
+  </div>
+
+  <!-- STICKY BOTTOM CHECKOUT ACTION BAR (WHITE THEME) -->
+  <div class="fixed bottom-0 left-0 right-0 p-3 bg-white/95 backdrop-blur-md border-t border-neutral-200 flex items-center justify-between z-30 max-w-[480px] mx-auto shadow-lg">
+    <!-- Cart Counter & Price -->
+    <div class="flex items-center space-x-3 pl-1 cursor-pointer" onclick="goToCheckout()">
+      <div id="cart-badge-container" class="relative w-10 h-10 rounded-full bg-[#F3F4F6] border border-neutral-300 flex items-center justify-center">
+        <!-- Shopping cart icon -->
+        <svg class="w-5 h-5 text-neutral-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        <!-- Badge 1 đỏ -->
+        <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#F9372D] text-[10px] font-black text-white flex items-center justify-center shadow">1</span>
+      </div>
+      <span id="bottom-total-price" class="text-[18px] font-black text-neutral-900 tracking-tight">45.000đ</span>
+    </div>
+
+    <!-- Primary Add to Cart Button -->
+    <button onclick="goToCheckout()" aria-label="Thêm vào giỏ và thanh toán" class="touch-target px-8 py-3 rounded-full bg-[#F9372D] hover:bg-[#D32F2F] text-white font-bold text-[14px] shadow-lg shadow-red-500/25 active:scale-95 transition-all focus:outline-none">
+      Thêm vào giỏ
+    </button>
+  </div>
+
+  <!-- Home Indicator (iPhone Bottom Bar) -->
+  <div class="fixed bottom-1 left-0 right-0 flex justify-center pointer-events-none z-40">
+    <div class="w-32 h-1 bg-black/25 rounded-full"></div>
+  </div>
+
+  <!-- JAVASCRIPT STATE CONTROLLER -->
+  <script>
+    // Live Clock
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const el = document.getElementById('live-clock');
+      if (el) el.textContent = `${h}:${m}`;
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    // State
+    let currentFoodPrice = 45000;
+    let selectedAddons = { fries: false, pepsi: false };
+    const addonPrices = { fries: 15000, pepsi: 12000 };
+
+    function selectFoodSize(sizeKey, price, strike) {
+      currentFoodPrice = price;
+      
+      const btns = document.querySelectorAll('.size-btn');
+      btns.forEach(b => {
+        b.className = 'size-btn py-2.5 px-2 rounded-xl bg-[#F8F9FA] border border-neutral-200 text-center text-neutral-700 active:scale-95 transition-all hover:bg-neutral-100';
+      });
+
+      let targetBtn = document.getElementById('size-btn-1');
+      if (sizeKey === 'large') targetBtn = document.getElementById('size-btn-2');
+      if (sizeKey === 'xlarge') targetBtn = document.getElementById('size-btn-3');
+      
+      targetBtn.className = 'size-btn py-2.5 px-2 rounded-xl bg-[#FFF2F1] border-2 border-[#F9372D] text-center active:scale-95 transition-all shadow-sm';
+
+      document.getElementById('base-price-display').textContent = `${price.toLocaleString('vi-VN')}đ`;
+      document.getElementById('strike-price-display').textContent = `${strike.toLocaleString('vi-VN')}đ`;
+      recalculateTotal();
+    }
+
+    function toggleAddon(type, price) {
+      selectedAddons[type] = !selectedAddons[type];
+      const checkEl = document.getElementById(`addon-${type}-check`);
+      const cardEl = document.getElementById(`addon-${type}-card`);
+
+      if (selectedAddons[type]) {
+        checkEl.className = 'w-5 h-5 rounded-full bg-[#F9372D] border-2 border-[#F9372D] flex items-center justify-center text-white text-xs font-bold';
+        checkEl.textContent = '✓';
+        cardEl.classList.add('border-[#F9372D]', 'bg-[#FFF2F1]');
+      } else {
+        checkEl.className = 'w-5 h-5 rounded-full border-2 border-neutral-300 flex items-center justify-center text-white text-xs';
+        checkEl.textContent = '';
+        cardEl.classList.remove('border-[#F9372D]', 'bg-[#FFF2F1]');
+      }
+      recalculateTotal();
+    }
+
+    function recalculateTotal() {
+      let total = currentFoodPrice;
+      if (selectedAddons.fries) total += addonPrices.fries;
+      if (selectedAddons.pepsi) total += addonPrices.pepsi;
+      document.getElementById('bottom-total-price').textContent = `${total.toLocaleString('vi-VN')}đ`;
+    }
+
+    function goToCheckout() {
+      const badge = document.getElementById('cart-badge-container');
+      badge.classList.add('cart-bounce');
+
+      const toast = document.getElementById('cart-toast');
+      toast.classList.remove('hidden');
+
+      setTimeout(() => {
+        location.href = '08_screen_cart_checkout.html';
+      }, 500);
+    }
+
+    function toggleFavorite(btn) {
+      const heart = btn.querySelector('.heart-icon');
+      if (heart.textContent === '❤️') {
+        heart.textContent = '🤍';
+      } else {
+        heart.textContent = '❤️';
+      }
+    }
+
+    function shareItem() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Gà Rán KFC trên GO Food',
+          text: 'Gà rán giòn rụm chỉ 45.000đ tại Buôn Ma Thuột!',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        alert('Đã sao chép liên kết món ăn!');
+      }
+    }
+  </script>
+
+</body>
+</html>

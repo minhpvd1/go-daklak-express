@@ -1,0 +1,108 @@
+{
+  "screen_code": "DXP-UI-07",
+  "screen_slug": "modal-thanh-toan-vietqr-napas-247",
+  "version": "2.4.0-PROD",
+  "block_1_meta_context": {
+    "screen_id": "SCREEN_07_VIETQR_NAPAS_CHECKOUT_MODAL",
+    "name_vi": "Modal Giỏ Hàng & Thanh Toán VietQR Napas 247 Dynamic",
+    "name_en": "VietQR Napas 247 Dynamic Payment & Settlement Modal",
+    "role": "customer_and_driver",
+    "domain": "Công nghệ tài chính (Fintech), Cổng thanh toán chuyển khoản ngân hàng tự động",
+    "territory": "Áp dụng cho toàn bộ giao dịch đặt đồ ăn và cước xe tại Đắk Lắk",
+    "design_objective": "Tạo giao diện thanh toán an toàn, minh bạch, tự động sinh mã VietQR theo chuẩn Napas 247 kèm số tiền chính xác và mã đơn hàng định danh, tự động khớp lệnh biến động số dư trong 3 giây.",
+    "simplicity_principle": "Khách không cần gõ số tài khoản hay nội dung chuyển tiền thủ công, chỉ cần mở app ngân hàng bất kỳ (VCB, Agribank, MB, BIDV) quét là xong ngay."
+  },
+  "block_2_design_tokens": {
+    "color_palette": {
+      "qr_container_bg": "#FFFFFF",
+      "amount_highlight": "#10B981",
+      "modal_backdrop": "rgba(0, 0, 0, 0.85)",
+      "surface_card": "#0F172A",
+      "border_card": "#1E293B",
+      "memo_code": "#38BDF8",
+      "text_primary": "#FFFFFF",
+      "text_muted": "#94A3B8"
+    },
+    "typography": {
+      "font_family": "Plus Jakarta Sans, sans-serif",
+      "amount_font": "Space Grotesk, sans-serif / 24px / ExtraBold 800",
+      "memo_font": "monospace / 13px / Bold 700",
+      "label_text": "11px / Medium 500"
+    },
+    "border_radius": {
+      "modal_shell": "24px",
+      "qr_wrapper": "16px",
+      "action_btn": "12px"
+    },
+    "elevation": "0 25px 60px rgba(0, 0, 0, 0.8)"
+  },
+  "block_3_layout_wireframe": {
+    "viewport": "Modal dialog centered with dark blur overlay (360x600px)",
+    "modal_header": "Thanh tiêu đề: Biểu tượng khiên bảo mật + 'THANH TOÁN NAPAS 247' + Nút đóng (X)",
+    "qr_visual_zone": "Khối nền trắng trung tâm chứa mã VietQR Napas 247 độ nét cao (224x224px)",
+    "transaction_info_zone": "Hiển thị số tiền chuyển khoản to bản màu xanh ngọc + Mã đơn định danh (DXP-XXXX) + Tên tài khoản nhận (ĐẮK LẮK EXPRESS)",
+    "live_status_zone": "Hộp thông báo trạng thái với chấm xanh phát xung ping: 'Đang chờ tín hiệu biến động số dư ngân hàng...'",
+    "action_zone": "Nút bấm hỗ trợ hoặc xác nhận hoàn tất giao dịch"
+  },
+  "block_4_components_breakdown": {
+    "components": [
+      {
+        "id": "security_shield_header",
+        "type": "Modal Top Bar",
+        "content": "THANH TOÁN NAPAS 247 (Chuẩn thanh toán quốc gia)"
+      },
+      {
+        "id": "dynamic_vietqr_box",
+        "type": "High Contrast Image Frame",
+        "specs": "Chuẩn VietQR.io Quick Link với tham số ngân hàng 970422 (Vietcombank) kèm mã đơn DXP"
+      },
+      {
+        "id": "amount_and_memo_display",
+        "type": "Transaction Summary",
+        "fields": {
+          "total_amount": "85.000đ (Bao gồm tiền món ăn + 15k ship hỏa tốc)",
+          "order_code": "DXP-892104",
+          "beneficiary": "ĐẮK LẮK EXPRESS (Vietcombank)",
+          "account_number": "0905123456"
+        }
+      },
+      {
+        "id": "pulsing_status_pill",
+        "type": "Live Webhook Listener Pill",
+        "animation": "Radar ping animation xanh lá, tự động đóng modal khi tiền về"
+      }
+    ]
+  },
+  "block_5_state_machine_interactions": {
+    "states": [
+      {"state": "MODAL_OPENED", "display": "Tự động sinh mã VietQR chuẩn theo tổng tiền giỏ hàng trong 0.1s"},
+      {"state": "AWAITING_PAYMENT", "display": "Chấm radar xanh lá phát xung nhịp tim, hệ thống lắng nghe webhook ngân hàng"},
+      {"state": "PAYMENT_CONFIRMED", "display": "Phát âm thanh chuông ngân thành công (Success Chime C5-E5-G5), chuyển trạng thái đơn sang 'ĐÃ THANH TOÁN', tự động đóng modal"}
+    ],
+    "micro_interactions": "Chạm vào mã chuyển khoản để sao chép nhanh nếu khách dùng tính năng chuyển khoản thủ công."
+  },
+  "block_6_midjourney_v6_prompt": {
+    "prompt_raw": "A clean, trustworthy fintech payment modal UI on a modern mobile app, displayed on an iPhone 16 Pro with dark blurred glassmorphism backdrop. In the center, a floating dark slate modal card with rounded corners: header shows 'THANH TOÁN NAPAS 247' with a green shield verification icon. In the middle, a high-contrast white card container displays a sharp dynamic VietQR code with Vietcombank and Napas 247 logos. Below the QR code: Transfer Amount in huge bold emerald green '85.000đ', Transfer Memo in monospace font 'DXP-892104', and Account Name 'ĐẮK LẮK EXPRESS'. Below is a pulsing green status indicator: 'Đang chờ tín hiệu biến động số dư ngân hàng...'. Bottom has a secondary button: 'Xác nhận đã chuyển khoản'. Minimalist fintech aesthetic, pixel-perfect layout, crisp typography in Vietnamese, professional banking grade UI --ar 9:16 --v 6.0",
+    "aspect_ratio": "--ar 9:16",
+    "version_param": "--v 6.0",
+    "style_param": "--style raw"
+  },
+  "block_7_dalle3_flux_sdxl_prompts": {
+    "dalle_3": "Mobile app payment popup screen showing a dynamic VietQR code for Napas 247 banking transfer in Vietnam. The popup has a dark slate background, centered white QR code box, total amount of 85.000đ in green text, payment code DXP-892104, and bank account name. Clean fintech design, modern and secure look.",
+    "flux_sdxl": "fintech payment modal, mobile UI design, dynamic VietQR code, Napas 247 banking standards, dark mode #090D16, glowing green text #00B14F, clean typography, secure payment interface, high resolution, Dribbble UI showcase",
+    "negative_prompt": "blurry QR code, unreadable bank memo, dirty background, cluttered icons, broken borders"
+  },
+  "block_8_code_tailwind_figma_specs": {
+    "modal_wrapper_classes": "fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4",
+    "modal_card_classes": "bg-slate-900 border border-slate-800 w-full max-w-sm rounded-3xl p-6 space-y-4 text-center",
+    "qr_box_classes": "bg-white p-4 rounded-2xl inline-block shadow-inner",
+    "amount_classes": "text-2xl font-extrabold text-emerald-400 font-display",
+    "figma_layer_hierarchy": "ModalOverlay > ModalCardShell > SecurityHeader > WhiteQRContainer > TransactionInfoBlock [AmountDisplay + OrderCodeBadge + BeneficiaryName] > WebhookListenerPill"
+  },
+  "block_9_verification_checklist": {
+    "fintech_compliance": "Mã VietQR sinh ra đúng định dạng chuẩn EMVCo của Ngân hàng Nhà nước và Napas 247",
+    "error_prevention": "Số tiền đã được nhúng cứng vào QR, người mua không phải tự gõ số tiền để tránh chuyển nhầm",
+    "fallback_option": "Luôn có lựa chọn trả tiền mặt khi nhận hàng (COD) cho bà con không dùng app ngân hàng"
+  }
+}
+

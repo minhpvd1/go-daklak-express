@@ -1,0 +1,113 @@
+{
+  "screen_code": "DXP-UI-05",
+  "screen_slug": "kenh-quan-tri-chu-quan-an",
+  "version": "2.4.0-PROD",
+  "block_1_meta_context": {
+    "screen_id": "SCREEN_05_RESTAURANT_MERCHANT_CENTER",
+    "name_vi": "Kênh Quản Trị Chủ Quán Ăn & Bếp (Restaurant Center)",
+    "name_en": "Restaurant Merchant Center & Kitchen POS Dashboard",
+    "role": "seller",
+    "domain": "Quản lý đơn hàng quán ăn, thực đơn món & Đối soát doanh thu ẩm thực",
+    "territory": "Các quán ăn, tiệm bún, tiệm cơm, tiệm nước tại Krông Pắk & Krông Ana",
+    "design_objective": "Tạo giao diện quản lý đơn giản cho chủ quán ăn, nhận đơn từ khách, xác nhận bếp đang nấu, quản lý món ăn còn/hết và xem doanh thu trong ngày.",
+    "simplicity_principle": "Không cần máy POS cồng kềnh, chỉ cần chiếc điện thoại của chủ quán là có thể vận hành trơn tru toàn bộ quy trình bán hàng."
+  },
+  "block_2_design_tokens": {
+    "color_palette": {
+      "brand_orange": "#EE4D2D",
+      "brand_orange_light": "#FFEDD5",
+      "revenue_green": "#10B981",
+      "surface_base": "#090D16",
+      "surface_card": "#0F172A",
+      "border_card": "#1E293B",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#94A3B8"
+    },
+    "typography": {
+      "font_family": "Plus Jakarta Sans, sans-serif",
+      "shop_name": "13px / Bold 700",
+      "kpi_value": "16px / ExtraBold 800",
+      "order_code": "12px / Bold 700"
+    },
+    "border_radius": {
+      "card": "16px",
+      "action_btn": "10px",
+      "badge": "6px"
+    },
+    "elevation": "0 10px 25px rgba(0, 0, 0, 0.4)"
+  },
+  "block_3_layout_wireframe": {
+    "viewport": "Mobile portrait / Tablet responsive (390x844px)",
+    "shop_header": "Thông tin quán: Tên quán ('Quán Ăn Cô Ba'), mã quán (PA-09), trạng thái mở cửa và nút '+ Thêm Món'",
+    "kpi_metrics_grid": "3 cột thẻ số liệu: 'Đơn Chờ Làm (2 đơn)' + 'Doanh Thu Quán (3.450.000đ)' + 'Tô Đã Bán (85 tô)'",
+    "kitchen_queue_zone": "Hàng đợi đơn hàng mới nổ từ khách, hiển thị chi tiết các món cần nấu và nút xác nhận",
+    "menu_management_zone": "Danh sách các món trong thực đơn kèm công tắc bật/tắt (Còn hàng / Tạm hết món)"
+  },
+  "block_4_components_breakdown": {
+    "components": [
+      {
+        "id": "store_profile_header",
+        "type": "Merchant Header Bar",
+        "fields": ["Quán Ăn Cô Ba (Chợ Phước An)", "Mã: PA-09", "Trạng thái: Đang Mở Cửa"]
+      },
+      {
+        "id": "kpi_metric_cards",
+        "type": "3-Column Stats Grid",
+        "items": [
+          {"label": "Đơn Chờ Làm", "value": "2 đơn", "color": "orange"},
+          {"label": "Doanh Thu Quán", "value": "3.450.000đ", "color": "green"},
+          {"label": "Tô Đã Bán", "value": "85 tô", "color": "white"}
+        ]
+      },
+      {
+        "id": "incoming_food_ticket",
+        "type": "Kitchen Order Card",
+        "fields": {
+          "order_code": "Mã: DXP-892104",
+          "payment_status": "PAID (Đã thanh toán Napas)",
+          "customer_info": "Chị Mai - 15 Giải Phóng, TT. Phước An",
+          "items_list": ["2x Bún Đỏ Đặc Biệt (70.000đ)", "1x Trà Sữa Trân Châu (28.000đ)"],
+          "total_amount": "98.000đ",
+          "action": "Xác Nhận Nấu Xong & Giao"
+        }
+      },
+      {
+        "id": "menu_items_table",
+        "type": "Dish Inventory Manager",
+        "features": ["Tên món ăn", "Số lượng còn phục vụ", "Giá bán", "Công tắc bật/tắt"]
+      }
+    ]
+  },
+  "block_5_state_machine_interactions": {
+    "states": [
+      {"state": "ORDER_RECEIVED", "display": "Vé đơn hàng hiện lên đầu hàng đợi kèm chuông báo đơn mới"},
+      {"state": "COOKING_CONFIRMED", "display": "Chủ quán bấm xác nhận, hệ thống báo cho khách 'Quán đang nấu' và gọi tài xế gần nhất ghé lấy"},
+      {"state": "HANDED_TO_DRIVER", "display": "Đơn chuyển sang trạng thái 'Đã giao tài xế giao hỏa tốc'"}
+    ],
+    "micro_interactions": "Chủ quán có thể thêm món ăn mới trong 10 giây qua modal popup đơn giản."
+  },
+  "block_6_midjourney_v6_prompt": {
+    "prompt_raw": "A modern Merchant Center mobile UI dashboard for local Vietnamese restaurant owners, presented on an iPhone 16 Pro mockup. Top header: 'Quán Ăn Cô Ba (Chợ Phước An)' with active status badge 'Đang Mở Cửa' in green and a button '+ Thêm Món Mới'. Top metrics row shows 3 KPI cards: 1. 'Đơn Chờ Làm: 2 đơn' in vibrant orange #EE4D2D, 2. 'Doanh Thu Quán: 3.450.000đ' in emerald green, 3. 'Tô Đã Bán: 85 tô' in white. Below is the active kitchen order queue: Card 1 shows 'Đơn #DXP-8921 - 2x Bún Đỏ Đặc Biệt, 1x Trà Sữa Trân Châu' for delivery to '15 Giải Phóng, TT. Phước An', delivery driver assigned 'Tài xế Tuấn (47B1-892.44)', with a bright orange button 'Xác Nhận Nấu Xong & Giao'. Lower section shows Menu Management: list of dishes with toggle switches (Bật/Tắt món còn hay hết) and stock counters. Dark obsidian slate theme, clean restaurant POS design, high contrast, award winning UI on Behance --ar 9:16 --v 6.0",
+    "aspect_ratio": "--ar 9:16",
+    "version_param": "--v 6.0",
+    "style_param": "--style raw"
+  },
+  "block_7_dalle3_flux_sdxl_prompts": {
+    "dalle_3": "Restaurant merchant mobile app dashboard for a Vietnamese eatery. Top has restaurant name, open badge, and 3 metric cards for pending orders, daily sales of 3.450.000đ, and dishes sold. Order queue shows incoming food tickets with order items and 'Xác Nhận Nấu Xong' button. Menu section allows toggling dish availability. Professional POS layout, dark theme with orange highlights.",
+    "flux_sdxl": "restaurant POS mobile application, kitchen dashboard, order management system, dark theme #090D16, ShopeeFood orange #EE4D2D accents, daily sales statistics, order tickets, food menu toggles, high resolution, clean typography",
+    "negative_prompt": "orchard inventory, agriculture warehouse, durian crates, farm equipment, messy text, unorganized layout"
+  },
+  "block_8_code_tailwind_figma_specs": {
+    "kpi_grid_classes": "grid grid-cols-3 gap-2",
+    "kpi_card_classes": "p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-center",
+    "ticket_classes": "p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5 text-xs",
+    "btn_confirm_classes": "px-2.5 py-1 rounded-lg bg-orange-600 hover:bg-orange-500 text-white text-[10px] font-bold active:scale-95",
+    "figma_layer_hierarchy": "FrameRestaurant > MerchantHeader > KpiMetricRow (3 cards) > KitchenOrderQueue > MenuManagementList"
+  },
+  "block_9_verification_checklist": {
+    "kitchen_sound_alert": "Bảo đảm chuông báo kêu to khi có đơn mới dù chủ quán đang để điện thoại trên bàn bếp",
+    "one_touch_actions": "Xác nhận nấu xong chỉ cần 1 thao tác chạm",
+    "instant_sync": "Dữ liệu trạng thái món ăn đồng bộ ngay lập tức sang ứng dụng của khách hàng"
+  }
+}
+

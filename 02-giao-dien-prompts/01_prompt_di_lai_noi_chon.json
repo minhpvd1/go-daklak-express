@@ -1,0 +1,116 @@
+{
+  "screen_code": "DXP-UI-01",
+  "screen_slug": "di-lai-noi-chon-va-goi-xe-ghep",
+  "version": "2.4.0-PROD",
+  "block_1_meta_context": {
+    "screen_id": "SCREEN_01_RIDE_HAILING_MAP",
+    "name_vi": "Màn Hình Đi Lại Nơi Chốn & Ghép Chuyến Tiện Lợi",
+    "name_en": "Local Hub Ride-Hailing & Carpool Interface",
+    "role": "customer",
+    "domain": "Vận tải hành khách & đi lại nơi chốn liên huyện",
+    "territory": "Krông Pắk ⇄ Krông Ana ⇄ Buôn Ma Thuột (Đắk Lắk)",
+    "design_objective": "Tạo giao diện gọi xe 3-chạm tối giản, định vị trực quan trên bản đồ vector, hiển thị cước phí cố định minh bạch giữa các địa điểm đón trả thực tế tại địa phương.",
+    "simplicity_principle": "Không cài thêm app cồng kềnh, hoạt động mượt mà trên nền tảng PWA di động, nút bấm to rõ cho cả người lớn tuổi."
+  },
+  "block_2_design_tokens": {
+    "color_palette": {
+      "primary": "#00B14F",
+      "primary_dark": "#047857",
+      "surface_base": "#090D16",
+      "surface_elevated": "#0F172A",
+      "surface_card": "#1E293B",
+      "border_subtle": "#334155",
+      "text_primary": "#F8FAFC",
+      "text_secondary": "#94A3B8",
+      "accent_route": "#10B981",
+      "accent_dest": "#EE4D2D"
+    },
+    "typography": {
+      "font_family": "Plus Jakarta Sans, sans-serif",
+      "header_size": "16px / Bold 700",
+      "body_size": "12px / Medium 500",
+      "caption_size": "10px / Regular 400"
+    },
+    "border_radius": {
+      "card": "16px",
+      "button": "12px",
+      "sheet": "28px rounded-t"
+    },
+    "elevation": "0 20px 40px -10px rgba(0, 0, 0, 0.6)"
+  },
+  "block_3_layout_wireframe": {
+    "viewport": "Mobile portrait (390x844px baseline iPhone 16 Pro)",
+    "header_zone": "Top GPS pill hiển thị nơi chốn hiện tại ('TT. Phước An, Krông Pắk')",
+    "map_viewport_zone": "Chiếm 55% chiều cao màn hình, hiển thị bản đồ Leaflet OpenStreetMap Voyager Tiles",
+    "bottom_sheet_zone": "Chiếm 45% chiều cao, trượt nổi bo tròn 28px, chứa bộ chọn điểm đón/trả và 3 thẻ dịch vụ",
+    "action_dock": "Thanh nhập ghi chú kèm nút 'ĐẶT XE NGAY' cố định đáy màn hình"
+  },
+  "block_4_components_breakdown": {
+    "components": [
+      {
+        "id": "hub_origin_selector",
+        "type": "Custom Select Dropdown with Green Marker",
+        "data": ["TT. Phước An, Krông Pắk (Chợ & TT Y Tế)", "Xã Ea Knuèc (Km 19 QL26)", "TT. Buôn Trấp, Krông Ana", "Khu Thác Dray Sáp"]
+      },
+      {
+        "id": "hub_dest_selector",
+        "type": "Custom Select Dropdown with Red Marker",
+        "data": ["Ngã 6 Buôn Ma Thuột (Trung tâm TP)", "Bến Xe Liên Tỉnh Đắk Lắk (Km 4)", "BV Đa Khoa Vùng Tây Nguyên", "TT. Phước An"]
+      },
+      {
+        "id": "ride_mode_cards",
+        "type": "3-Column Radio Card Selector",
+        "items": [
+          {"type": "carpool", "title": "Xe Ghép", "price": "35.000đ", "desc": "Tiện chuyến liên huyện", "highlight": true},
+          {"type": "private_car", "title": "Bao Xe", "price": "180.000đ", "desc": "Trọn xe 4-7 chỗ"},
+          {"type": "bike_express", "title": "Xe Ôm / Ship", "price": "30.000đ", "desc": "Đón nhanh 5 phút"}
+        ]
+      },
+      {
+        "id": "input_notes",
+        "type": "Text input",
+        "placeholder": "Ghi chú (vd: đón ở cổng viện, đón trước cổng trường...)"
+      },
+      {
+        "id": "btn_dispatch_submit",
+        "type": "Large CTA Button in Grab Green",
+        "label": "Đặt Xe Ngay",
+        "icon": "send"
+      }
+    ]
+  },
+  "block_5_state_machine_interactions": {
+    "states": [
+      {"state": "IDLE", "display": "Hiển thị các vị trí xe 7 chỗ và xe ôm lân cận, lộ trình đứt nét giữa 2 điểm"},
+      {"state": "SELECTED", "display": "Thẻ dịch vụ được chọn viền xanh emerald 2px kèm bóng đổ nhẹ"},
+      {"state": "REQUESTING", "display": "Nút đổi sang hiệu ứng radar quét tài xế kèm âm thanh còi điều phối Web Audio API"},
+      {"state": "MATCHED", "display": "Hiện thông tin tài xế nhận cuốc: Tên, biển số 47A, khoảng cách di chuyển"}
+    ],
+    "micro_interactions": "Khi đổi nơi chốn đón/trả, bản đồ tự động vẽ lại đường nối polyline và tính lại bảng giá cước tự động trong 0.05s."
+  },
+  "block_6_midjourney_v6_prompt": {
+    "prompt_raw": "A hyper-detailed, award-winning mobile UI/UX design of a modern ride-hailing app for local districts in Vietnam, presented on an iPhone 16 Pro mockup. Top status bar shows: 'TT. Phước An, Krông Pắk, Đắk Lắk' with clear GPS location pin. The upper half features a clean interactive vector map with street networks, rivers, and accurate pins displaying nearby 7-seater cars and scooters. Route polyline drawn in emerald green connecting Phước An to Buôn Ma Thuột. The lower half features a dark obsidian bottom sheet with glassmorphism texture containing: 1. Location inputs: Origin 'Chợ TT. Phước An' with green dot, Destination 'Ngã 6 Buôn Ma Thuột' with red dot. 2. Three vehicle selector cards: Card 1 highlighted in bold green 'Xe Ghép Tiện Chuyến - 35.000đ/ghế', Card 2 'Bao Xe Gia Đình 4-7 Chỗ - 180.000đ', Card 3 'Xe Ôm / Ship Đón Nhanh - 30.000đ'. 3. A large pill button in vibrant Grab green #00B14F: 'ĐẶT XE NGAY'. Ultra high resolution 8k, Figma design showcase on Dribbble and Behance, soft studio lighting, crisp Vietnamese typography, zero artifacts --ar 9:16 --v 6.0",
+    "aspect_ratio": "--ar 9:16",
+    "version_param": "--v 6.0",
+    "style_param": "--style raw"
+  },
+  "block_7_dalle3_flux_sdxl_prompts": {
+    "dalle_3": "Sleek mobile app interface for a Vietnamese rural-district ride hailing app called Đắk Lắk Express on an iPhone. The screen has a vector map on top with a route polyline between Phước An market and Buôn Ma Thuột city center with vehicle pins. Bottom half has dark mode cards with options for carpooling (Xe ghép 35.000đ), private car (Bao xe 180.000đ), and scooter (Xe ôm 30.000đ). Primary button is vivid emerald green with text 'Đặt Xe Ngay'. Clean typography, modern UI design, Behance trending.",
+    "flux_sdxl": "masterpiece, best quality, mobile UI design, ride-hailing app, dark obsidian background #090D16, emerald green accents #00B14F, Leaflet vector map with route polyline, local Vietnamese landmarks, transport pricing cards, iPhone 16 Pro mockup, sharp focus, clean UI elements, modern graphic design, 8k resolution",
+    "negative_prompt": "blurry, low resolution, pixelated, ugly fonts, broken map tiles, cropped buttons, messy layout, durian fruit, agriculture crops, 3d cartoon characters, unreadable text"
+  },
+  "block_8_code_tailwind_figma_specs": {
+    "container_classes": "w-full max-w-md h-[92vh] bg-slate-900 md:rounded-[40px] flex flex-col overflow-hidden relative border border-slate-800",
+    "bottom_sheet_classes": "bg-slate-900/95 backdrop-blur-md border-t border-slate-800 p-4 rounded-t-3xl shadow-2xl z-10 flex flex-col space-y-3",
+    "primary_button_classes": "bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/30 active:scale-95 transition-all",
+    "card_active_classes": "p-2.5 rounded-xl border-2 border-emerald-500 bg-slate-950 flex flex-col cursor-pointer transition-all shadow-md",
+    "figma_layer_hierarchy": "Frame > StatusBar > HeaderGPS > ViewportMap (Leaflet) > BottomSheet > HubSelectorGroup > ModeCardGrid (3 cols) > NotesActionRow"
+  },
+  "block_9_verification_checklist": {
+    "contrast_ratio": "Tỷ lệ tương phản chữ trắng (#F8FAFC) trên nền tối (#090D16) đạt 14.2:1 (vượt chuẩn WCAG AAA)",
+    "tap_target_min_size": "Mọi nút bấm và card chọn xe có chiều cao tối thiểu 44px, khoảng cách đệm an toàn >8px",
+    "offline_resilience": "Bản đồ tự động lưu bộ đệm tile trong Service Worker, mạng yếu vẫn hiển thị tọa độ",
+    "telematics_latency": "Độ trễ tính cước Haversine < 1ms, không nghẽn luồng xử lý"
+  }
+}
+

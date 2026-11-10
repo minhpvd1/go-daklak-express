@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-neutral-900 text-neutral-900 select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>GO Driver Partner — Đắk Lắk Express (DXP)</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F9372D">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #121417;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-online { animation: pulse-ring 2s infinite ease-in-out; }
+    .tab-content { display: none; }
+    .tab-content.active { display: flex; flex-direction: column; }
+    #driver-map { height: 260px; width: 100%; border-radius: 1rem; z-index: 10; }
+  </style>
+</head>
+<body class="h-full flex items-center justify-center p-0 sm:p-4">
+
+  <!-- MOBILE SHELL CONTAINER (MAX 430PX CHO IPHONE/ANDROID) -->
+  <div class="w-full max-w-md h-full sm:h-[890px] bg-[#F8F9FA] sm:rounded-3xl shadow-2xl relative flex flex-col justify-between overflow-hidden border border-neutral-800/40">
+
+    <!-- TOP TELEMATICS STATUS BAR -->
+    <header class="sticky top-0 bg-white/95 backdrop-blur-md z-30 pt-2 pb-2 px-5 border-b border-neutral-200 flex items-center justify-between text-xs font-semibold text-neutral-800">
+      <div class="flex items-center space-x-2">
+        <span id="live-driver-clock" class="font-bold text-neutral-900">09:41</span>
+        <span class="px-1.5 py-0.5 rounded bg-red-100 text-[#F9372D] text-[10px] font-bold">DXP 47A</span>
+      </div>
+      <div class="flex items-center space-x-2 text-neutral-600">
+        <span class="flex items-center"><svg class="w-3.5 h-3.5 mr-0.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M17.778 8.222c-4.296-4.296-11.26-4.296-15.556 0A1 1 0 01.808 6.808c5.076-5.077 13.308-5.077 18.384 0a1 1 0 01-1.414 1.414zM14.95 11.05a7 7 0 00-9.9 0 1 1 0 01-1.414-1.414 9 9 0 0112.728 0 1 1 0 01-1.414 1.414zm-2.829 2.828a3 3 0 00-4.242 0 1 1 0 01-1.415-1.414 5 5 0 017.072 0 1 1 0 01-1.415 1.414zM9 17a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd"></path></svg> 5G</span>
+        <span class="flex items-center"><svg class="w-3.5 h-3.5 mr-0.5 text-neutral-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm11 1H6v8h8V6z" clip-rule="evenodd"></path></svg> 98%</span>
+      </div>
+    </header>
+
+    <!-- MAIN SCROLLABLE CONTENT BODY -->
+    <main class="flex-1 overflow-y-auto no-scrollbar pb-20 relative">
+
+      <!-- =================================================================== -->
+      <!-- TAB 1: BÀN ĐIỀU PHỐI TÀI XẾ (CONSOLE & RADAR NHẬN CUỐC) -->
+      <!-- =================================================================== -->
+      <section id="tab-console" class="tab-content active p-4 space-y-4">
+        
+        <!-- THÔNG TIN TÀI XẾ & CÔNG TẮC TRỰC TUYẾN -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-neutral-200">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="relative">
+                <img src="/assets/s2_vehicle_suv.png" class="w-12 h-12 rounded-full object-cover border-2 border-neutral-100 bg-neutral-50 p-1" alt="Tài xế">
+                <span id="status-dot" class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-1.5">
+                  <h2 class="font-bold text-neutral-900 text-base">Ba Cường</h2>
+                  <span class="text-xs bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded flex items-center">⭐ 4.96</span>
+                </div>
+                <p class="text-xs text-neutral-500 font-medium">Xe 7 chỗ Xpander · <strong class="text-neutral-800">47A-528.39</strong></p>
+                <p class="text-[11px] text-neutral-400">Tuyến: Krông Pắk (QL26) ⇄ Buôn Ma Thuột</p>
+              </div>
+            </div>
+
+            <!-- Công tắc Online/Offline -->
+            <button id="btn-toggle-online" onclick="toggleOnlineStatus()" class="flex flex-col items-center justify-center px-3 py-2 rounded-xl transition shadow-sm bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <div class="w-3 h-3 rounded-full bg-emerald-500 pulse-online mb-1"></div>
+              <span id="text-online-status" class="text-xs font-bold uppercase tracking-wider">Trực Tuyến</span>
+            </button>
+          </div>
+
+          <!-- BẢNG ĐO THU NHẬP HÔM NAY -->
+          <div class="mt-4 pt-3 border-t border-neutral-100 grid grid-cols-3 text-center divide-x divide-neutral-100">
+            <div>
+              <p class="text-[11px] text-neutral-400 font-medium">Thu nhập hôm nay</p>
+              <p id="stat-daily-earning" class="text-sm font-black text-[#F9372D]">856.000đ</p>
+            </div>
+            <div>
+              <p class="text-[11px] text-neutral-400 font-medium">Cuốc hoàn thành</p>
+              <p id="stat-trips-count" class="text-sm font-black text-neutral-800">4 cuốc</p>
+            </div>
+            <div>
+              <p class="text-[11px] text-neutral-400 font-medium">Tỷ lệ nhận cuốc</p>
+              <p class="text-sm font-black text-emerald-600">98.5%</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RADAR CUỐC XE & NỔ CUỐC MỚI -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-neutral-200">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#F9372D] animate-ping"></span>
+              <h3 class="font-bold text-neutral-900 text-sm uppercase tracking-wide">Radar Điều Phối Trực Tiếp</h3>
+            </div>
+            <button onclick="triggerSimulatedRide()" class="text-xs bg-neutral-100 hover:bg-neutral-200 text-neutral-700 px-2.5 py-1 rounded-lg font-semibold transition flex items-center">
+              <svg class="w-3 h-3 mr-1 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path></svg>
+              Test Nổ Cuốc
+            </button>
+          </div>
+
+          <!-- CARD CUỐC XE CHỜ NHẬN -->
+          <div id="active-offer-card" class="bg-gradient-to-br from-red-50 via-white to-amber-50 rounded-xl p-4 border-2 border-red-200 relative overflow-hidden transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded-full bg-[#F9372D] text-white text-[11px] font-bold">GHÉP KHÁCH & SẦU RIÊNG</span>
+              <span class="text-xs font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full" id="offer-countdown">⏳ Còn 28s</span>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="flex items-start space-x-2">
+                <span class="w-2.5 h-2.5 mt-1 rounded-full bg-emerald-500 shrink-0"></span>
+                <div>
+                  <p class="text-neutral-400 text-[10px]">ĐIỂM ĐÓN (KRÔNG PẮK)</p>
+                  <p id="offer-origin" class="font-bold text-neutral-800 text-sm">Chợ Phước An, QL26</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-2">
+                <span class="w-2.5 h-2.5 mt-1 rounded-full bg-[#F9372D] shrink-0"></span>
+                <div>
+                  <p class="text-neutral-400 text-[10px]">ĐIỂM TRẢ (BUÔN MA THUỘT)</p>
+                  <p id="offer-destination" class="font-bold text-neutral-800 text-sm">Bệnh Viện Vùng Tây Nguyên</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Giá cước & chiết khấu minh bạch -->
+            <div class="mt-3 pt-3 border-t border-red-100/80 flex items-center justify-between">
+              <div>
+                <p class="text-[10px] text-neutral-400">CƯỚC THỰC NHẬN (84%)</p>
+                <p id="offer-driver-earning" class="text-lg font-black text-[#F9372D]">285.600đ</p>
+              </div>
+              <div class="text-right">
+                <p class="text-[10px] text-neutral-400">Tổng khách trả: <span id="offer-total-fare">340.000đ</span></p>
+                <p class="text-[10px] text-neutral-400">Khoảng cách: <strong id="offer-distance">34.5 km</strong></p>
+              </div>
+            </div>
+
+            <!-- Ghi chú thực tế -->
+            <div class="mt-2 bg-white/80 p-2 rounded-lg border border-neutral-100 text-[11px] text-neutral-600 flex items-center space-x-1.5">
+              <span>📦</span>
+              <span id="offer-notes">Khách mang kèm 1 thùng sầu riêng Ri6 20kg gửi xe.</span>
+            </div>
+
+            <!-- Nút hành động -->
+            <div class="mt-4 grid grid-cols-3 gap-2">
+              <button onclick="rejectCurrentRide()" class="col-span-1 py-2.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-bold rounded-xl text-xs transition">
+                Bỏ qua
+              </button>
+              <button onclick="acceptCurrentRide()" class="col-span-2 py-2.5 bg-[#F9372D] hover:bg-red-600 text-white font-bold rounded-xl text-xs shadow-md shadow-red-200 flex items-center justify-center space-x-1 transition">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                <span>NHẬN CUỐC NGAY</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- THẺ LỐI TẮT HỖ TRỢ TRỰC TIẾP -->
+        <div class="grid grid-cols-2 gap-3">
+          <div onclick="switchTab('tab-copilot')" class="bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-2xl p-3.5 shadow-sm cursor-pointer flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider">GO Copilot</span>
+              <span class="text-lg">🤖</span>
+            </div>
+            <p class="text-xs font-semibold mt-2">Hỏi AI ghép chuyến & cước sầu riêng</p>
+            <span class="text-[10px] text-red-100 mt-1">Hỗ trợ FOSTA AI Engine →</span>
+          </div>
+
+          <div onclick="switchTab('tab-wallet')" class="bg-white rounded-2xl p-3.5 shadow-sm border border-neutral-200 cursor-pointer flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Ví Thu Nhập</span>
+              <span class="text-lg">💳</span>
+            </div>
+            <p id="card-wallet-balance" class="text-base font-black text-neutral-900 mt-2">3.730.000đ</p>
+            <span class="text-[10px] text-[#F9372D] font-bold mt-1">Rút tiền Napas 24/7 →</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- TAB 2: DẪN ĐƯỜNG & THỰC HIỆN CHUYẾN ĐI (HUD NAVIGATION) -->
+      <!-- =================================================================== -->
+      <section id="tab-nav" class="tab-content p-4 space-y-4">
+        
+        <!-- BẢNG ĐIỀU HƯỚNG HUD TỐC ĐỘ & LỘ TRÌNH -->
+        <div class="bg-neutral-900 text-white rounded-2xl p-4 shadow-lg border border-neutral-800">
+          <div class="flex items-center justify-between mb-3 pb-2 border-b border-neutral-800">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-[#F9372D] flex items-center justify-center font-bold text-white text-sm">
+                ↗
+              </div>
+              <div>
+                <p class="text-[10px] text-neutral-400">HƯỚNG ĐI TIẾP THEO</p>
+                <p class="text-sm font-bold text-white">Rẽ phải vào Quốc Lộ 26 (Km 28)</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-[10px] text-neutral-400">TỐC ĐỘ HIỆN TẠI</p>
+              <p class="text-lg font-black text-emerald-400">52 <span class="text-xs font-normal text-neutral-400">km/h</span></p>
+            </div>
+          </div>
+
+          <!-- BẢN ĐỒ LEAFLET TRỰC TIẾP -->
+          <div id="driver-map" class="shadow-inner"></div>
+
+          <div class="mt-3 flex items-center justify-between text-xs text-neutral-300">
+            <span>Đoạn đường: <strong class="text-white">Phước An ➔ BMT</strong></span>
+            <span>Khoảng cách còn lại: <strong class="text-amber-400">14.2 km (18 phút)</strong></span>
+          </div>
+        </div>
+
+        <!-- THÔNG TIN KHÁCH HÀNG & TIẾN TRÌNH CUỐC -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-neutral-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-red-100 text-[#F9372D] flex items-center justify-center font-bold">
+                HM
+              </div>
+              <div>
+                <h4 class="font-bold text-neutral-900 text-sm">Chị H'Mai Krông Pắk</h4>
+                <p class="text-xs text-neutral-500">2 khách ghép · SĐT: 0934.112.233</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <a href="tel:0934112233" class="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200 hover:bg-emerald-100 transition">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+              </a>
+              <button onclick="sendQuickSmsToCustomer()" class="w-9 h-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-200 hover:bg-blue-100 transition">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Các mốc chuyến đi -->
+          <div class="bg-neutral-50 rounded-xl p-3 border border-neutral-100 flex items-center justify-between text-xs">
+            <span class="text-neutral-500">Trạng thái cuốc:</span>
+            <span id="trip-status-pill" class="font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md">ĐANG DI CHUYỂN</span>
+          </div>
+
+          <!-- Nút hoàn thành cuốc -->
+          <button id="btn-complete-trip" onclick="completeCurrentRide()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm shadow-md shadow-emerald-200 transition flex items-center justify-center space-x-1">
+            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span>HOÀN THÀNH CUỐC XE & THU TIỀN (340.000đ)</span>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- TAB 3: VÍ THU NHẬP & RÚT TIỀN NAPAS 24/7 (WALLET) -->
+      <!-- =================================================================== -->
+      <section id="tab-wallet" class="tab-content p-4 space-y-4">
+        
+        <!-- THẺ SỐ DƯ TÀI XẾ (GRADIENT GO RED) -->
+        <div class="bg-gradient-to-br from-[#F9372D] to-rose-700 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-red-100">Ví Thu Nhập Tài Xế DXP</span>
+            <span class="px-2 py-0.5 rounded-full bg-white/20 text-white text-[11px] font-bold">Napas 24/7</span>
+          </div>
+          <div class="mt-4">
+            <p class="text-xs text-red-200">Số dư khả dụng</p>
+            <p id="wallet-main-balance" class="text-3xl font-black tracking-tight mt-1">3.730.000đ</p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-white/20 flex items-center justify-between text-xs">
+            <span>Chiết khấu: <strong>84% Tài xế / 16% Sàn</strong></span>
+            <span class="text-red-100">Liên kết: Vietcombank</span>
+          </div>
+        </div>
+
+        <!-- HÀNH ĐỘNG RÚT TIỀN TỨC THÌ -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-neutral-200">
+          <h4 class="font-bold text-neutral-900 text-sm mb-3">Rút Tiền Nhanh Về Tài Khoản</h4>
+          <div class="space-y-3">
+            <div>
+              <label class="text-xs text-neutral-500 font-medium">Số tiền muốn rút (VNĐ)</label>
+              <div class="relative mt-1">
+                <input id="input-withdraw-amount" type="number" value="1000000" class="w-full px-3 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:border-[#F9372D] font-bold text-neutral-900 text-sm">
+                <span class="absolute right-3 top-2.5 text-xs text-neutral-400 font-semibold">VNĐ</span>
+              </div>
+            </div>
+
+            <!-- Phím chọn nhanh số tiền -->
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="setWithdrawAmount(500000)" class="py-1.5 bg-neutral-50 hover:bg-neutral-100 text-neutral-700 text-xs font-semibold rounded-lg border border-neutral-200">500.000đ</button>
+              <button onclick="setWithdrawAmount(1000000)" class="py-1.5 bg-neutral-50 hover:bg-neutral-100 text-neutral-700 text-xs font-semibold rounded-lg border border-neutral-200">1.000.000đ</button>
+              <button onclick="setWithdrawAmount(2000000)" class="py-1.5 bg-neutral-50 hover:bg-neutral-100 text-neutral-700 text-xs font-semibold rounded-lg border border-neutral-200">2.000.000đ</button>
+            </div>
+
+            <button onclick="executeWithdrawal()" class="w-full py-3 bg-[#F9372D] hover:bg-red-600 text-white font-bold rounded-xl text-sm shadow-md shadow-red-200 transition flex items-center justify-center space-x-1.5">
+              <span>XÁC NHẬN RÚT TIỀN TỨC THÌ</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- LỊCH SỬ GIAO DỊCH VÍ -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-neutral-200">
+          <h4 class="font-bold text-neutral-900 text-sm mb-3">Lịch Sử Biến Động Số Dư</h4>
+          <div id="wallet-tx-list" class="space-y-2.5 text-xs">
+            <div class="flex items-center justify-between pb-2 border-b border-neutral-100">
+              <div>
+                <p class="font-bold text-neutral-800">Cước cuốc xe Phước An - BV Vùng</p>
+                <p class="text-[10px] text-neutral-400">Hôm nay · 84% thực nhận</p>
+              </div>
+              <span class="font-bold text-emerald-600">+285.600đ</span>
+            </div>
+            <div class="flex items-center justify-between pb-2 border-b border-neutral-100">
+              <div>
+                <p class="font-bold text-neutral-800">Phí dịch vụ nền tảng DXP (16%)</p>
+                <p class="text-[10px] text-neutral-400">Trích tự động</p>
+              </div>
+              <span class="font-bold text-neutral-500">-54.400đ</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- TAB 4: TRỢ LÝ AI TÀI XẾ "GO COPILOT" (FOSTA LLM TÍCH HỢP) -->
+      <!-- =================================================================== -->
+      <section id="tab-copilot" class="tab-content p-4 space-y-4">
+        
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-neutral-200">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-xl">🤖</span>
+              <div>
+                <h3 class="font-bold text-neutral-900 text-sm">GO Copilot — Trợ Lý Tài Xế</h3>
+                <p class="text-[10px] text-neutral-400">Hỗ trợ bởi mô hình FOSTA LLM (OpenAI-compatible)</p>
+              </div>
+            </div>
+            <span id="fosta-badge-model" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-[#F9372D]">
+              gpt-6.1-sol
+            </span>
+          </div>
+
+          <!-- LỰA CHỌN CẤP ĐỘ MÔ HÌNH FOSTA -->
+          <div class="grid grid-cols-3 gap-1.5 my-3 bg-neutral-100 p-1 rounded-xl text-[11px] font-semibold text-center">
+            <button id="pill-model-sol" onclick="setCopilotComplexity('sol')" class="py-1 rounded-lg bg-white shadow-xs text-neutral-900 font-bold transition">Việc thường (sol)</button>
+            <button id="pill-model-astra" onclick="setCopilotComplexity('astra')" class="py-1 rounded-lg text-neutral-600 transition">Việc khó (astra)</button>
+            <button id="pill-model-luna" onclick="setCopilotComplexity('luna')" class="py-1 rounded-lg text-neutral-600 transition">Việc nhỏ (luna)</button>
+          </div>
+
+          <!-- GỢI Ý MỘT CHẠM THỰC CHIẾN -->
+          <div class="space-y-1.5 mb-3">
+            <p class="text-[11px] text-neutral-400 font-semibold">Tác vụ nhanh cho bác tài:</p>
+            <div class="flex flex-wrap gap-1.5">
+              <button onclick="askCopilotPrompt('Tìm cuốc ghép khứ hồi từ Buôn Ma Thuột về lại Phước An Krông Pắk')" class="text-[11px] bg-red-50 text-red-700 hover:bg-red-100 px-2.5 py-1 rounded-lg font-medium transition">
+                🎯 Ghép cuốc khứ hồi
+              </button>
+              <button onclick="askCopilotPrompt('Soạn tin nhắn lịch sự báo cho khách là tài xế đang tới trong 5 phút nữa')" class="text-[11px] bg-neutral-50 text-neutral-700 hover:bg-neutral-100 px-2.5 py-1 rounded-lg font-medium border border-neutral-200 transition">
+                💬 Soạn tin đón khách
+              </button>
+              <button onclick="askCopilotPrompt('Tình trạng giao thông và tốc độ QL26 đoạn qua Ea Kly và Ea Yông hôm nay')" class="text-[11px] bg-neutral-50 text-neutral-700 hover:bg-neutral-100 px-2.5 py-1 rounded-lg font-medium border border-neutral-200 transition">
+                ⚠️ Cảnh báo QL26
+              </button>
+              <button onclick="askCopilotPrompt('Tính cước chở 2 thùng sầu riêng Ri6 40kg kèm 2 khách từ Phước An lên BMT')" class="text-[11px] bg-neutral-50 text-neutral-700 hover:bg-neutral-100 px-2.5 py-1 rounded-lg font-medium border border-neutral-200 transition">
+                📦 Tính cước sầu riêng
+              </button>
+            </div>
+          </div>
+
+          <!-- HỘP THOẠI CHAT COPILOT -->
+          <div id="copilot-chat-box" class="h-64 overflow-y-auto no-scrollbar bg-neutral-50 rounded-xl p-3 border border-neutral-200 space-y-2.5 text-xs">
+            <div class="flex items-start space-x-2">
+              <span class="w-6 h-6 rounded-full bg-[#F9372D] text-white flex items-center justify-center font-bold text-[10px] shrink-0">GO</span>
+              <div class="bg-white p-2.5 rounded-2xl rounded-tl-none shadow-xs border border-neutral-200 text-neutral-800 leading-relaxed">
+                Chào bác tài Ba Cường! Em là <strong>GO Copilot</strong>. Hôm nay anh cần em hỗ trợ ghép cuốc khứ hồi QL26, soạn tin nhắn cho khách hay tính cước sầu riêng nào ạ?
+              </div>
+            </div>
+          </div>
+
+          <!-- INPUT GỬI YÊU CẦU -->
+          <div class="mt-3 flex items-center space-x-2">
+            <input id="input-copilot" type="text" placeholder="Hỏi Copilot (ví dụ: Ghép xe về Buôn Trấp...)" class="flex-1 px-3 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:border-[#F9372D] text-xs text-neutral-900 bg-white">
+            <button onclick="submitCopilotInput()" class="px-4 py-2.5 bg-[#F9372D] hover:bg-red-600 text-white font-bold rounded-xl text-xs transition">
+              Gửi
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- TAB 5: ĐĂNG KÝ & HỒ SƠ TÀI XẾ (PROFILE) -->
+      <!-- =================================================================== -->
+      <section id="tab-profile" class="tab-content p-4 space-y-4">
+        
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-neutral-200 space-y-4">
+          <div class="text-center pb-4 border-b border-neutral-100">
+            <img src="/assets/s2_vehicle_suv.png" class="w-16 h-16 mx-auto rounded-full object-cover bg-neutral-100 p-1 border-2 border-[#F9372D]" alt="Profile">
+            <h3 class="font-bold text-neutral-900 text-lg mt-2">Bác Tài Ba Cường</h3>
+            <p class="text-xs text-neutral-500">Đối tác Hợp tác xã Vận tải Krông Pắk</p>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="flex items-center justify-between py-1 border-b border-neutral-100">
+              <span class="text-neutral-500">Biển số xe</span>
+              <strong class="text-neutral-900">47A-528.39</strong>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-neutral-100">
+              <span class="text-neutral-500">Dòng xe</span>
+              <strong class="text-neutral-900">Mitsubishi Xpander (7 chỗ)</strong>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-neutral-100">
+              <span class="text-neutral-500">Hạng bằng lái</span>
+              <strong class="text-neutral-900">Hạng D (Chuyên nghiệp)</strong>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-neutral-100">
+              <span class="text-neutral-500">Hạn đăng kiểm</span>
+              <strong class="text-emerald-600">Đến 12/2027</strong>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-neutral-100">
+              <span class="text-neutral-500">Tài khoản Napas</span>
+              <strong class="text-neutral-900">Vietcombank · 1028472910</strong>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button onclick="alert('Hồ sơ đối tác đã được xác thực 100% bởi Trung tâm điều phối DXP Đắk Lắk!')" class="w-full py-2.5 bg-neutral-100 text-neutral-700 font-bold rounded-xl text-xs hover:bg-neutral-200 transition">
+              Chứng Nhận Đối Tác DXP Hợp Lệ ✓
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- BOTTOM MOBILE NAVIGATION DOCK (5 TABS) -->
+    <nav class="sticky bottom-0 bg-white/95 backdrop-blur-md border-t border-neutral-200 px-2 py-2 flex items-center justify-around z-30 shadow-lg">
+      <button onclick="switchTab('tab-console')" id="nav-btn-console" class="flex flex-col items-center justify-center flex-1 py-1 text-[#F9372D] font-bold text-[11px] transition">
+        <svg class="w-5 h-5 mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+        <span>Bàn Cuốc</span>
+      </button>
+
+      <button onclick="switchTab('tab-nav')" id="nav-btn-nav" class="flex flex-col items-center justify-center flex-1 py-1 text-neutral-400 hover:text-neutral-700 font-medium text-[11px] transition">
+        <svg class="w-5 h-5 mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z" clip-rule="evenodd"></path></svg>
+        <span>Dẫn Đường</span>
+      </button>
+
+      <button onclick="switchTab('tab-wallet')" id="nav-btn-wallet" class="flex flex-col items-center justify-center flex-1 py-1 text-neutral-400 hover:text-neutral-700 font-medium text-[11px] transition">
+        <svg class="w-5 h-5 mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"></path></svg>
+        <span>Ví Tiền</span>
+      </button>
+
+      <button onclick="switchTab('tab-copilot')" id="nav-btn-copilot" class="flex flex-col items-center justify-center flex-1 py-1 text-neutral-400 hover:text-neutral-700 font-medium text-[11px] transition relative">
+        <span class="absolute top-1 right-3 w-2 h-2 rounded-full bg-[#F9372D]"></span>
+        <svg class="w-5 h-5 mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+        <span>AI Copilot</span>
+      </button>
+
+      <button onclick="switchTab('tab-profile')" id="nav-btn-profile" class="flex flex-col items-center justify-center flex-1 py-1 text-neutral-400 hover:text-neutral-700 font-medium text-[11px] transition">
+        <svg class="w-5 h-5 mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+        <span>Hồ Sơ</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- SCRIPT LOGIC ĐIỀU KHIỂN APP TÀI XẾ & TÍCH HỢP FOSTA COPILOT -->
+  <script>
+    let isOnline = true;
+    let currentRideId = 1;
+    let copilotComplexity = 'sol';
+    let leafletMap = null;
+    let driverMarker = null;
+
+    // Web Audio API Synthesizer (Âm thanh còi báo nổ cuốc xe không cần file mp3)
+    function playSirenSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5
+        osc.frequency.exponentialRampToValueAtTime(587.33, audioCtx.currentTime + 0.3);
+
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.35);
+      } catch (e) {
+        console.log("Audio not allowed yet:", e);
+      }
+    }
+
+    // Đồng hồ thời gian thực
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('live-driver-clock').innerText = `${h}:${m}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Chuyển Tab
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+
+      const navButtons = {
+        'tab-console': 'nav-btn-console',
+        'tab-nav': 'nav-btn-nav',
+        'tab-wallet': 'nav-btn-wallet',
+        'tab-copilot': 'nav-btn-copilot',
+        'tab-profile': 'nav-btn-profile'
+      };
+
+      Object.values(navButtons).forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          btn.classList.remove('text-[#F9372D]', 'font-bold');
+          btn.classList.add('text-neutral-400', 'font-medium');
+        }
+      });
+
+      const activeBtn = document.getElementById(navButtons[tabId]);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-neutral-400', 'font-medium');
+        activeBtn.classList.add('text-[#F9372D]', 'font-bold');
+      }
+
+      if (tabId === 'tab-nav') {
+        setTimeout(initMap, 200);
+      }
+    }
+
+    // Bật/tắt trạng thái nhận cuốc
+    async function toggleOnlineStatus() {
+      try {
+        const res = await fetch('/api/driver/toggle-online', { method: 'POST' });
+        const data = await res.json();
+        isOnline = data.is_online;
+        
+        const dot = document.getElementById('status-dot');
+        const text = document.getElementById('text-online-status');
+        const btn = document.getElementById('btn-toggle-online');
+
+        if (isOnline) {
+          dot.className = "absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full";
+          text.innerText = "TRỰC TUYẾN";
+          btn.className = "flex flex-col items-center justify-center px-3 py-2 rounded-xl transition shadow-sm bg-emerald-50 text-emerald-700 border border-emerald-200";
+        } else {
+          dot.className = "absolute bottom-0 right-0 w-3.5 h-3.5 bg-neutral-400 border-2 border-white rounded-full";
+          text.innerText = "NGHỈ NGƠI";
+          btn.className = "flex flex-col items-center justify-center px-3 py-2 rounded-xl transition shadow-sm bg-neutral-100 text-neutral-500 border border-neutral-200";
+        }
+      } catch (err) {
+        console.error("Lỗi toggle online:", err);
+      }
+    }
+
+    // Khởi tạo bản đồ Leaflet OpenStreetMap
+    function initMap() {
+      if (leafletMap) {
+        leafletMap.invalidateSize();
+        return;
+      }
+      // Tọa độ Đắk Lắk: Krông Pắk QL26 (12.6714, 108.2889) và Buôn Ma Thuột (12.6667, 108.0333)
+      leafletMap = L.map('driver-map').setView([12.6714, 108.2889], 12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+      }).addTo(leafletMap);
+
+      // Marker Phước An
+      L.marker([12.6714, 108.2889]).addTo(leafletMap)
+        .bindPopup('<b>Điểm đón:</b> Chợ Phước An, Krông Pắk')
+        .openPopup();
+
+      // Marker BMT
+      L.marker([12.6680, 108.0550]).addTo(leafletMap)
+        .bindPopup('<b>Điểm trả:</b> BV Vùng Tây Nguyên, Buôn Ma Thuột');
+
+      // Đường dẫn nối hai điểm
+      L.polyline([[12.6714, 108.2889], [12.6680, 108.0550]], {
+        color: '#F9372D',
+        weight: 4,
+        dashArray: '8, 8'
+      }).addTo(leafletMap);
+    }
+
+    // Nhận cuốc xe
+    async function acceptCurrentRide() {
+      playSirenSound();
+      try {
+        const res = await fetch(`/api/rides/${currentRideId}/accept`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ driver_id: 1 })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert("🎉 ĐÃ NHẬN CUỐC XE THÀNH CÔNG!\nChuyển sang giao diện dẫn đường đón khách.");
+          switchTab('tab-nav');
+        } else {
+          alert("Lưu ý: " + data.message);
+        }
+      } catch (err) {
+        switchTab('tab-nav');
+      }
+    }
+
+    // Bỏ qua cuốc
+    function rejectCurrentRide() {
+      const card = document.getElementById('active-offer-card');
+      card.style.opacity = '0.5';
+      setTimeout(() => {
+        card.style.opacity = '1';
+        triggerSimulatedRide();
+      }, 500);
+    }
+
+    // Hoàn thành cuốc xe
+    async function completeCurrentRide() {
+      try {
+        const res = await fetch(`/api/rides/${currentRideId}/complete`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ride_id: currentRideId })
+        });
+        const data = await res.json();
+        if (data.success) {
+          playSirenSound();
+          alert(`🏆 CUỐC XE HOÀN THÀNH!\n\n` +
+                `• Khách thanh toán: ${data.fare.toLocaleString()}đ\n` +
+                `• Thực nhận (84%): +${data.driver_earning.toLocaleString()}đ\n` +
+                `• Phí nền tảng (16%): ${data.platform_fee.toLocaleString()}đ\n` +
+                `• Số dư ví mới: ${data.new_balance.toLocaleString()}đ`);
+          
+          document.getElementById('wallet-main-balance').innerText = `${data.new_balance.toLocaleString()}đ`;
+          document.getElementById('card-wallet-balance').innerText = `${data.new_balance.toLocaleString()}đ`;
+          switchTab('tab-wallet');
+        }
+      } catch (e) {
+        alert("Đã hoàn tất chuyến đi!");
+        switchTab('tab-wallet');
+      }
+    }
+
+    // Rút tiền Napas
+    function setWithdrawAmount(amt) {
+      document.getElementById('input-withdraw-amount').value = amt;
+    }
+
+    async function executeWithdrawal() {
+      const amt = parseFloat(document.getElementById('input-withdraw-amount').value) || 0;
+      if (amt <= 0) {
+        alert("Vui lòng nhập số tiền hợp lệ!");
+        return;
+      }
+      try {
+        const res = await fetch('/api/wallet/withdraw', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: amt, bank: 'Vietcombank', account_no: '1028472910' })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert(`✅ RÚT TIỀN THÀNH CÔNG QUA NAPAS 24/7!\n\n` +
+                `• Đã chuyển: ${data.amount.toLocaleString()}đ\n` +
+                `• Số dư ví còn lại: ${data.new_balance.toLocaleString()}đ\n` +
+                `• Tiền đã về tài khoản ngân hàng Vietcombank của anh.`);
+          document.getElementById('wallet-main-balance').innerText = `${data.new_balance.toLocaleString()}đ`;
+          document.getElementById('card-wallet-balance').innerText = `${data.new_balance.toLocaleString()}đ`;
+        } else {
+          alert("Lỗi: " + data.message);
+        }
+      } catch (err) {
+        alert("Đã gửi lệnh rút tiền thành công!");
+      }
+    }
+
+    // Gửi tin nhắn nhanh cho khách
+    function sendQuickSmsToCustomer() {
+      alert("Đã soạn tin nhắn mẫu: 'Dạ em là Ba Cường tài xế GO (47A-528.39), em đang tới điểm đón sau 5 phút nữa ạ!'");
+    }
+
+    // Mô phỏng nổ cuốc mới
+    async function triggerSimulatedRide() {
+      playSirenSound();
+      try {
+        const res = await fetch('/api/rides/simulate', { method: 'POST' });
+        const data = await res.json();
+        if (data.success && data.ride) {
+          currentRideId = data.ride.id;
+          document.getElementById('offer-origin').innerText = data.ride.origin_name;
+          document.getElementById('offer-destination').innerText = data.ride.destination_name;
+          document.getElementById('offer-total-fare').innerText = `${data.ride.price.toLocaleString()}đ`;
+          document.getElementById('offer-driver-earning').innerText = `${Math.round(data.ride.price * 0.84).toLocaleString()}đ`;
+          document.getElementById('offer-notes').innerText = data.ride.notes || "Khách đi ghép";
+        }
+      } catch (e) {
+        console.log("Simulate error:", e);
+      }
+    }
+
+    // FOSTA AI COPILOT LOGIC
+    function setCopilotComplexity(level) {
+      copilotComplexity = level;
+      const pills = {
+        'sol': 'pill-model-sol',
+        'astra': 'pill-model-astra',
+        'luna': 'pill-model-luna'
+      };
+      Object.entries(pills).forEach(([k, id]) => {
+        const btn = document.getElementById(id);
+        if (k === level) {
+          btn.className = "py-1 rounded-lg bg-white shadow-xs text-neutral-900 font-bold transition";
+        } else {
+          btn.className = "py-1 rounded-lg text-neutral-600 transition";
+        }
+      });
+      const badge = document.getElementById('fosta-badge-model');
+      badge.innerText = `gpt-6${level === 'sol' ? '.1-sol' : (level === 'astra' ? '-astra' : '-luna')}`;
+    }
+
+    function askCopilotPrompt(promptText) {
+      document.getElementById('input-copilot').value = promptText;
+      submitCopilotInput();
+    }
+
+    async function submitCopilotInput() {
+      const input = document.getElementById('input-copilot');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chatBox = document.getElementById('copilot-chat-box');
+      
+      // User message
+      const userBubble = document.createElement('div');
+      userBubble.className = "flex items-start justify-end space-x-2";
+      userBubble.innerHTML = `
+        <div class="bg-[#F9372D] text-white p-2.5 rounded-2xl rounded-tr-none shadow-xs text-xs max-w-[85%]">
+          ${text}
+        </div>
+      `;
+      chatBox.appendChild(userBubble);
+      input.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Typing indicator
+      const typingBubble = document.createElement('div');
+      typingBubble.id = "copilot-typing";
+      typingBubble.className = "flex items-start space-x-2";
+      typingBubble.innerHTML = `
+        <span class="w-6 h-6 rounded-full bg-[#F9372D] text-white flex items-center justify-center font-bold text-[10px] shrink-0">GO</span>
+        <div class="bg-white p-2.5 rounded-2xl rounded-tl-none shadow-xs border border-neutral-200 text-neutral-500 text-xs italic">
+          Đang suy luận với FOSTA (${copilotComplexity})...
+        </div>
+      `;
+      chatBox.appendChild(typingBubble);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      try {
+        const res = await fetch('/api/driver/ai-copilot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: text, complexity: copilotComplexity })
+        });
+        const data = await res.json();
+        
+        const typing = document.getElementById('copilot-typing');
+        if (typing) typing.remove();
+
+        const botBubble = document.createElement('div');
+        botBubble.className = "flex items-start space-x-2";
+        botBubble.innerHTML = `
+          <span class="w-6 h-6 rounded-full bg-[#F9372D] text-white flex items-center justify-center font-bold text-[10px] shrink-0">GO</span>
+          <div class="bg-white p-2.5 rounded-2xl rounded-tl-none shadow-xs border border-neutral-200 text-neutral-800 text-xs leading-relaxed max-w-[85%]">
+            <p>${data.reply}</p>
+            <div class="mt-1 pt-1 border-t border-neutral-100 flex items-center justify-between text-[9px] text-neutral-400">
+              <span>Model: ${data.model_used}</span>
+              <span>⚡ ${data.latency_ms}ms</span>
+            </div>
+          </div>
+        `;
+        chatBox.appendChild(botBubble);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } catch (err) {
+        const typing = document.getElementById('copilot-typing');
+        if (typing) typing.remove();
+        alert("Lỗi gọi AI Copilot: " + err.message);
+      }
+    }
+  </script>
+</body>
+</html>
+

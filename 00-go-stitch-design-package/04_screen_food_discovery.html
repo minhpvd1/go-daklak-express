@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-white text-neutral-900 select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>GO | Đồ Ăn — Quán Ngon Giao Tận Nơi Đắk Lắk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #FFFFFF;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+    .touch-target {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col justify-between overflow-x-hidden no-scrollbar bg-white text-neutral-900">
+
+  <!-- SCROLLABLE FEED CONTAINER -->
+  <div class="flex-1 overflow-y-auto no-scrollbar pb-24">
+
+    <!-- TOP STATUS BAR SIMULATION (LIGHT THEME) -->
+    <header class="sticky top-0 bg-white/95 backdrop-blur-md z-30 pt-1 pb-1 border-b border-neutral-100">
+      <div class="h-9 px-6 flex items-center justify-between text-xs font-semibold text-neutral-900">
+        <span class="font-bold text-[14px] tracking-tight" id="live-clock">9:41</span>
+        <div class="flex items-center space-x-1.5 text-xs">
+          <svg class="w-4 h-3 fill-current" viewBox="0 0 17 11"><path d="M1 9h2V2H1v7zm4 0h2V0H5v9zm4 0h2V4H9v5zm4 0h2V6h-2v3z"/></svg>
+          <svg class="w-3.5 h-3 fill-current" viewBox="0 0 14 10"><path d="M7 10a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm-4.2-4a5.9 5.9 0 018.4 0l1.4-1.4a7.9 7.9 0 00-11.2 0L2.8 6zm-2.8-2.8a9.9 9.9 0 0114 0l1.4-1.4a11.9 11.9 0 00-16.8 0L0 3.2z"/></svg>
+          <div class="w-5 h-2.5 border border-neutral-900 rounded-sm p-0.5 flex items-center">
+            <div class="w-full h-full bg-neutral-900 rounded-[1px]"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- APP HEADER: GO | ĐỒ ĂN (LIGHT THEME) -->
+      <div class="px-4 py-2 flex items-center justify-between">
+        <!-- Logo & Title -->
+        <div onclick="location.href='01_screen_home_discovery.html'" class="flex items-center space-x-2 cursor-pointer active:opacity-85 transition-opacity">
+          <img src="assets/s1_logo_header.png" alt="GO" class="h-10 w-auto object-contain -ml-2 drop-shadow-sm">
+          <span class="text-neutral-300 text-lg font-light">|</span>
+          <span class="text-[19px] font-bold text-neutral-900 tracking-tight">Đồ ăn</span>
+        </div>
+
+        <!-- Header Right Actions: Back to Home & Cart -->
+        <div class="flex items-center space-x-1.5 text-neutral-800">
+          <button onclick="location.href='08_screen_cart_checkout.html'" aria-label="Xem giỏ hàng" class="touch-target relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-neutral-100 active:scale-95 transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span class="absolute top-1.5 right-1.5 w-4 h-4 bg-[#F9372D] text-white text-[9px] font-bold rounded-full flex items-center justify-center">1</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- LOCATION ADDRESS BAR -->
+      <div class="px-4 py-1 flex items-center justify-between cursor-pointer hover:bg-neutral-50 rounded-xl transition-all">
+        <div class="flex items-center space-x-2">
+          <div class="w-5 h-5 rounded-full bg-[#F9372D] flex items-center justify-center text-white shrink-0 shadow-sm">
+            <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+          </div>
+          <span class="text-[13px] font-bold text-neutral-900 tracking-tight">Giao đến: 123 Lê Thánh Tông, Buôn Ma Thuột</span>
+        </div>
+        <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </div>
+
+      <!-- SEARCH BAR (LIGHT THEME) -->
+      <div class="px-4 py-2">
+        <div class="h-10 px-3.5 rounded-full bg-[#F3F4F6] border border-neutral-200 flex items-center space-x-2.5 text-neutral-500 focus-within:border-[#F9372D] transition-all">
+          <svg class="w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input type="text" id="food-search-input" oninput="filterFoodSearch(this.value)" placeholder="Tìm KFC, mì cay, trà sữa, khoai tây..." class="bg-transparent text-[13px] text-neutral-800 placeholder-neutral-400 focus:outline-none w-full font-medium">
+        </div>
+      </div>
+
+      <!-- 5 CATEGORY PILLS (Horizontal Scroll on White) -->
+      <nav aria-label="Danh mục món ăn" class="px-4 py-2 flex items-center space-x-2 overflow-x-auto no-scrollbar">
+        <!-- Tất cả (Active Red) -->
+        <button id="cat-all" onclick="filterFoodCategory('all')" class="food-cat-pill px-3.5 py-1.5 rounded-full bg-[#F9372D] text-white font-bold text-[12px] flex items-center space-x-1.5 shadow-sm active:scale-95 transition-all shrink-0">
+          <span>🍴</span>
+          <span>Tất cả</span>
+        </button>
+        <!-- Đồ uống -->
+        <button id="cat-drinks" onclick="filterFoodCategory('drinks')" class="food-cat-pill px-3.5 py-1.5 rounded-full bg-[#F3F4F6] border border-neutral-200/80 text-neutral-700 font-semibold text-[12px] flex items-center space-x-1.5 hover:bg-neutral-200 active:scale-95 transition-all shrink-0">
+          <span>☕</span>
+          <span>Đồ uống</span>
+        </button>
+        <!-- Món chính -->
+        <button id="cat-mains" onclick="filterFoodCategory('mains')" class="food-cat-pill px-3.5 py-1.5 rounded-full bg-[#F3F4F6] border border-neutral-200/80 text-neutral-700 font-semibold text-[12px] flex items-center space-x-1.5 hover:bg-neutral-200 active:scale-95 transition-all shrink-0">
+          <span>🍗</span>
+          <span>Món chính</span>
+        </button>
+        <!-- Ăn vặt -->
+        <button id="cat-snacks" onclick="filterFoodCategory('snacks')" class="food-cat-pill px-3.5 py-1.5 rounded-full bg-[#F3F4F6] border border-neutral-200/80 text-neutral-700 font-semibold text-[12px] flex items-center space-x-1.5 hover:bg-neutral-200 active:scale-95 transition-all shrink-0">
+          <span>🍟</span>
+          <span>Ăn vặt</span>
+        </button>
+        <!-- Tráng miệng -->
+        <button id="cat-desserts" onclick="filterFoodCategory('desserts')" class="food-cat-pill px-3.5 py-1.5 rounded-full bg-[#F3F4F6] border border-neutral-200/80 text-neutral-700 font-semibold text-[12px] flex items-center space-x-1.5 hover:bg-neutral-200 active:scale-95 transition-all shrink-0">
+          <span>🍰</span>
+          <span>Tráng miệng</span>
+        </button>
+      </nav>
+
+    </header>
+
+    <!-- PROMO BANNER (KFC 50%) -->
+    <div class="px-3.5 pt-2" id="kfc-promo-banner">
+      <div onclick="location.href='05_screen_kfc_store.html'" class="rounded-2xl overflow-hidden cursor-pointer shadow-md active:scale-[0.99] transition-all border border-neutral-200 group">
+        <img src="assets/s4_promo_banner.jpg" alt="Ưu đãi hấp dẫn KFC Giảm ngay 50%" class="w-full h-auto object-cover group-hover:scale-[1.01] transition-transform">
+      </div>
+    </div>
+
+    <!-- 6 FOOD DISHES GRID (Ảnh thật 100% trên nền thẻ trắng sáng) -->
+    <main class="px-3.5 pt-3 grid grid-cols-2 gap-2.5" id="food-grid">
+
+      <!-- Dish 1: Trà sữa YiHe (Đồ uống) -->
+      <article data-food-category="drinks" data-food-name="tra sua yihe tang do uong" onclick="location.href='05_screen_kfc_store.html'" class="food-card rounded-2xl overflow-hidden bg-white border border-neutral-200 shadow-sm cursor-pointer active:scale-[0.98] transition-all flex flex-col">
+        <img src="assets/s4_food_yihe.jpg" alt="Trà sữa YiHe" class="w-full h-auto object-cover">
+      </article>
+
+      <!-- Dish 2: Mì cay Samyang (Món chính) -->
+      <article data-food-category="mains" data-food-name="mi cay samyang mi han quoc mon chinh" onclick="location.href='06_screen_kfc_food_detail.html'" class="food-card rounded-2xl overflow-hidden bg-white border border-neutral-200 shadow-sm cursor-pointer active:scale-[0.98] transition-all flex flex-col">
+        <img src="assets/s4_food_samyang.jpg" alt="Mì cay Samyang" class="w-full h-auto object-cover">
+      </article>
+
+      <!-- Dish 3: Gà rán KFC (Món chính) -->
+      <article data-food-category="mains" data-food-name="ga ran kfc kfc vietnam mon chinh" onclick="location.href='06_screen_kfc_food_detail.html'" class="food-card rounded-2xl overflow-hidden bg-white border border-neutral-200 shadow-sm cursor-pointer active:scale-[0.98] transition-all flex flex-col">
+        <img src="assets/s4_food_kfc.jpg" alt="Gà rán KFC" class="w-full h-auto object-cover">
+      </article>
+
+      <!-- Dish 4: Khoai tây chiên (Ăn vặt) -->
+      <article data-food-category="snacks" data-food-name="khoai tay chien kfc an vat" onclick="location.href='06_screen_kfc_food_detail.html'" class="food-card rounded-2xl overflow-hidden bg-white border border-neutral-200 shadow-sm cursor-pointer active:scale-[0.98] transition-all flex flex-col">
+        <img src="assets/s4_food_fries.jpg" alt="Khoai tây chiên" class="w-full h-auto object-cover">
+      </article>
+
+      <!-- Dish 5: Bánh tráng trộn (Ăn vặt) -->
+      <article data-food-category="snacks" data-food-name="banh trang tron an vat" onclick="location.href='05_screen_kfc_store.html'" class="food-card rounded-2xl overflow-hidden bg-white border border-neutral-200 shadow-sm cursor-pointer active:scale-[0.98] transition-all flex flex-col">
+        <img src="assets/s4_food_banhtrang.jpg" alt="Bánh tráng trộn" class="w-full h-auto object-cover">
+      </article>
+
+      <!-- Dish 6: Bánh dâu tây (Tráng miệng) -->
+      <article data-food-category="desserts" data-food-name="banh dau tay banh ngot trang mieng" onclick="location.href='05_screen_kfc_store.html'" class="food-card rounded-2xl overflow-hidden bg-white border border-neutral-200 shadow-sm cursor-pointer active:scale-[0.98] transition-all flex flex-col">
+        <img src="assets/s4_food_cake.jpg" alt="Bánh dâu tây" class="w-full h-auto object-cover">
+      </article>
+
+    </main>
+
+  </div>
+
+  <!-- FIXED BOTTOM NAVIGATION BAR (WHITE THEME) -->
+  <nav role="tablist" class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-neutral-200 px-6 py-2 flex items-center justify-between z-30 max-w-[480px] mx-auto shadow-md">
+    <!-- Tab 1: Trang chủ -->
+    <button onclick="location.href='01_screen_home_discovery.html'" class="touch-target flex flex-col items-center text-neutral-500 hover:text-neutral-900 active:scale-95 transition-all">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span class="text-[11px] font-medium mt-0.5">Trang chủ</span>
+    </button>
+
+    <!-- Tab 2: Đồ ăn (Active Red) -->
+    <button onclick="filterFoodCategory('all')" class="touch-target flex flex-col items-center text-[#F9372D] active:scale-95 transition-all">
+      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.48l1.41-11.33c.12-.99-.66-1.85-1.66-1.85h-1.82l-2.07-4.14c-.38-.76-1.16-1.24-2.01-1.24H9.8c-.85 0-1.63.48-2.01 1.24L5.72 8.33H3.9c-1 0-1.78.86-1.66 1.85l1.41 11.33c.1.84.79 1.48 1.63 1.48h1.66v-2.05h11.12v2.05zM9.8 4.28h5.4l1.52 3.05H8.28L9.8 4.28z"/></svg>
+      <span class="text-[11px] font-extrabold mt-0.5">Đồ ăn</span>
+      <div class="w-3.5 h-0.5 bg-[#F9372D] rounded-full mt-0.5"></div>
+    </button>
+
+    <!-- Tab 3: Đơn hàng -->
+    <button onclick="location.href='10_screen_order_history.html'" class="touch-target flex flex-col items-center text-neutral-500 hover:text-neutral-900 active:scale-95 transition-all">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      <span class="text-[11px] font-medium mt-0.5">Đơn hàng</span>
+    </button>
+
+    <!-- Tab 4: Tài khoản -->
+    <button onclick="location.href='12_screen_user_wallet_profile.html'" class="touch-target flex flex-col items-center text-neutral-500 hover:text-neutral-900 active:scale-95 transition-all">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      <span class="text-[11px] font-medium mt-0.5">Tài khoản</span>
+    </button>
+  </nav>
+
+  <!-- Home Indicator (iPhone Bottom Bar) -->
+  <div class="fixed bottom-1 left-0 right-0 flex justify-center pointer-events-none z-40">
+    <div class="w-32 h-1 bg-black/25 rounded-full"></div>
+  </div>
+
+  <!-- JAVASCRIPT STATE CONTROLLER -->
+  <script>
+    // Live Clock
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const el = document.getElementById('live-clock');
+      if (el) el.textContent = `${h}:${m}`;
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    // Food Category Filter
+    function filterFoodCategory(category) {
+      const pills = document.querySelectorAll('.food-cat-pill');
+      pills.forEach(p => {
+        p.className = 'food-cat-pill px-3.5 py-1.5 rounded-full bg-[#F3F4F6] border border-neutral-200/80 text-neutral-700 font-semibold text-[12px] flex items-center space-x-1.5 hover:bg-neutral-200 active:scale-95 transition-all shrink-0';
+      });
+
+      const activePill = document.getElementById(`cat-${category}`);
+      if (activePill) {
+        activePill.className = 'food-cat-pill px-3.5 py-1.5 rounded-full bg-[#F9372D] text-white font-bold text-[12px] flex items-center space-x-1.5 shadow-sm active:scale-95 transition-all shrink-0';
+      }
+
+      const cards = document.querySelectorAll('.food-card');
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-food-category');
+        if (category === 'all' || cat === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Food Live Search
+    function filterFoodSearch(query) {
+      const q = query.trim().toLowerCase();
+      const cards = document.querySelectorAll('.food-card');
+      cards.forEach(card => {
+        const name = (card.getAttribute('data-food-name') || '').toLowerCase();
+        if (!q || name.includes(q)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

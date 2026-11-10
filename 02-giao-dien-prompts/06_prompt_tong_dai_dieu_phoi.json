@@ -1,0 +1,109 @@
+{
+  "screen_code": "DXP-UI-06",
+  "screen_slug": "ban-tong-dai-dieu-phoi-trung-tam",
+  "version": "2.4.0-PROD",
+  "block_1_meta_context": {
+    "screen_id": "SCREEN_06_CALL_CENTER_DISPATCHER_DESK",
+    "name_vi": "Bàn Tổng Đài Điều Phối Trung Tâm (Dispatcher Desk)",
+    "name_en": "Central Dispatcher & Call-Center Telephony Console",
+    "role": "dispatch",
+    "domain": "Điều hành tổng đài cuộc gọi, điều phối đội xe & Giám sát vận hành liên huyện",
+    "territory": "Trung tâm điều hành Đắk Lắk Express (phủ sóng Krông Pắk, Krông Ana, Buôn Ma Thuột)",
+    "design_objective": "Tạo giao diện màn hình rộng (Desktop / Tablet 16:9) cho nhân viên trực tổng đài: tiếp nhận cuộc gọi của bà con lớn tuổi qua hotline, gõ số điện thoại & điểm đón để bắn cuốc xuống tài xế trong 5 giây.",
+    "simplicity_principle": "Bảo đảm phục vụ 100% đối tượng người dân không rành smartphone, chỉ cần gọi hotline là có xe đón tận nhà."
+  },
+  "block_2_design_tokens": {
+    "color_palette": {
+      "dispatch_blue": "#2563EB",
+      "dispatch_blue_light": "#3B82F6",
+      "surface_base": "#0B1120",
+      "surface_panel": "#0F172A",
+      "border_panel": "#1E293B",
+      "badge_hotline": "#1E3A8A",
+      "text_primary": "#FFFFFF",
+      "text_muted": "#94A3B8"
+    },
+    "typography": {
+      "font_family": "Plus Jakarta Sans, sans-serif",
+      "hotline_font": "Space Grotesk, monospace",
+      "panel_title": "14px / Bold 700",
+      "table_data": "11px / Medium 500"
+    },
+    "border_radius": {
+      "panel": "16px",
+      "input": "8px",
+      "status_tag": "6px"
+    },
+    "elevation": "0 25px 50px -12px rgba(0, 0, 0, 0.7)"
+  },
+  "block_3_layout_wireframe": {
+    "viewport": "Desktop / Ultrawide landscape 16:9 (1920x1080px)",
+    "top_bar": "Dải tiêu đề hệ thống hiển thị: 'BÀN TỔNG ĐÀI ĐIỀU PHỐI DXP - HOTLINE: 0905.123.456' + Trạng thái trực tuyến của tổng đài viên",
+    "left_column": "Chiếm 35% chiều rộng: Khối nhập liệu cuộc gọi nhanh (Tên khách, SĐT, Điểm đón, Điểm trả, Ghi chú đón) + Nút 'BẮN LỆNH ĐIỀU XE'",
+    "right_column": "Chiếm 65% chiều rộng: Bản đồ vệ tinh số hiển thị vị trí toàn bộ xe 7 chỗ, xe 4 chỗ và xe máy đang trực tuyến trên các cung đường liên huyện",
+    "bottom_tray": "Bảng dữ liệu thời gian thực ghi nhận toàn bộ cuốc xe và đơn hàng đang di chuyển trên hành lang"
+  },
+  "block_4_components_breakdown": {
+    "components": [
+      {
+        "id": "hotline_telephony_banner",
+        "type": "Emergency / Hotline Header",
+        "content": "HOTLINE TIẾP NHẬN BÀ CON: 0905.123.456 (Trực 24/7)"
+      },
+      {
+        "id": "rapid_call_intake_form",
+        "type": "Fast Data Entry Form",
+        "fields": [
+          {"name": "caller_name", "type": "text", "placeholder": "Tên khách (vd: Cô Tư, Bác Năm)"},
+          {"name": "caller_phone", "type": "tel", "placeholder": "Số điện thoại liên hệ"},
+          {"name": "hub_origin", "type": "select", "options": ["TT. Phước An", "Xã Ea Knuèc", "TT. Buôn Trấp", "Dray Sáp"]},
+          {"name": "hub_dest", "type": "select", "options": ["Ngã 6 Buôn Ma Thuột", "Bệnh Viện Vùng Tây Nguyên", "Bến Xe BMT"]},
+          {"name": "call_notes", "type": "text", "placeholder": "Ghi chú (kèm đồ đạc, đón trước cổng chợ...)"}
+        ],
+        "action": "Bắn Lệnh Điều Phối"
+      },
+      {
+        "id": "geospatial_fleet_radar",
+        "type": "Full-size Leaflet Live Map",
+        "features": ["Ghim xe thời gian thực", "Mật độ phân bổ xe theo huyện", "Lộ trình di chuyển"]
+      },
+      {
+        "id": "live_trips_ledger",
+        "type": "Data Table with Status Badges",
+        "columns": ["Mã chuyến", "Khách hàng", "Lộ trình", "Cước phí", "Tài xế tiếp nhận", "Trạng thái"]
+      }
+    ]
+  },
+  "block_5_state_machine_interactions": {
+    "states": [
+      {"state": "WAITING_CALL", "display": "Bàn tổng đài trực sẵn sàng, bản đồ xe cập nhật định kỳ mỗi 3 giây"},
+      {"state": "ENTERING_DETAILS", "display": "Tổng đài viên gõ thông tin người gọi, hệ thống tự động gợi ý nơi chốn gần nhất"},
+      {"state": "DISPATCH_FIRED", "display": "Bắn lệnh tức thì xuống tất cả tài xế quanh bán kính 5km, cuốc xe xuất hiện ngay trên hàng đợi trung tâm"}
+    ],
+    "micro_interactions": "Hỗ trợ phím tắt Enter để phát lệnh ngay mà không cần dùng chuột, tối ưu tốc độ nhận cuộc gọi liên tục."
+  },
+  "block_6_midjourney_v6_prompt": {
+    "prompt_raw": "A high-end enterprise desktop UI dashboard for a transportation and food delivery dispatch center in Vietnam, shown on a sleek 16-inch MacBook Pro display. Top navigation bar: 'BÀN TỔNG ĐÀI ĐIỀU PHỐI DXP - HOTLINE: 0905.123.456', corridor indicators for 'Krông Pắk ⇄ Krông Ana ⇄ Buôn Ma Thuột'. Split-screen layout: Left panel (35% width) has a rapid telephone booking form for phone operators taking calls from elderly residents: fields for Caller Name, Phone, Origin Hub, Destination Hub, Notes (đi bệnh viện, giao đồ ăn), and a blue action button 'BẮN LỆNH ĐIỀU XE'. Right panel (65% width) features a full interactive live radar map showing real-time GPS locations of all active 7-seater cars, taxis, and delivery scooters across QL26 and Tỉnh lộ 2. Bottom section displays an active corridor order table with live status badges: PENDING, DISPATCHED, COMPLETED. Professional dark blue slate #0B1120 theme, enterprise data visualization, crisp layout, 8k --ar 16:9 --v 6.0",
+    "aspect_ratio": "--ar 16:9",
+    "version_param": "--v 6.0",
+    "style_param": "--style raw"
+  },
+  "block_7_dalle3_flux_sdxl_prompts": {
+    "dalle_3": "Enterprise web dashboard for a ride-hailing and food delivery dispatch call center in Đắk Lắk on a laptop screen. Left side has telephone call intake form with fields for customer details and pickup hubs. Right side has a large live fleet map tracking vehicles across Krông Pắk, Krông Ana, and Buôn Ma Thuột. Bottom table lists active trips and statuses. Professional dark UI, clear data hierarchy.",
+    "flux_sdxl": "enterprise dispatch software, call center dashboard, desktop web application, dark theme #0B1120, live GPS fleet map, telephony order input form, real-time data table, professional UX, high quality monitor mockup, 8k resolution",
+    "negative_prompt": "cluttered screen, toy graphics, broken tables, unreadable small text, blurry maps, cartoon art"
+  },
+  "block_8_code_tailwind_figma_specs": {
+    "header_classes": "bg-slate-900 border-b border-slate-800 p-3 flex items-center justify-between z-20",
+    "form_classes": "p-3 bg-slate-950 border-b border-slate-800 space-y-2",
+    "btn_dispatch_classes": "px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-xs font-bold text-white flex items-center gap-1 shadow",
+    "table_row_classes": "p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs",
+    "figma_layer_hierarchy": "DesktopFrame > TopSystemBar [HotlineBadge + CorridorBreadcrumb] > SplitContainer [LeftTelephonyPanel + RightFleetRadarMap] > BottomActiveTripsTable"
+  },
+  "block_9_verification_checklist": {
+    "speed_of_dispatch": "Thời gian từ lúc gõ xong thông tin đến lúc bắn lệnh xuống máy tài xế < 200ms",
+    "accessibility_for_elderly": "Điện thoại viên có thể ghi chú đặc biệt: 'Bác lớn tuổi tai kém, tài xế đến nhớ bấm còi hoặc gọi trước'",
+    "data_durability": "Toàn bộ lịch sử cuộc gọi và cuốc xe được lưu vĩnh viễn trong SQLite dxp_production.db"
+  }
+}
+

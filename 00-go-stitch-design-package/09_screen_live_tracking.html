@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-white text-neutral-900 select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Theo Dõi Đơn Hàng — GO Live Tracking</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #FFFFFF;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-pin {
+      animation: pulse-ring 1.8s infinite ease-in-out;
+    }
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col justify-between overflow-hidden bg-white text-neutral-900 relative">
+
+  <!-- TOP MAP CONTAINER WITH LIVE ROUTE -->
+  <div class="relative w-full h-[45%] bg-neutral-100 overflow-hidden">
+    <img src="assets/s3_map_delivery.jpg" alt="Bản đồ giao hàng trực tiếp" class="w-full h-full object-cover">
+
+    <!-- Top Status Bar Simulation -->
+    <div class="absolute top-0 left-0 right-0 h-10 px-6 flex items-center justify-between text-xs font-semibold text-neutral-900 z-30 pointer-events-none bg-gradient-to-b from-white/80 to-transparent">
+      <span>9:41</span>
+      <div class="flex items-center space-x-1.5 text-xs">
+        <svg class="w-4 h-3 fill-current" viewBox="0 0 17 11"><path d="M1 9h2V2H1v7zm4 0h2V0H5v9zm4 0h2V4H9v5zm4 0h2V6h-2v3z"/></svg>
+        <svg class="w-3.5 h-3 fill-current" viewBox="0 0 14 10"><path d="M7 10a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm-4.2-4a5.9 5.9 0 018.4 0l1.4-1.4a7.9 7.9 0 00-11.2 0L2.8 6zm-2.8-2.8a9.9 9.9 0 0114 0l1.4-1.4a11.9 11.9 0 00-16.8 0L0 3.2z"/></svg>
+        <div class="w-5 h-2.5 border border-neutral-900 rounded-sm p-0.5 flex items-center">
+          <div class="w-full h-full bg-neutral-900 rounded-[1px]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Navigation Bar -->
+    <div class="absolute top-10 left-0 right-0 px-4 flex items-center justify-between z-30">
+      <button onclick="location.href='01_screen_home_discovery.html'" class="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-neutral-800 active:scale-95 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+
+      <!-- Center Status Badge -->
+      <div class="px-3 py-1.5 rounded-full bg-white shadow-md flex items-center space-x-2 border border-neutral-100">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-pin"></span>
+        <span class="text-xs font-bold text-neutral-900">Đang giao hàng (14 phút)</span>
+      </div>
+
+      <!-- Right Support Call -->
+      <button onclick="alert('Đang kết nối trung tâm hỗ trợ khách hàng GO Đắk Lắk: 1900.xxxx')" class="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-neutral-800 active:scale-95 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- BOTTOM LIVE TRACKING SHEET (WHITE THEME) -->
+  <div class="w-full bg-white rounded-t-[32px] shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-4 pt-3 pb-6 flex flex-col space-y-3 z-30 -mt-6 max-h-[58%] overflow-y-auto no-scrollbar border-t border-neutral-100">
+    
+    <!-- Drag Handle -->
+    <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto shrink-0"></div>
+
+    <!-- ETA & MAIN STATUS -->
+    <div class="flex items-center justify-between pt-1">
+      <div>
+        <span class="text-xs font-bold text-[#F9372D] uppercase tracking-wider block">Tài xế đang giao đơn</span>
+        <h2 class="text-[19px] font-black text-neutral-900 tracking-tight leading-tight mt-0.5">Dự kiến đến: 10:05 (14 phút)</h2>
+      </div>
+      <!-- Pin Code Badge -->
+      <div class="text-center px-3 py-1 rounded-xl bg-neutral-100 border border-neutral-200">
+        <span class="text-[10px] text-neutral-500 font-semibold block">MÃ NHẬN</span>
+        <span class="text-[16px] font-black text-neutral-900 font-mono tracking-widest">5289</span>
+      </div>
+    </div>
+
+    <!-- 4-STEP HORIZONTAL PROGRESS BAR -->
+    <div class="py-2">
+      <div class="grid grid-cols-4 gap-1.5 items-center">
+        <!-- Step 1: Đã nhận đơn -->
+        <div class="flex flex-col items-center text-center">
+          <div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shadow-sm">✓</div>
+          <span class="text-[10px] font-bold text-neutral-800 mt-1">Đã nhận</span>
+        </div>
+        <!-- Step 2: Quán chuẩn bị -->
+        <div class="flex flex-col items-center text-center">
+          <div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shadow-sm">✓</div>
+          <span class="text-[10px] font-bold text-neutral-800 mt-1">Quán nấu</span>
+        </div>
+        <!-- Step 3: Đang giao (Active) -->
+        <div class="flex flex-col items-center text-center">
+          <div class="w-6 h-6 rounded-full bg-[#F9372D] text-white flex items-center justify-center text-xs font-bold shadow-sm pulse-pin">🛵</div>
+          <span class="text-[10px] font-black text-[#F9372D] mt-1">Đang giao</span>
+        </div>
+        <!-- Step 4: Hoàn thành -->
+        <div class="flex flex-col items-center text-center">
+          <div class="w-6 h-6 rounded-full bg-neutral-200 text-neutral-400 flex items-center justify-center text-xs font-bold">4</div>
+          <span class="text-[10px] font-medium text-neutral-400 mt-1">Tới nơi</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DRIVER PARTNER CARD (Ba Cường) -->
+    <div class="p-3 rounded-2xl bg-[#F8F9FA] border border-neutral-200 flex items-center justify-between shadow-sm">
+      <div class="flex items-center space-x-3">
+        <div class="relative w-12 h-12 rounded-full bg-neutral-200 overflow-hidden border-2 border-emerald-500 shrink-0">
+          <img src="assets/s3_shipper_bike.png" alt="Tài xế" class="w-full h-full object-cover">
+          <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white"></span>
+        </div>
+        <div>
+          <div class="flex items-center space-x-1.5">
+            <span class="text-[14px] font-bold text-neutral-900 leading-tight">Ba Cường</span>
+            <span class="px-1.5 py-0.2 rounded bg-amber-50 text-[10px] font-bold text-amber-700 border border-amber-200">★ 4.98</span>
+          </div>
+          <div class="flex items-center space-x-1.5 mt-0.5">
+            <span class="text-[11px] font-mono font-bold text-neutral-800 bg-white px-1.5 py-0.2 rounded border border-neutral-200">47A-528.39</span>
+            <span class="text-[11px] text-neutral-500">Honda Lead Đỏ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons: Call & Chat -->
+      <div class="flex items-center space-x-2">
+        <button onclick="openDriverCallModal()" class="w-9 h-9 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center active:scale-95 transition-all shadow-sm">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+        </button>
+        <button onclick="openDriverChatModal()" class="w-9 h-9 rounded-full bg-red-50 border border-red-200 text-[#F9372D] flex items-center justify-center active:scale-95 transition-all shadow-sm">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zm-4 0H9v2h2V9z" clip-rule="evenodd"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ORDER SUMMARY ACCORDION -->
+    <div class="p-3 rounded-2xl bg-[#F8F9FA] border border-neutral-200 text-xs space-y-1.5">
+      <div class="flex items-center justify-between font-bold text-neutral-900 pb-1 border-b border-neutral-200">
+        <span>Chi tiết đơn: KFC Vietnam</span>
+        <span class="text-[#F9372D]">68.000đ (Tiền mặt COD)</span>
+      </div>
+      <div class="flex justify-between text-neutral-600">
+        <span>1x Gà Rán Truyền Thống (Thường) + Khoai + Pepsi</span>
+        <span class="font-semibold">68.000đ</span>
+      </div>
+      <div class="flex items-center justify-between pt-1 text-[11px] text-neutral-500">
+        <span>Giao đến: 123 Lê Thánh Tông</span>
+        <span class="text-neutral-700 font-medium">#GO-884920</span>
+      </div>
+    </div>
+
+    <!-- CONFIRM RECEIPT ACTION BUTTON -->
+    <button onclick="openRatingModal()" class="w-full py-3.5 rounded-2xl bg-[#F9372D] hover:bg-[#D32F2F] text-white font-black text-sm shadow-lg shadow-red-500/25 active:scale-95 transition-all text-center">
+      XÁC NHẬN ĐÃ NHẬN HÀNG & ĐÁNH GIÁ
+    </button>
+
+    <!-- Home Indicator -->
+    <div class="pt-1 flex justify-center pointer-events-none">
+      <div class="w-32 h-1 bg-black/25 rounded-full"></div>
+    </div>
+
+  </div>
+
+  <!-- CALL DRIVER MODAL -->
+  <div id="driver-call-modal" class="fixed inset-0 bg-black/50 z-50 flex items-end justify-center hidden">
+    <div class="w-full max-w-md bg-white rounded-t-3xl p-5 space-y-4">
+      <div class="text-center">
+        <div class="w-16 h-16 rounded-full bg-neutral-100 overflow-hidden mx-auto border-2 border-emerald-500">
+          <img src="assets/s3_shipper_bike.png" alt="Tài xế Ba Cường" class="w-full h-full object-cover">
+        </div>
+        <h3 class="text-lg font-bold text-neutral-900 mt-2">Đang gọi tài xế Ba Cường</h3>
+        <p class="text-xs text-neutral-500">Honda Lead · Biển số: 47A-528.39</p>
+      </div>
+      <div class="py-3 flex justify-center">
+        <div class="flex items-center space-x-1">
+          <span class="w-2 h-6 bg-emerald-500 rounded animate-pulse"></span>
+          <span class="w-2 h-10 bg-emerald-500 rounded animate-pulse"></span>
+          <span class="w-2 h-4 bg-emerald-500 rounded animate-pulse"></span>
+          <span class="w-2 h-8 bg-emerald-500 rounded animate-pulse"></span>
+          <span class="w-2 h-5 bg-emerald-500 rounded animate-pulse"></span>
+        </div>
+      </div>
+      <button onclick="closeDriverCallModal()" class="w-full py-3.5 rounded-2xl bg-neutral-900 text-white font-bold text-sm active:scale-95 transition-all">
+        Kết thúc cuộc gọi
+      </button>
+    </div>
+  </div>
+
+  <!-- CHAT SHEET MODAL -->
+  <div id="driver-chat-modal" class="fixed inset-0 bg-black/50 z-50 flex items-end justify-center hidden">
+    <div class="w-full max-w-md bg-white rounded-t-3xl p-4 flex flex-col space-y-3 max-h-[80%]">
+      <div class="flex items-center justify-between pb-2 border-b border-neutral-200">
+        <div class="flex items-center space-x-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+          <span class="font-bold text-sm text-neutral-900">Chat với Ba Cường</span>
+        </div>
+        <button onclick="closeDriverChatModal()" class="text-neutral-400 hover:text-neutral-700 text-lg font-bold">✕</button>
+      </div>
+
+      <!-- Messages Stream -->
+      <div class="flex-1 overflow-y-auto space-y-2 py-2 text-xs">
+        <div class="flex justify-start">
+          <div class="bg-neutral-100 p-2.5 rounded-2xl rounded-tl-none max-w-[80%] text-neutral-800">
+            Chào bạn, mình đã lấy đồ ăn từ KFC và đang chạy tới số 123 Lê Thánh Tông nhé!
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <div class="bg-[#F9372D] text-white p-2.5 rounded-2xl rounded-tr-none max-w-[80%]">
+            Dạ vâng anh, đến cổng bấm chuông giúp em nhé.
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Input -->
+      <div class="flex items-center space-x-2 pt-2 border-t border-neutral-100">
+        <input type="text" placeholder="Nhập tin nhắn..." class="flex-1 text-xs p-2.5 rounded-xl bg-neutral-100 border border-neutral-200 text-neutral-900 focus:outline-none">
+        <button class="px-4 py-2.5 rounded-xl bg-[#F9372D] text-white text-xs font-bold">Gửi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RATING & REVIEW MODAL -->
+  <div id="rating-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+    <div class="w-full max-w-sm bg-white rounded-3xl p-5 space-y-4 shadow-2xl">
+      <div class="text-center">
+        <div class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-2xl mx-auto border-2 border-emerald-300">
+          ✓
+        </div>
+        <h3 class="text-base font-extrabold text-neutral-900 mt-2">Giao Hàng Thành Công!</h3>
+        <p class="text-xs text-neutral-500">Bạn đánh giá thế nào về chuyến giao hàng của Ba Cường?</p>
+      </div>
+
+      <!-- 5 Stars -->
+      <div class="flex justify-center space-x-2 text-2xl cursor-pointer text-amber-400">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+      </div>
+
+      <!-- Feedback Chips -->
+      <div class="flex flex-wrap gap-1.5 justify-center text-[11px]">
+        <span class="px-2.5 py-1 rounded-full bg-red-50 text-[#F9372D] border border-red-200 font-semibold">Giao hàng nhanh</span>
+        <span class="px-2.5 py-1 rounded-full bg-red-50 text-[#F9372D] border border-red-200 font-semibold">Tài xế thân thiện</span>
+        <span class="px-2.5 py-1 rounded-full bg-red-50 text-[#F9372D] border border-red-200 font-semibold">Đồ ăn nóng hổi</span>
+      </div>
+
+      <button onclick="submitRating()" class="w-full py-3 rounded-2xl bg-[#F9372D] text-white font-bold text-xs shadow-md shadow-red-500/25 active:scale-95 transition-all">
+        GỬI ĐÁNH GIÁ & HOÀN TẤT
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function openDriverCallModal() {
+      document.getElementById('driver-call-modal').classList.remove('hidden');
+    }
+    function closeDriverCallModal() {
+      document.getElementById('driver-call-modal').classList.add('hidden');
+    }
+
+    function openDriverChatModal() {
+      document.getElementById('driver-chat-modal').classList.remove('hidden');
+    }
+    function closeDriverChatModal() {
+      document.getElementById('driver-chat-modal').classList.add('hidden');
+    }
+
+    function openRatingModal() {
+      document.getElementById('rating-modal').classList.remove('hidden');
+    }
+    function submitRating() {
+      document.getElementById('rating-modal').classList.add('hidden');
+      alert('Cảm ơn bạn đã gửi đánh giá! GO tặng bạn voucher giảm 20k cho đơn tiếp theo.');
+      location.href = '10_screen_order_history.html';
+    }
+  </script>
+
+</body>
+</html>
